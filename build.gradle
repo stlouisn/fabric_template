@@ -1,0 +1,85 @@
+plugins {
+  id "fabric-loom" version "${fabric_loom_version}-SNAPSHOT"
+  id "java"
+}
+
+group = project.maven_group
+version = project.mod_version
+
+base {
+  archivesName = "${project.archives_base_name}-${project.minecraft_version}-fabric"
+}
+
+repositories {
+
+  // Parchment MC
+  maven { url = 'https://maven.parchmentmc.org' }
+
+  // Mod Menu
+  maven { url = "https://maven.terraformersmc.com/" }
+
+  // Cloth Config API
+  maven { url = "https://maven.shedaniel.me/" }
+
+}
+
+dependencies {
+
+  minecraft "com.mojang:minecraft:${project.minecraft_version}"
+
+  modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
+  modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+  // Mojang Mappings
+  mappings(loom.officialMojangMappings())
+
+  // Yarn Mappings
+  mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+
+  // Mod Menu
+  modApi("com.terraformersmc:modmenu:${project.modmenu_version}") { exclude(module: "fabric-api") }
+
+  // Cloth Confg API
+  modApi "me.shedaniel.cloth:cloth-config:${project.cloth_config_version}"
+
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_21
+  targetCompatibility = JavaVersion.VERSION_21
+
+  manifest {
+    attributes([
+        "Specification-Title"     : project.mod_id,
+        "Specification-Vendor"    : project.mod_authors,
+        "Specification-Version"   : "1",
+        "Implementation-Title"    : project.mod_name,
+        "Implementation-Version"  : project.mod_version,
+        "Implementation-Vendor"   : project.mod_authors,
+        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+    ])
+  }
+}
+
+tasks.withType(JavaCompile).configureEach {
+  it.options.release = 21
+  it.options.encoding = "UTF-8"
+}
+
+processResources {
+  def stringProperties = providers.gradlePropertiesPrefixedBy('').get()
+  stringProperties.each { inputs.property(it.key, it.value) }
+
+  ["fabric.mod.json"].each {
+    filesMatching(it) {
+      expand(stringProperties) {
+        escapeBackslash = true
+      }
+    }
+  }
+}
+
+jar {
+  destinationDirectory.set(file("$rootDir/files"))
+  archiveClassifier.set("")
+}

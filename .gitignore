@@ -1,0 +1,22 @@
+# eclipse
+eclipse
+.settings
+.metadata
+.classpath
+.project
+*.launch
+
+# idea
+.idea
+*.ipr
+*.iws
+*.iml
+
+# gradle
+build
+.gradle
+
+# other
+.architectury-transformer
+run
+runs
