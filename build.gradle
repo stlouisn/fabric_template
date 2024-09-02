@@ -38,7 +38,7 @@ dependencies {
 
   loom {
     mixin {
-      defaultRefmapName.set("${project.archives_base_name}-common-refmap.json")
+      defaultRefmapName.set("${project.archives_base_name}-fabric-refmap.json")
     }
   }
 
