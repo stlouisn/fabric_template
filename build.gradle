@@ -36,6 +36,12 @@ dependencies {
   // Yarn Mappings
   mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 
+  loom {
+    mixin {
+      defaultRefmapName.set("${project.archives_base_name}-common-refmap.json")
+    }
+  }
+
   // Mod Menu
   modApi("com.terraformersmc:modmenu:${project.modmenu_version}") { exclude(module: "fabric-api") }
 
@@ -79,7 +85,6 @@ processResources {
   }
 }
 
-jar {
+remapJar {
   destinationDirectory.set(file("$rootDir/files"))
-  archiveClassifier.set("")
 }
