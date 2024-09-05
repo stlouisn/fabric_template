@@ -14,6 +14,5 @@ public class ModName implements ModInitializer {
 
   @Override
   public void onInitialize() {
-    Config.init();
   }
 }
