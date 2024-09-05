@@ -18,6 +18,9 @@
   "entrypoints": {
     "main": [
       "maven_name.PackageName"
+    ],
+    "modmenu": [
+      "maven_name.config.ModMenuIntegration"
     ]
   },
   "mixins": [
