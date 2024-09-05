@@ -3,9 +3,9 @@
   "package": "maven_group.mixin",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8.5",
-  "mixins": [],
   "client": [],
   "server": [],
+  "mixins": [],
   "injectors": {
     "defaultRequire": 1
   }
