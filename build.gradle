@@ -39,7 +39,7 @@ dependencies {
   loom {
     
     mixin {
-      defaultRefmapName.set("${project.archives_base_name}-fabric-refmap.json")
+      defaultRefmapName.set("${project.archives_base_name}.refmap.json")
     }
 
     if (file("src/main/resources/${project.archives_base_name}.accesswidener").exists()) {
@@ -84,7 +84,6 @@ tasks.withType(JavaCompile).configureEach {
 processResources {
   def stringProperties = providers.gradlePropertiesPrefixedBy('').get()
   stringProperties.each { inputs.property(it.key, it.value) }
-
   ["fabric.mod.json"].each {
     filesMatching(it) {
       expand(stringProperties) {
