@@ -17,15 +17,20 @@
   "environment": "${mod_fabric_environment}",
   "entrypoints": {
     "main": [
-      "maven_name.PackageName"
+      "maven_name.ModName"
+    ],
+    "modmenu": [
+      "maven_name.config.ModMenuIntegration"
     ]
   },
+  "accessWidener": "${mod_id}.accesswidener",
   "mixins": [
     "${mod_id}.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "${minecraft_version}",
+    "cloth-config": "*"
   },
   "recommends": {
     "modmenu": "*"
