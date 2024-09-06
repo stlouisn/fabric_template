@@ -86,22 +86,20 @@ processResources {
   stringProperties.each { inputs.property(it.key, it.value) }
   ["fabric.mod.json"].each {
     filesMatching(it) {
-      expand(stringProperties) {
-        escapeBackslash = true
-      }
+      expand(stringProperties) { escapeBackslash = true }
     }
   }
 }
 
 processResources {
   filesMatching("*.mixins.json") {
-    expand(maven_group: maven_group)
+    expand(maven_group: maven_group){ escapeBackslash = true }
   }
 }
 
 processResources {
   filesMatching("**/lang/en_us.json") {
-    expand(url_homepage_name: url_homepage_name)
+    expand(url_homepage_name: url_homepage_name){ escapeBackslash = true }
   }
 }
 
