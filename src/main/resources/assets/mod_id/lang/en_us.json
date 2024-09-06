@@ -1,4 +1,3 @@
 {
-  "modmenu.modrinth": "Modrinth",
-  "modmenu.curseforge": "CurseForge"
+  "modmenu.modrinth": "${url_homepage_name}"
 }
