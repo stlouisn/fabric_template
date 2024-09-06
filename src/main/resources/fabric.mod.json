@@ -17,10 +17,10 @@
   "environment": "${mod_fabric_environment}",
   "entrypoints": {
     "main": [
-      "maven_name.ModName"
+      "${maven_group}.${maven_entrypoint}"
     ],
     "modmenu": [
-      "maven_name.config.ModMenuIntegration"
+      "${maven_group}.config.ModMenuIntegration"
     ]
   },
   "accessWidener": "${mod_id}.accesswidener",
@@ -38,9 +38,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.modrinth": "${url_modrinth}",
-        "modmenu.curseforge": "${url_curseforge}",
-        "modmenu.discord": "${url_discord}"
+        "modmenu.homepage": "${url_homepage}"
       }
     }
   }
