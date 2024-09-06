@@ -85,7 +85,7 @@ processResources {
   def stringProperties = providers.gradlePropertiesPrefixedBy('').get()
   stringProperties.each { inputs.property(it.key, it.value) }
 
-  ["fabric.mod.json"].each {
+  ["fabric.mod.json", "*.mixins.json"].each {
     filesMatching(it) {
       expand(stringProperties) {
         escapeBackslash = true
