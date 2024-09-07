@@ -103,12 +103,6 @@ processResources {
 }
 
 processResources {
-  filesMatching("*.mixins.json") {
-    expand(maven_group: maven_group){ escapeBackslash = true }
-  }
-}
-
-processResources {
   filesMatching("**/lang/en_us.json") {
     expand(url_homepage_name: url_homepage_name){ escapeBackslash = true }
   }
