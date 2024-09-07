@@ -13,7 +13,7 @@ base {
 repositories {
 
   // Mixin Extras
-  maven { url "https://jitpack.io" }
+  maven { url = "https://jitpack.io" }
   
   // Mod Menu
   maven { url = "https://maven.terraformersmc.com/" }
