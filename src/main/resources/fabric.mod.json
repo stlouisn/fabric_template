@@ -38,7 +38,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.homepage": "${url_homepage}"
+        "modmenu.${url_homepage_type}": "${url_homepage}"
       }
     }
   }
