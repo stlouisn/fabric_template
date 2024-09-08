@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "${maven_group}.mixin",
+  "package": "maven_group.mixin",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8.5",
   "client": [],
