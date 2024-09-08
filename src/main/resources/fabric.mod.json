@@ -17,10 +17,10 @@
   "environment": "${mod_fabric_environment}",
   "entrypoints": {
     "main": [
-      "${maven_group}.${maven_entrypoint}"
+      "maven_group.maven_entrypoint"
     ],
     "modmenu": [
-      "${maven_group}.config.ModMenuIntegration"
+      "maven_group.config.ModMenuIntegration"
     ]
   },
   "accessWidener": "${mod_id}.accesswidener",
