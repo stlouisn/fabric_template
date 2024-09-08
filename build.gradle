@@ -12,7 +12,7 @@ base {
 
 repositories {
 
-  // Cloth Config API
+  // Cloth Config
   maven { url = "https://maven.shedaniel.me/" }
 
   // Mixin Extras
@@ -43,11 +43,17 @@ dependencies {
     it.officialMojangMappings {
       setNameSyntheticMembers(false)
     }
-    it.parchment("org.parchmentmc.data:parchment-${parchment_version}")
+    it.parchment "org.parchmentmc.data:parchment-${parchment_version}@zip"
   }
 
   // Mappings - Yarn
   mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+
+  // Mappings - Parchment + Yarn
+  mappings loom.layered() {
+    it.mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+    it.parchment "org.parchmentmc.data:parchment-${parchment_version}@zip"
+  }
 
   // RefMap
   loom {
@@ -76,7 +82,7 @@ dependencies {
   // Mod Menu API
   modApi("com.terraformersmc:modmenu:${modmenu_version}") { exclude(module: "fabric-api") }
 
-  // Mod Menu Local-Only
+  // Mod Menu Local
   modLocalRuntime("com.terraformersmc:modmenu:${modmenu_version}") { exclude(module: "fabric-api") }
 
 }
@@ -84,20 +90,6 @@ dependencies {
 java {
   sourceCompatibility = JavaVersion.VERSION_21
   targetCompatibility = JavaVersion.VERSION_21
-
-  manifest {
-    attributes(
-      [
-        "Specification-Title"     : mod_id,
-        "Specification-Vendor"    : mod_authors,
-        "Specification-Version"   : "1",
-        "Implementation-Title"    : mod_name,
-        "Implementation-Version"  : mod_version,
-        "Implementation-Vendor"   : mod_authors,
-        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-      ]
-    )
-  }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -112,6 +104,22 @@ processResources {
     filesMatching(it) {
       expand(stringProperties) { escapeBackslash = true }
     }
+  }
+}
+
+jar {
+  manifest {
+    attributes(
+      [
+        "Specification-Title"     : mod_id,
+        "Specification-Vendor"    : mod_authors,
+        "Specification-Version"   : "1",
+        "Implementation-Title"    : mod_name,
+        "Implementation-Version"  : mod_version,
+        "Implementation-Vendor"   : mod_authors,
+        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+      ]
+    )
   }
 }
 
