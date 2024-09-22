@@ -14,7 +14,9 @@
   },
   "license": "${mod_license}",
   "icon": "icon.png",
-  "environment": "${mod_environment}",
+  "environment": "*",
+  "environment": "client",
+  "environment": "server",
   "entrypoints": {
     "main": [
       "maven_group.maven_entrypoint"
