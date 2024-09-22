@@ -1,0 +1,8 @@
+/ Mod Name /
+dependencies { modLocalRuntime files ( "/../../Mods/filename.jar" ) }
+
+/ Spark /
+dependencies { modLocalRuntime files ( "/../../Mods/spark-1.10.97-fabric.jar" ) }
+
+/ Raised /
+dependencies { modLocalRuntime files ( "/../../Mods/raised-fabric-1.21-4.0.0.jar" ) }
