@@ -13,7 +13,7 @@
     "issues": "${git_issues}"
   },
   "license": "${mod_license}",
-  "icon": "assets/${mod_id}/icon.png",
+  "icon": "icon.png",
   "environment": "${mod_environment}",
   "entrypoints": {
     "main": [
