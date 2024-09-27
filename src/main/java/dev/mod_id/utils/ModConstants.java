@@ -1,4 +1,4 @@
-package dev.mod_id;
+package dev.mod_id.utils;
 
 public final class Constants {
 
