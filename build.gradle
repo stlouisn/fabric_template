@@ -1,6 +1,7 @@
 plugins {
-  id "fabric-loom" version "${fabric_loom_version}-SNAPSHOT"
-  id "java-library"
+	id "fabric-loom" version "${fabric_loom_version}-SNAPSHOT"
+	id "java-library"
+	id "idea"
 }
 
 group = maven_group
