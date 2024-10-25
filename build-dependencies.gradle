@@ -1,5 +1,5 @@
 / Mod Menu /
-def modmenu_version = "11.0.2" // https://modrinth.com/mod/modmenu/versions?l=fabric
+def modmenu_version = "11.0.3" // https://modrinth.com/mod/modmenu/versions?l=fabric
 repositories { maven { url = "https://maven.terraformersmc.com/releases" }}
 dependencies { modApi ( "com.terraformersmc:modmenu:${modmenu_version}" ) { exclude(module: "fabric-api") }}
 println("\nMod Menu: $modmenu_version")
