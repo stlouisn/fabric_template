@@ -22,11 +22,22 @@ repositories { maven { url = "https://www.cursemaven.com" }}
 dependencies { modLocalRuntime ( "curse.maven:jade-324717:${jade_file_id}" )}
 println("\nJade: CurseForge-$jade_file_id")
 
+/ CurseForge Mod /
+def mod_name = "Mod Name"
+def mod_filename = "modname"
+def mod_project = "" //  https://www.curseforge.com/minecraft/search?sortBy=relevancy&class=mc-mods&version=1.21.1&gameVersionTypeId=4
+def mod_file = "" // https://curseforge.com/minecraft/mc-mods/??????/files/all&class=mc-mods&version=1.21.1&gameVersionTypeId=4
+repositories { exclusiveContent { forRepository { maven { url = "https://www.cursemaven.com" }} filter { includeGroup "curse.maven" }}}
+dependencies { modLocalRuntime ( "curse.maven:${mod_filename}-${mod_project}:${mod_file}" )}
+println ("\n${mod_name}: CurseForge-${mod_project}${mod_file}")
+
+/ Modrinth Mod /
+def mod_name = "Mod Name"
+def mod_slug = "" //  https://modrinth.com/mods?g=categories:fabric&v=1.21.1
+def mod_version = "" // https://modrinth.com/mod/??????/versions?g=1.21.1&l=fabric
+repositories { exclusiveContent { forRepository { maven { url = "https://api.modrinth.com/maven" }} filter { includeGroup "maven.modrinth" }}}
+dependencies { modLocalRuntime ( "maven.modrinth:${mod_slug}:${mod_version},${minecraft_version}" )}
+println ("\n${mod_name}: Modrinth-${mod_slug}-${mod_version}")
+
 / Mod Name /
 dependencies { modLocalRuntime files ( "/../../Mods/filename.jar" )}
-
-/ Spark /
-dependencies { modLocalRuntime files ( "/../../Mods/spark-1.10.97-fabric.jar" )}
-
-/ Raised /
-dependencies { modLocalRuntime files ( "/../../Mods/raised-fabric-1.21-4.0.0.jar" )}
