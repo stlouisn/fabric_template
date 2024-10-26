@@ -60,19 +60,23 @@ processResources {
 }
 
 jar {
-    manifest {
-        attributes(
-            [
-                "Specification-Title"     : mod_id,
-                "Specification-Vendor"    : mod_authors,
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : mod_name,
-                "Implementation-Version"  : mod_version,
-                "Implementation-Vendor"   : mod_authors,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-            ]
-        )
-    }
+	preserveFileTimestamps = true
+	manifest {
+		attributes(
+				[
+						"Specification-Title"     : mod_id,
+						"Specification-Vendor"    : mod_authors,
+						"Specification-Version"   : "1",
+						"Implementation-Title"    : mod_name,
+						"Implementation-Version"  : mod_version,
+						"Implementation-Vendor"   : mod_authors,
+						"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+				]
+		)
+	}
 }
 
-remapJar { destinationDirectory.set(file("${rootDir}/files")) }
+remapJar {
+	preserveFileTimestamps = true
+	destinationDirectory.set(file("${rootDir}/files"))
+}
