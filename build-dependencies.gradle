@@ -11,7 +11,7 @@ dependencies { modApi ( "me.shedaniel.cloth:cloth-config-fabric:${cloth_config_v
 println("\nCloth Config: $cloth_config_version")
 
 / Yet Another Config Library /
-def yacl_version = "3.5.0+1.21" // https://maven.isxander.dev/#/releases/dev/isxander/yet-another-config-lib
+def yacl_version = "3.6.0+1.21" // https://maven.isxander.dev/#/releases/dev/isxander/yet-another-config-lib
 repositories { maven { url = "https://maven.isxander.dev/releases" }}
 dependencies { modImplementation ( "dev.isxander:yet-another-config-lib:${yacl_version}-fabric" )}
 println("\nYet Another Config Library: $yacl_version")
