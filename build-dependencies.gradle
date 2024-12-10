@@ -17,7 +17,7 @@ dependencies { modImplementation modLocalRuntime ( "dev.isxander:yet-another-con
 println("\nYet Another Config Library: $yacl_version")
 
 / Jade /
-def jade_file_id = "5706164" // https://www.curseforge.com/minecraft/mc-mods/jade/files/all?gameVersionTypeId=4
+def jade_file_id = "5976520" // https://www.curseforge.com/minecraft/mc-mods/jade/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
 repositories { maven { url = "https://www.cursemaven.com" }}
-dependencies { modCompileOnly modLocalRuntime ( "curse.maven:jade-324717:${jade_file_id}" )}
+dependencies { modImplementation modLocalRuntime ( "curse.maven:jade-324717:${jade_file_id}" )}
 println("\nJade: CurseForge-$jade_file_id")
