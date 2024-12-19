@@ -15,6 +15,7 @@ out
 .idea/*
 !.idea/dictionaries
 !.idea/inspectionProfiles
+!.idea/.name
 
 # gradle
 build/*
