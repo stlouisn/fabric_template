@@ -14,6 +14,7 @@ out
 *.iml
 .idea/*
 !.idea/dictionaries
+!.idea/inspectionProfiles
 
 # gradle
 build/*
