@@ -8,7 +8,7 @@ println("\nModMenu: $modmenu_version")
 def crafttweaker_version = "21.0.3" // https://maven.blamejared.com/com/blamejared/crafttweaker/CraftTweaker-fabric-1.21.1/
 repositories { maven { url = "https://maven.blamejared.com" }}
 dependencies { modLocalRuntime ( "com.blamejared.crafttweaker:CraftTweaker-fabric-1.21.1:${crafttweaker_version}" )}
-println("\nCraftTweaker: $emi_version")
+println("\nCraftTweaker: $crafttweaker_version")
 
 / EMI /
 def emi_version = "1.1.18+1.21.1" // https://modrinth.com/mod/emi/versions?l=fabric&g=1.21.1
