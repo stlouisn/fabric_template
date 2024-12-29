@@ -16,6 +16,16 @@ repositories { maven { url = "https://maven.terraformersmc.com/" }}
 dependencies { modLocalRuntime ( "dev.emi:emi-fabric:${emi_version}" )}
 println("\nEMI: $emi_version")
 
+/ Loot Explorer /
+def loot_explorer_slug = "lootexplorer" //  https://modrinth.com/mods?g=categories:fabric&v=1.21.1
+def loot_explorer__version = "1.0.1" // https://modrinth.com/mod/lootexplorer/versions?g=1.21.1&l=fabric
+def architectury_api_slug = "architectury-api" //  https://modrinth.com/mods?g=categories:fabric&v=1.21.1
+def architectury_api_version = "13.0.8+fabric" // https://modrinth.com/mod/architectury-api/versions?g=1.21.1&l=fabric
+repositories { exclusiveContent { forRepository { maven { url = "https://api.modrinth.com/maven" }} filter { includeGroup "maven.modrinth" }}}
+dependencies { modLocalRuntime ( "maven.modrinth:${loot_explorer_slug}:${loot_explorer__version}" )}
+dependencies { modLocalRuntime ( "maven.modrinth:${architectury_api_slug}:${architectury_api_version}" )}
+println ("\nLoot Explorer: Modrinth-${loot_explorer_slug}-${loot_explorer__version}")
+
 / CurseForge Mod /
 def mod_name = "Mod Name"
 def mod_filename = "modname"
