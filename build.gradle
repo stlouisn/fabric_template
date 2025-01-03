@@ -7,7 +7,7 @@ plugins {
 group = maven_group
 version = mod_version
 
-base { archivesName = "${archives_base_name}-${minecraft_version}" }
+base { archivesName = "_custom_${archives_base_name}-${minecraft_version}" }
 
 dependencies {
   minecraft "com.mojang:minecraft:${minecraft_version}"
@@ -51,11 +51,10 @@ tasks.withType(JavaCompile).configureEach {
 
 processResources {
     def stringProperties = providers.gradlePropertiesPrefixedBy('').get()
-    stringProperties.each { inputs.property(it.key, it.value) }
-    ["fabric.mod.json"].each {
-        filesMatching(it) {
-            expand(stringProperties) { escapeBackslash = true }
-        }
+    stringProperties.each { key, value -> inputs.property(key, value) }
+    filesMatching('fabric.mod.json') {
+        filter { line -> line.contains('"$schema":') ? null : line }
+        expand(stringProperties) { escapeBackslash = true }
     }
 }
 
