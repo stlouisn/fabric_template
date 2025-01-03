@@ -52,8 +52,9 @@ tasks.withType(JavaCompile).configureEach {
 processResources {
     def stringProperties = providers.gradlePropertiesPrefixedBy('').get()
     stringProperties.each { key, value -> inputs.property(key, value) }
-    filesMatching('fabric.mod.json') {
+    filesMatching(['fabric.mod.json', 'pack.mcmeta']) {
         filter { line -> line.contains('"$schema":') ? null : line }
+        filter { line -> line.trim().isEmpty() ? null : line }
         expand(stringProperties) { escapeBackslash = true }
     }
 }
