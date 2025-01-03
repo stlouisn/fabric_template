@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": 1,
   "id": "${mod_id}",
   "version": "${mod_version}",
