@@ -16,35 +16,33 @@ repositories { maven { url = "https://maven.terraformersmc.com/" }}
 dependencies { modLocalRuntime ( "dev.emi:emi-fabric:${emi_version}" )}
 println("\nEMI: $emi_version")
 
+/ CurseForge Maven /
+repositories { maven { url = "https://www.cursemaven.com" }}
+
+/ Balm API /
+def balm_file_id = "6025222" // https://www.curseforge.com/minecraft/mc-mods/balm-fabric/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+dependencies { modLocalRuntime ( "curse.maven:balm-500525:${balm_file_id}" )}
+println("\nBalm: CurseForge-$balm_file_id")
+
+/ KleeSlabs /
+def kleeslabs_file_id = "5623472" // https://www.curseforge.com/minecraft/mc-mods/kleeslabs-fabric/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+dependencies { modLocalRuntime ( "curse.maven:kleeslabs-547695:${kleeslabs_file_id}" )}
+println("\nKleeSlabs: CurseForge-$kleeslabs_file_id")
+
+/ Modrinth Maven /
+repositories { maven { url = "https://api.modrinth.com/maven" }}
+
 / Architectury API /
 def architectury_api_slug = "architectury-api" //  https://modrinth.com/mods?g=categories:fabric&v=1.21.1
 def architectury_api_version = "13.0.8+fabric" // https://modrinth.com/mod/architectury-api/versions?g=1.21.1&l=fabric
-repositories { maven { url = "https://api.modrinth.com/maven" }}
 dependencies { modLocalRuntime ( "maven.modrinth:${architectury_api_slug}:${architectury_api_version}" )}
 println ("\nArchitectury API: Modrinth-${architectury_api_slug}-${architectury_api_version}")
 
 / Loot Explorer /
 def loot_explorer_slug = "lootexplorer" //  https://modrinth.com/mods?g=categories:fabric&v=1.21.1
 def loot_explorer__version = "1.0.1" // https://modrinth.com/mod/lootexplorer/versions?g=1.21.1&l=fabric
-repositories { maven { url = "https://api.modrinth.com/maven" }}
 dependencies { modLocalRuntime ( "maven.modrinth:${loot_explorer_slug}:${loot_explorer__version}" )}
 println ("\nLoot Explorer: Modrinth-${loot_explorer_slug}-${loot_explorer__version}")
 
-/ CurseForge Mod /
-def mod_name = "Mod Name"
-def mod_filename = "modname"
-def mod_project = "" //  https://www.curseforge.com/minecraft/search?sortBy=relevancy&class=mc-mods&version=1.21.1&gameVersionTypeId=4
-def mod_file = "" // https://curseforge.com/minecraft/mc-mods/??????/files/all&class=mc-mods&version=1.21.1&gameVersionTypeId=4
-repositories { maven { url = "https://www.cursemaven.com" }}dependencies { modLocalRuntime ( "curse.maven:${mod_filename}-${mod_project}:${mod_file}" )}
-println ("\n${mod_name}: CurseForge-${mod_project}${mod_file}")
-
-/ Modrinth Mod /
-def mod_name = "Mod Name"
-def mod_slug = "" //  https://modrinth.com/mods?g=categories:fabric&v=1.21.1
-def mod_version = "" // https://modrinth.com/mod/??????/versions?g=1.21.1&l=fabric
-repositories { maven { url = "https://api.modrinth.com/maven" }}
-dependencies { modLocalRuntime ( "maven.modrinth:${mod_slug}:${mod_version}" )}
-println ("\n${mod_name}: Modrinth-${mod_slug}-${mod_version}")
-
-/ Mod Name /
+/ Local Mod /
 dependencies { modLocalRuntime files ( "/../../Mods/filename.jar" )}
