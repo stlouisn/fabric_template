@@ -2,7 +2,7 @@
 def modmenu_version = "11.0.3" // https://modrinth.com/mod/modmenu/versions?l=fabric&g=1.21.1
 repositories { maven { url = "https://maven.terraformersmc.com/" }}
 dependencies { modLocalRuntime ( "com.terraformersmc:modmenu:${modmenu_version}" )}
-println("\nModMenu: $modmenu_version")
+println("\nMod Menu: $modmenu_version")
 
 / CraftTweaker /
 def crafttweaker_version = "21.0.9" // https://maven.blamejared.com/com/blamejared/crafttweaker/CraftTweaker-fabric-1.21.1/
