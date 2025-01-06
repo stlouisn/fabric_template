@@ -7,7 +7,7 @@ plugins {
 group = maven_group
 version = mod_version
 
-base { archivesName = "_custom_${archives_base_name}-${minecraft_version}" }
+base { archivesName = "_custom_${archives_base_name}-${minecraft_version}-fabric" }
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
