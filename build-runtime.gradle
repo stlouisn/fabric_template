@@ -16,9 +16,8 @@ repositories { maven { url = "https://maven.terraformersmc.com/" }}
 dependencies { modLocalRuntime ( "dev.emi:emi-fabric:${emi_version}" )}
 println("\nEMI: $emi_version")
 
-/ CurseForge Maven /
+/ CurseForge Maven / // https://www.curseforge.com/minecraft/search?class=mc-mods&version=1.21.1&gameVersionTypeId=4
 repositories { maven { url = "https://www.cursemaven.com" }}
-// https://www.curseforge.com/minecraft/search?class=mc-mods&version=1.21.1&gameVersionTypeId=4
 
 / Balm API /
 def balm_file_id = "6025222" // https://www.curseforge.com/minecraft/mc-mods/balm-fabric/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
@@ -30,9 +29,8 @@ def kleeslabs_file_id = "5623472" // https://www.curseforge.com/minecraft/mc-mod
 dependencies { modLocalRuntime ( "curse.maven:kleeslabs-547695:${kleeslabs_file_id}" )}
 println("\nKleeSlabs: CurseForge-$kleeslabs_file_id")
 
-/ Modrinth Maven /
+/ Modrinth Maven / // https://modrinth.com/mods?g=categories:fabric&v=1.21.1
 repositories { maven { url = "https://api.modrinth.com/maven" }}
-// https://modrinth.com/mods?g=categories:fabric&v=1.21.1
 
 / Architectury API /
 def architectury_api_version = "13.0.8+fabric" // https://modrinth.com/mod/architectury-api/versions?g=1.21.1&l=fabric
