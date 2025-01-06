@@ -1,6 +1,5 @@
 package dev.mod_id.config;
 
-import dev.mod_id.Constants;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import me.shedaniel.autoconfig.ConfigData;
@@ -10,7 +9,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry.Category;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.CollapsibleObject;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.Tooltip;
 
-@Config(name = Constants.MOD_ID)
+@Config(name = MOD_ID)
 public class ModConfig implements ConfigData {
 
   @Category("Category")
