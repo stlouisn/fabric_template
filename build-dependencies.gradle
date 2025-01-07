@@ -43,3 +43,11 @@ println("\nJade: CurseForge-$jade_file_id")
 def balm_file_id = "6025222" // https://www.curseforge.com/minecraft/mc-mods/balm-fabric/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
 dependencies { modImplementation modLocalRuntime ( "curse.maven:balm-fabric-500525:${balm_file_id}" )}
 println("\nBalm: CurseForge-$balm_file_id")
+
+/ Modrinth Maven / // https://modrinth.com/mods?g=categories:fabric&v=1.21.1
+repositories { maven { url = "https://api.modrinth.com/maven" }}
+
+/ Sodium /
+def sodium_version = "mc1.21.1-0.6.5-fabric" // https://modrinth.com/mod/sodium/versions?g=1.21.1&l=fabric
+dependencies { modCompileOnly ( "maven.modrinth:sodium:${sodium_version}" )}
+println ("\nSodium: ${sodium_version}")
