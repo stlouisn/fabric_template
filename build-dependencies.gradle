@@ -16,6 +16,15 @@ repositories { maven { url = "https://maven.isxander.dev/releases" }}
 dependencies { modImplementation modLocalRuntime ( "dev.isxander:yet-another-config-lib:${yacl_version}-fabric" )}
 println("\nYet Another Config Library: $yacl_version")
 
+/ Cardinal Components API /
+def cca_version = "6.1.1" // https://modrinth.com/mod/cardinal-components-api/versions?g=1.21.1&l=fabric
+repositories { maven { url = "https://maven.ladysnake.org/releases" }}
+dependencies {
+  modImplementation include ( "org.ladysnake.cardinal-components-api:cardinal-components-base:${cca_version}" )
+  modImplementation include ( "org.ladysnake.cardinal-components-api:cardinal-components-entity:${cca_version}" )
+}
+println("\nCardinal Components API: $cca_version")
+
 / CurseForge Maven / // https://www.curseforge.com/minecraft/search?class=mc-mods&version=1.21.1&gameVersionTypeId=4
 repositories { maven { url = "https://www.cursemaven.com" }}
 
