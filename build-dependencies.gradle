@@ -25,6 +25,12 @@ dependencies {
 }
 println("\nCardinal Components API: $cca_version")
 
+/ owo Library /
+def owo_version = "0.12.15+1.21"
+repositories { maven { url 'https://maven.wispforest.io' }}
+dependencies { modImplementation modLocalRuntime ( "io.wispforest:owo-lib:${owo_version}" )}
+println("\nowo Library: $owo_version")
+
 / CurseForge Maven / // https://www.curseforge.com/minecraft/search?class=mc-mods&version=1.21.1&gameVersionTypeId=4
 repositories { maven { url = "https://www.cursemaven.com" }}
 
