@@ -19,6 +19,21 @@ println("\nEMI: $emi_version")
 / CurseForge Maven / // https://www.curseforge.com/minecraft/search?class=mc-mods&version=1.21.1&gameVersionTypeId=4
 repositories { maven { url = "https://www.cursemaven.com" }}
 
+/ Moonlight /
+def moonlight_file_id = "5983850" // https://www.curseforge.com/minecraft/mc-mods/selene/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+dependencies { modLocalRuntime ( "curse.maven:selene-499980:$moonlight_file_id" )}
+println ("\nMoonlight: curse.maven:selene-499980:$moonlight_file_id")
+
+/ Supplementaries /
+def supplementaries_file_id = "6028333" // https://www.curseforge.com/minecraft/mc-mods/supplementaries/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+dependencies { modLocalRuntime ( "curse.maven:supplementaries-412082:$supplementaries_file_id" )}
+println ("\nSupplementaries: curse.maven:supplementaries-412082:$supplementaries_file_id")
+
+/ Amendments /
+def amendments_file_id = "6030890" // https://www.curseforge.com/minecraft/mc-mods/amendments/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+dependencies { modLocalRuntime ( "curse.maven:amendments-896746:$amendments_file_id" )}
+println ("\nSupplementaries: curse.maven:amendments-896746:$amendments_file_id")
+
 / Balm API /
 def balm_file_id = "6025222" // https://www.curseforge.com/minecraft/mc-mods/balm-fabric/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
 dependencies { modLocalRuntime ( "curse.maven:balm-500525:${balm_file_id}" )}
