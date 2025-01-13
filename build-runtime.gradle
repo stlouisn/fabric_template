@@ -52,6 +52,11 @@ def architectury_api_version = "13.0.8+fabric" // https://modrinth.com/mod/archi
 dependencies { modLocalRuntime ( "maven.modrinth:architectury-api:${architectury_api_version}" )}
 println ("\nArchitectury API: Modrinth-${architectury_api_version}")
 
+/ Clean F3 /
+def clean_f3_version = "0.4.9" // https://modrinth.com/mod/clean-f3/versions?g=1.21.1&l=fabric
+dependencies { modLocalRuntime ( "maven.modrinth:clean-f3:${clean_f3_version}" )}
+println ("\nClean F3: Modrinth-${clean_f3_version}")
+
 / Loot Explorer /
 def loot_explorer_version = "1.0.1" // https://modrinth.com/mod/lootexplorer/versions?g=1.21.1&l=fabric
 dependencies { modLocalRuntime ( "maven.modrinth:lootexplorer:${loot_explorer_version}" )}
