@@ -1,8 +1,10 @@
+/ Terraformers Maven /
+repositories { maven { url = "https://maven.terraformersmc.com/" }}
+
 / Mod Menu /
 def modmenu_version = "11.0.3" // https://modrinth.com/mod/modmenu/versions?l=fabric&g=1.21.1
-repositories { maven { url = "https://maven.terraformersmc.com/releases" }}
-dependencies { modApi modLocalRuntime ( "com.terraformersmc:modmenu:${modmenu_version}" ) { exclude(module: "fabric-api") }}
-println("\nMod Menu: $modmenu_version")
+dependencies { modApi modLocalRuntime ( "com.terraformersmc:modmenu:${modmenu_version}" )}
+
 
 / Cloth Config /
 def cloth_config_version = "15.0.140" // https://modrinth.com/mod/cloth-config/versions?l=fabric&g=1.21.1
