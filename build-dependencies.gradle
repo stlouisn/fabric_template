@@ -5,6 +5,11 @@ repositories { maven { url = "https://maven.terraformersmc.com/" }}
 def modmenu_version = "11.0.3" // https://modrinth.com/mod/modmenu/versions?l=fabric&g=1.21.1
 dependencies { modApi modLocalRuntime ( "com.terraformersmc:modmenu:${modmenu_version}" )}
 
+/ Trinkets /
+repositories { maven { url = "https://maven.ladysnake.org/releases" }}
+def trinkets_version = "3.10.0" // https://modrinth.com/mod/trinkets/versions?g=1.21.1&l=fabric
+dependencies { modImplementation ( "dev.emi:trinkets:${trinkets_version}" )}
+
 / Shedaniel Maven /
 repositories { maven { url = "https://maven.shedaniel.me/" }}
 
@@ -12,12 +17,10 @@ repositories { maven { url = "https://maven.shedaniel.me/" }}
 def cloth_config_version = "15.0.140" // https://modrinth.com/mod/cloth-config/versions?l=fabric&g=1.21.1
 dependencies { modApi modLocalRuntime ( "me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}" )}
 
-
 / Yet Another Config Library /
 def yacl_version = "3.6.0+1.21" // https://maven.isxander.dev/#/releases/dev/isxander/yet-another-config-lib
 repositories { maven { url = "https://maven.isxander.dev/releases" }}
 dependencies { modImplementation modLocalRuntime ( "dev.isxander:yet-another-config-lib:${yacl_version}-fabric" )}
-println("\nYet Another Config Library: $yacl_version")
 
 / Cardinal Components API /
 def cca_version = "6.1.1" // https://modrinth.com/mod/cardinal-components-api/versions?g=1.21.1&l=fabric
@@ -26,14 +29,11 @@ dependencies {
   modImplementation include ( "org.ladysnake.cardinal-components-api:cardinal-components-base:${cca_version}" )
   modImplementation include ( "org.ladysnake.cardinal-components-api:cardinal-components-entity:${cca_version}" )
 }
-println("\nCardinal Components API: $cca_version")
 
 / owo Library /
 def owo_version = "0.12.15+1.21"
 repositories { maven { url 'https://maven.wispforest.io' }}
 dependencies { modImplementation modLocalRuntime ( "io.wispforest:owo-lib:${owo_version}" )}
-println("\nowo Library: $owo_version")
-
 
 / Modrinth Maven / // https://modrinth.com/mods?g=categories:fabric&v=1.21.1
 repositories { maven { url = "https://api.modrinth.com/maven" }}
@@ -45,8 +45,6 @@ dependencies { modApi modLocalRuntime ( "maven.modrinth:frozenlib:$frozenlib_ver
 / Sodium /
 def sodium_version = "mc1.21.1-0.6.5-fabric" // https://modrinth.com/mod/sodium/versions?g=1.21.1&l=fabric
 dependencies { modCompileOnly ( "maven.modrinth:sodium:${sodium_version}" )}
-println ("\nSodium: ${sodium_version}")
-
 
 / CurseForge Maven / // https://www.curseforge.com/minecraft/search?class=mc-mods&version=1.21.1&gameVersionTypeId=4
 repositories { maven { url = "https://www.cursemaven.com" }}
@@ -54,9 +52,7 @@ repositories { maven { url = "https://www.cursemaven.com" }}
 / Jade /
 def jade_file_id = "5976520" // https://www.curseforge.com/minecraft/mc-mods/jade/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
 dependencies { modImplementation modLocalRuntime ( "curse.maven:jade-324717:${jade_file_id}" )}
-println("\nJade: CurseForge-$jade_file_id")
 
 / Balm /
 def balm_file_id = "6025222" // https://www.curseforge.com/minecraft/mc-mods/balm-fabric/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
 dependencies { modImplementation modLocalRuntime ( "curse.maven:balm-fabric-500525:${balm_file_id}" )}
-println("\nBalm: CurseForge-$balm_file_id")
