@@ -31,6 +31,10 @@ dependencies { modLocalRuntime ( "curse.maven:supplementaries-412082:$supplement
 def amendments_file_id = "6030890" // https://www.curseforge.com/minecraft/mc-mods/amendments/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
 dependencies { modLocalRuntime ( "curse.maven:amendments-896746:$amendments_file_id" )}
 
+/ Every Compat /
+def everycompat_file_id = "6133322" //https://www.curseforge.com/minecraft/mc-mods/every-compat/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+dependencies { modLocalRuntime ( "curse.maven:every-compat-628539:$everycompat_file_id" )}
+
 / Balm API /
 def balm_file_id = "6025222" // https://www.curseforge.com/minecraft/mc-mods/balm-fabric/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
 dependencies { modLocalRuntime ( "curse.maven:balm-500525:${balm_file_id}" )}
