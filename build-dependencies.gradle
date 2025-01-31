@@ -61,5 +61,5 @@ dependencies { modImplementation modLocalRuntime ( "curse.maven:balm-fabric-5005
 repositories { maven { url = "https://maven.teamresourceful.com/repository/maven-public/" }}
 
 / Resourceful Lib /
-def resourcefulLibVersion = "3.0.9"
+def resourcefulLibVersion = "3.0.9" // https://modrinth.com/mod/resourceful-lib/versions?g=1.21.1&l=fabric
 dependencies { modApi modLocalRuntime ( "com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21:${resourcefulLibVersion}" )}
