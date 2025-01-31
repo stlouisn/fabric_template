@@ -56,3 +56,10 @@ dependencies { modImplementation modLocalRuntime ( "curse.maven:jade-324717:${ja
 / Balm /
 def balm_file_id = "6025222" // https://www.curseforge.com/minecraft/mc-mods/balm-fabric/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
 dependencies { modImplementation modLocalRuntime ( "curse.maven:balm-fabric-500525:${balm_file_id}" )}
+
+/ Team Resourceful /
+repositories { maven { url = "https://maven.teamresourceful.com/repository/maven-public/" }}
+
+/ Resourceful Lib /
+def resourcefulLibVersion = "3.0.9"
+dependencies { modApi modLocalRuntime ( "com.teamresourceful.resourcefullib:resourcefullib-fabric-1.21:${resourcefulLibVersion}" )}
