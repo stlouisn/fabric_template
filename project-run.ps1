@@ -4,4 +4,4 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 Clear-Host
 
 # Run the Gradle build
-Start-Process -FilePath "./gradlew" -ArgumentList "clean", "build", "-Dorg.gradle.console=colored" -NoNewWindow -Wait
+Start-Process -FilePath "./gradlew" -ArgumentList "-Dorg.gradle.console=colored", "runClient" -NoNewWindow -Wait
