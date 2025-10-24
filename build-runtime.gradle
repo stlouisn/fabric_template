@@ -1,65 +1,68 @@
-/ Terraformers Maven /
-repositories { maven { url = "https://maven.terraformersmc.com/" }}
-
 / Mod Menu /
 def modmenu_version = "11.0.3" // https://modrinth.com/mod/modmenu/versions?l=fabric&g=1.21.1
+repositories { maven { url = "https://maven.terraformersmc.com/" }}
 dependencies { modLocalRuntime ( "com.terraformersmc:modmenu:${modmenu_version}" )}
 
 / EMI /
 def emi_version = "1.1.19+1.21.1" // https://modrinth.com/mod/emi/versions?l=fabric&g=1.21.1
+repositories { maven { url = "https://maven.terraformersmc.com/" }}
 dependencies { modLocalRuntime ( "dev.emi:emi-fabric:${emi_version}" )}
-
-/ BlameJared Maven /
-repositories { maven { url = "https://maven.blamejared.com" }}
 
 / CraftTweaker /
 def crafttweaker_version = "21.0.9" // https://maven.blamejared.com/com/blamejared/crafttweaker/CraftTweaker-fabric-1.21.1/
+repositories { maven { url = "https://maven.terraformersmc.com/" }}
 dependencies { modLocalRuntime ( "com.blamejared.crafttweaker:CraftTweaker-fabric-1.21.1:${crafttweaker_version}" )}
 
 / CurseForge Maven / // https://www.curseforge.com/minecraft/search?class=mc-mods&version=1.21.1&gameVersionTypeId=4
-repositories { maven { url = "https://www.cursemaven.com" }}
 
 / Moonlight /
 def moonlight_file_id = "5983850" // https://www.curseforge.com/minecraft/mc-mods/selene/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+repositories { maven { url = "https://www.cursemaven.com" }}
 dependencies { modLocalRuntime ( "curse.maven:selene-499980:$moonlight_file_id" )}
 
 / Supplementaries /
 def supplementaries_file_id = "6028333" // https://www.curseforge.com/minecraft/mc-mods/supplementaries/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+repositories { maven { url = "https://www.cursemaven.com" }}
 dependencies { modLocalRuntime ( "curse.maven:supplementaries-412082:$supplementaries_file_id" )}
 
 / Amendments /
 def amendments_file_id = "6030890" // https://www.curseforge.com/minecraft/mc-mods/amendments/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+repositories { maven { url = "https://www.cursemaven.com" }}
 dependencies { modLocalRuntime ( "curse.maven:amendments-896746:$amendments_file_id" )}
 
 / Every Compat /
 def everycompat_file_id = "6133322" //https://www.curseforge.com/minecraft/mc-mods/every-compat/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+repositories { maven { url = "https://www.cursemaven.com" }}
 dependencies { modLocalRuntime ( "curse.maven:every-compat-628539:$everycompat_file_id" )}
 
 / Balm API /
 def balm_file_id = "6025222" // https://www.curseforge.com/minecraft/mc-mods/balm-fabric/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+repositories { maven { url = "https://www.cursemaven.com" }}
 dependencies { modLocalRuntime ( "curse.maven:balm-500525:${balm_file_id}" )}
 
 / KleeSlabs /
 def kleeslabs_file_id = "5623472" // https://www.curseforge.com/minecraft/mc-mods/kleeslabs-fabric/files/all?page=1&pageSize=20&version=1.21.1&gameVersionTypeId=4
+repositories { maven { url = "https://www.cursemaven.com" }}
 dependencies { modLocalRuntime ( "curse.maven:kleeslabs-547695:${kleeslabs_file_id}" )}
-
-/ Modrinth Maven / // https://modrinth.com/mods?g=categories:fabric&v=1.21.1
-repositories { maven { url = "https://api.modrinth.com/maven" }}
 
 / Architectury API /
 def architectury_api_version = "13.0.8+fabric" // https://modrinth.com/mod/architectury-api/versions?g=1.21.1&l=fabric
+repositories { maven { url = "https://api.modrinth.com/maven" }}
 dependencies { modLocalRuntime ( "maven.modrinth:architectury-api:${architectury_api_version}" )}
 
 / Midnight Lib /
 def midnight_lib_version = "1.6.3-fabric" // https://modrinth.com/mod/midnightlib/versions?g=1.21.1&l=fabric
+repositories { maven { url = "https://api.modrinth.com/maven" }}
 dependencies { modLocalRuntime ( "maven.modrinth:midnightlib:${midnight_lib_version}" )}
 
 / Clean F3 /
 def clean_f3_version = "0.4.9" // https://modrinth.com/mod/clean-f3/versions?g=1.21.1&l=fabric
+repositories { maven { url = "https://api.modrinth.com/maven" }}
 dependencies { modLocalRuntime ( "maven.modrinth:clean-f3:${clean_f3_version}" )}
 
 / Loot Explorer /
 def loot_explorer_version = "1.0.1" // https://modrinth.com/mod/lootexplorer/versions?g=1.21.1&l=fabric
+repositories { maven { url = "https://api.modrinth.com/maven" }}
 dependencies { modLocalRuntime ( "maven.modrinth:lootexplorer:${loot_explorer_version}" )}
 
 / Local Mod /

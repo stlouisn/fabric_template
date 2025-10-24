@@ -7,7 +7,7 @@ dependencies {
   }
 }
 println("\nMojang Mappings: $minecraft_version")
-println("ParchmentMC: $parchment_version")
+println("\nParchmentMC: $parchment_version")
 
 / Yarn + Parchment Mappings /
 repositories { maven { url = "https://maven.parchmentmc.org" }}
@@ -18,4 +18,4 @@ dependencies {
   }
 }
 println("\nYarn Mappings: $yarn_mappings")
-println("ParchmentMC: $parchment_version")
+println("\nParchmentMC: $parchment_version")
