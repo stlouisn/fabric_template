@@ -1,12 +1,14 @@
 {
   "required": true,
   "package": "maven_group.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "minVersion": "0.8.5",
+  "compatibilityLevel": "JAVA_25",
   "client": [],
   "server": [],
   "mixins": [],
   "injectors": {
     "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
   }
 }

@@ -1,36 +1,42 @@
 plugins {
-    id "fabric-loom" version "${fabric_loom_version}-SNAPSHOT"
+    id 'net.fabricmc.fabric-loom' version "${fabric_loom_version}"
     id "java-library"
     id "idea"
 }
 
-group = maven_group
-version = mod_version
+version = project.mod_version
+group = project.maven_group
 
-base { archivesName = "_custom_${archives_base_name}-${minecraft_version}-fabric" }
+base {
+    archivesName = "_custom_${project.archives_base_name}-${project.minecraft_version}-fabric"
+}
 
 dependencies {
-    minecraft "com.mojang:minecraft:${minecraft_version}"
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
-    loom {
-        if (file("src/main/resources/${archives_base_name}.accesswidener").exists()) {
-            accessWidenerPath = file("src/main/resources/${archives_base_name}.accesswidener")
-        }
-        mixin {
-            defaultRefmapName.set("${archives_base_name}.refmap.json")
-        }
-    }
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     implementation "org.jetbrains:annotations:latest.release"
 }
 
-apply from: "build-mappings.gradle"
+// modmenu
+repositories { maven { url = "https://maven.terraformersmc.com/" }}
+dependencies { localRuntime ( "com.terraformersmc:modmenu:${project.modmenu_version}" )}
 
-if (file("build-dependencies.gradle").exists()) { apply from: "build-dependencies.gradle" }
+// mixin extras
+if (file("src/main/resources/${project.archives_base_name}.mixins.json").exists()) {
+    repositories { maven { url = "https://jitpack.io" }}
+    dependencies { implementation ( annotationProcessor( "io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}" ))}
+}
 
-if (file("src/main/resources/${archives_base_name}.mixins.json").exists()) { apply from: "build-mixins.gradle" }
+// build deps
+if (file("build-dependencies.gradle").exists()) {
+    apply from: "build-dependencies.gradle"
+}
 
-if (file("build-runtime.gradle").exists()) { apply from: "build-runtime.gradle" }
+// runtime deps
+if (file("build-runtime.gradle").exists()) {
+    apply from: "build-runtime.gradle"
+}
 
 idea {
     module {
@@ -41,12 +47,13 @@ idea {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
+    withSourcesJar()
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release.set(21)
+    it.options.release.set(25)
     it.options.encoding = "UTF-8"
 }
 
@@ -75,8 +82,4 @@ jar {
                 ]
         )
     }
-}
-
-remapJar {
-    destinationDirectory.set(file("${rootDir}/files"))
 }
