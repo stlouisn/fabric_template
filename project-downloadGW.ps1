@@ -3,5 +3,5 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
 Clear-Host
 
-# Run the Gradle build
-Start-Process -FilePath "./gradlew" -ArgumentList "wrapper", "--gradle-version", "latest" -NoNewWindow -Wait
+# Use Gradle to download Graddle Wrapper
+gradle wrapper
