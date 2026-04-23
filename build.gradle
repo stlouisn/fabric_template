@@ -75,6 +75,7 @@ processResources {
     filesMatching(['fabric.mod.json', 'en_us.json']) {
         filter { line -> line.contains('"$schema":') ? null : line }
         filter { line -> line.startsWith('/*') ? null : line }
+        filter { line -> line.startsWith('//') ? null : line }
         filter { line -> line.trim().isEmpty() ? null : line }
         expand(stringProperties) { escapeBackslash = true }
     }

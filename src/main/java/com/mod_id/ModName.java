@@ -1,6 +1,6 @@
-package maven_name.mod_id;
+package com.mod_id;
 
-import dev.mod_id.config.ModConfig;
+import com.mod_id.config.ModConfig;
 
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;

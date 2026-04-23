@@ -1,4 +1,4 @@
-package dev.mod_id.config;
+package com.mod_id.config;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
@@ -8,6 +8,8 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry.BoundedDiscrete;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Category;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.CollapsibleObject;
 import me.shedaniel.autoconfig.annotation.ConfigEntry.Gui.Tooltip;
+
+import static com.mod_id.ModName.MOD_ID;
 
 @Config(name = MOD_ID)
 public class ModConfig implements ConfigData {

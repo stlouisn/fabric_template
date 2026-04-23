@@ -16,22 +16,22 @@
   "license": "${mod_license}",
   "icon": "logo.png",
   "environment": "*",
-  "environment": "client",
-  "environment": "server",
+//  "environment": "client",
+//  "environment": "server",
   "entrypoints": {
+//    "fabric-datagen": [
+//      "dev.mymod.MymodDataGenerator"
+//    ],
     "main": [
-      "maven_group.maven_entrypoint"
-    ],
-    "fabric-datagen": [
-      "dev.mymod.MymodDataGenerator"
+      "com.mod_id.ModName"
     ],
     "modmenu": [
-      "maven_group.config.ModMenuIntegration"
+      "com.mod_id.config.ModMenuIntegration"
     ]
   },
-  "accessWidener": "MOD_ID.accesswidener",
+  "accessWidener": "mod_id.accesswidener",
   "mixins": [
-    "MOD_ID.mixins.json"
+    "mod_id.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
