@@ -10,8 +10,9 @@ import net.minecraft.client.gui.screens.Screen;
 @Environment(EnvType.CLIENT)
 public class ModMenuIntegration implements ModMenuApi {
 
-  @Override
-  public ConfigScreenFactory<?> getModConfigScreenFactory() {
-    return parent -> (Screen) AutoConfigClient.getConfigScreen(ModConfig.class, parent).get();
-  }
+    @Override
+    public ConfigScreenFactory<?> getModConfigScreenFactory() {
+        return parent -> (Screen)
+                AutoConfigClient.getConfigScreen(ModConfig.class, parent).get();
+    }
 }
