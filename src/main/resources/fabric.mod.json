@@ -16,12 +16,12 @@
   "license": "${mod_license}",
   "icon": "logo.png",
   "environment": "*",
-//  "environment": "client",
-//  "environment": "server",
+  //  "environment": "client",
+  //  "environment": "server",
   "entrypoints": {
-//    "fabric-datagen": [
-//      "dev.mymod.MymodDataGenerator"
-//    ],
+    //    "fabric-datagen": [
+    //      "dev.mymod.MymodDataGenerator"
+    //    ],
     "main": [
       "com.mod_id.ModName"
     ],

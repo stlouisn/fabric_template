@@ -32,3 +32,7 @@ ij_java_blank_lines_after_class_header = 1
 ij_java_blank_lines_around_method = 1
 ij_java_blank_lines_around_field = 0
 ij_java_keep_blank_lines_in_code = 1
+
+# Json-specific
+[*.json]
+indent_size = 2
