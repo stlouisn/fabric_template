@@ -53,11 +53,15 @@ if (file("build-runtime.gradle").exists()) {
 
 spotless {
     java {
-        palantirJavaFormat()
+        eclipse().configFile('.java-style.xml')
         removeUnusedImports()
+        leadingTabsToSpaces(4)
         trimTrailingWhitespace()
         endWithNewline()
         formatAnnotations()
+        custom 'fixUniqueAnnotation', {
+            it.replaceAll(/@Unique\s+(public|protected|private)/, '@Unique\n    $1')
+        }
     }
 }
 
