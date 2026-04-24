@@ -1,0 +1,34 @@
+# Editor Config
+root = true
+
+# Global defaults for all files
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Java-specific
+[*.java]
+
+# Import rules
+ij_java_class_count_to_use_import_on_demand = 1000
+ij_java_names_count_to_use_import_on_demand = 1000
+
+# Annotation formatting
+ij_java_align_multiline_annotation_parameters = false
+ij_java_annotation_parameter_wrap = off
+ij_java_class_annotation_wrap = split_into_lines
+ij_java_do_not_wrap_after_single_annotation = false
+ij_java_do_not_wrap_after_single_annotation_in_parameter = false
+ij_java_new_line_after_lparen_in_annotation = false
+ij_java_rparen_on_new_line_in_annotation = false
+ij_java_variable_annotation_wrap = off
+
+# Blank line control
+ij_java_blank_lines_after_class_header = 1
+ij_java_blank_lines_around_method = 1
+ij_java_blank_lines_around_field = 0
+ij_java_keep_blank_lines_in_code = 1

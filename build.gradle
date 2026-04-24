@@ -1,6 +1,7 @@
 plugins {
-    id 'net.fabricmc.fabric-loom' version "${fabric_loom_version}"
+    id "net.fabricmc.fabric-loom" version "${fabric_loom_version}"
     id "java-library"
+    id "com.diffplug.spotless" version "${spotless_version}"
     id "idea"
 }
 
@@ -30,24 +31,34 @@ dependencies {
     implementation "org.jetbrains:annotations:latest.release"
 }
 
-// modmenu
+// Mod Menu
 repositories { maven { url = "https://maven.terraformersmc.com/" }}
 dependencies { localRuntime ( "com.terraformersmc:modmenu:${project.modmenu_version}" )}
 
-// mixin extras
+// Mixin Extras
 if (file("src/main/resources/${project.archives_base_name}.mixins.json").exists()) {
     repositories { maven { url = "https://jitpack.io" }}
     dependencies { implementation ( annotationProcessor( "io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}" ))}
 }
 
-// build deps
+// Build Dependencies
 if (file("build-dependencies.gradle").exists()) {
     apply from: "build-dependencies.gradle"
 }
 
-// runtime deps
+// Runtime Dependencies
 if (file("build-runtime.gradle").exists()) {
     apply from: "build-runtime.gradle"
+}
+
+spotless {
+    java {
+        palantirJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+        formatAnnotations()
+    }
 }
 
 idea {

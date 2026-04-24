@@ -13,7 +13,6 @@ out
 *.iws
 *.iml
 .idea/*
-!.idea/codeStyles
 !.idea/dictionaries
 !.idea/inspectionProfiles
 !.idea/.name
