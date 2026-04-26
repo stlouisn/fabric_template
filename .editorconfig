@@ -10,7 +10,7 @@ indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# Java-specific
+# JAVA-specific
 [*.java]
 
 # Import rules
@@ -33,6 +33,10 @@ ij_java_blank_lines_around_method = 1
 ij_java_blank_lines_around_field = 0
 ij_java_keep_blank_lines_in_code = 1
 
-# Json-specific
+# JSON-specific
 [*.json]
+indent_size = 2
+
+# XML-specific
+[*.xml]
 indent_size = 2
