@@ -55,13 +55,20 @@ spotless {
     java {
         eclipse().configFile('.java-style.xml')
         removeUnusedImports()
-        leadingTabsToSpaces(4)
-        trimTrailingWhitespace()
-        endWithNewline()
         formatAnnotations()
+        custom 'breakMixinAttributes', {
+            it.replaceAll(/(?m)(method|at|index|slice|target|value|ordinal|shift|cancellable)\s*=\s*/, '\n        $1 = ')
+        }
+        custom 'indentNestedAt', {
+            it.replaceAll(/(?m)    (at = @At\()/, '    $1')
+            it.replaceAll(/(?m)    (value|target|shift|opcode|ordinal) = /, '        $1 = ')
+        }
         custom 'fixUniqueAnnotation', {
             it.replaceAll(/@Unique\s+(public|protected|private)/, '@Unique\n    $1')
         }
+        leadingTabsToSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
     }
 }
 
@@ -82,6 +89,10 @@ java {
 tasks.withType(JavaCompile).configureEach {
     it.options.release.set(25)
     it.options.encoding = "UTF-8"
+}
+
+tasks.withType(Javadoc).configureEach {
+    options.addStringOption('tag', 'reason:a:Reason for Override:')
 }
 
 processResources {
