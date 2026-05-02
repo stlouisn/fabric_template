@@ -57,14 +57,17 @@ spotless {
         removeUnusedImports()
         formatAnnotations()
         custom 'breakMixinAttributes', {
-            it.replaceAll(/(?m)(method|at|index|slice|target|value|ordinal|shift|cancellable)\s*=\s*/, '\n        $1 = ')
+            it.replaceAll(/(?m)(args|at|cancellable|index|method|name|ordinal|shift|slice|target)\s*=\s*/, '\n        $1 = ')
+        }
+        custom 'breakMixinValueAttribute', {
+            it.replaceAll(/(?m)(?<!@Mixin\()value\s*=\s*/, '\n        value = ')
         }
         custom 'indentNestedAt', {
             it.replaceAll(/(?m)    (at = @At\()/, '    $1')
-            it.replaceAll(/(?m)    (value|target|shift|opcode|ordinal) = /, '        $1 = ')
+            it.replaceAll(/(?m)    (args|name|opcode|ordinal|shift|target|value) = /, '        $1 = ')
         }
         custom 'fixUniqueAnnotation', {
-            it.replaceAll(/@Unique\s+(public|protected|private)/, '@Unique\n    $1')
+            it.replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n    $1')
         }
         leadingTabsToSpaces(4)
         trimTrailingWhitespace()
