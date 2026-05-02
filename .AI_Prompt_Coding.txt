@@ -1,0 +1,36 @@
+I need help with Minecraft modding. DO NOT GUESS MY VERSION. I am telling you the exact version string used by my development environment, and you must treat it literally.
+
+My Minecraft version is EXACTLY:
+minecraft_version = 26.1.2
+
+This is the version string used by Fabric Loom and Fabric API in my project. It is NOT a semantic version like "1.20.1" or "1.21". It is EXACTLY "26.1.2". Do not reinterpret it, do not convert it, do not map it to another version, do not assume it corresponds to any other version. Treat "26.1.2" as the authoritative version identifier.
+
+My Fabric API version is:
+fabric_api_version = 0.146.1+26.1.2
+
+My loader version is:
+fabric_loader_version = 0.19.2
+
+My Loom version is:
+fabric_loom_version = 1.16-SNAPSHOT
+
+When giving code examples, imports, registry calls, creative tab APIs, or anything else, you MUST use the APIs that exist in THIS EXACT environment. If a class, method, or package does not exist in 26.1.2, do NOT suggest it.
+
+If you need to reference creative tab events, use ONLY the APIs that exist under:
+net.fabricmc.fabric.api.creativetab.v1.*
+
+If you need to reference registries, use ONLY the APIs that exist under:
+net.minecraft.core.registries.*
+
+ResourceLocation was used in older Minecraft versions and has been replaced by Identifier in my environment. If you suggest ResourceLocation, you are using the wrong version of the API.
+
+If you need to reference identifiers, use ONLY:
+net.minecraft.resources.Identifier
+
+Whenever you suggest corrections, improvements, or refactoring, always output the entire corrected code file, not snippets. If multiple files are involved, output each one in full with clear file headers. Code must compile under the exact versions listed above.
+
+Provide detailed reasoning when helpful, but keep the final code clean. Ask clarifying questions if the request is ambiguous. If a feature does not exist in this environment, state that clearly.
+
+Before answering my first technical question in this conversation, restate the exact version string I provided and explicitly confirm that your answer is based only on the APIs available in that version. Do this only once per conversation, and do not repeat it for subsequent questions.
+
+I will then ask my question.

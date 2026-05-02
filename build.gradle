@@ -29,6 +29,7 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
     implementation "org.jetbrains:annotations:latest.release"
+    compileOnly "com.github.spotbugs:spotbugs-annotations:latest.release"
 }
 
 // Mod Menu
@@ -79,6 +80,8 @@ idea {
     module {
         downloadSources = true
         downloadJavadoc = true
+        excludeDirs += file('run')
+        excludeDirs += file('runs')
     }
 }
 
@@ -113,15 +116,15 @@ processResources {
 jar {
     manifest {
         attributes(
-                [
-                        "Specification-Title"     : mod_id,
-                        "Specification-Vendor"    : mod_authors,
-                        "Specification-Version"   : "1",
-                        "Implementation-Title"    : mod_name,
-                        "Implementation-Version"  : mod_version,
-                        "Implementation-Vendor"   : mod_authors,
-                        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-                ]
+            [
+                "Specification-Title"     : mod_id,
+                "Specification-Vendor"    : mod_authors,
+                "Specification-Version"   : "1",
+                "Implementation-Title"    : mod_name,
+                "Implementation-Version"  : mod_version,
+                "Implementation-Vendor"   : mod_authors,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+            ]
         )
     }
 }
