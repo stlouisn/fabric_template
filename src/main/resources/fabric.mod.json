@@ -30,6 +30,7 @@
     ]
   },
   "accessWidener": "mod_id.accesswidener",
+//  "accessWidener": "mod_id.classtweaker",
   "mixins": [
     "mod_id.mixins.json"
   ],
