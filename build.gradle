@@ -24,6 +24,17 @@ loom {
     }
 }
 
+fabricApi {
+    configureDataGeneration {
+        outputDirectory = file("src/generated/resources")
+        createRunConfiguration = true
+        modId = project.mod_id
+        strictValidation = true
+        addToResources = true
+        client = true
+    }
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
@@ -54,25 +65,43 @@ if (file("build-runtime.gradle").exists()) {
 
 spotless {
     java {
+        target 'src/**/*.java'
+        targetExclude (
+            'src/main/java/**/feature/**/*ConfiguredFeature.java',
+            'src/main/java/**/feature/**/*PlacedFeature.java',
+            'src/main/java/**/feature/geode/*Geode.java'
+        )
         eclipse().configFile('.java-style.xml')
         removeUnusedImports()
         formatAnnotations()
-        custom 'breakMixinAttributes', {
-            it.replaceAll(/(?m)(args|at|cancellable|index|method|name|ordinal|shift|slice|target)\s*=\s*/, '\n        $1 = ')
+        custom 'linebreakMixinAttributes', {
+            it.replaceAll(/(?m)(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target)\s*=\s*/, '\n        $1 = ')
         }
-        custom 'breakMixinValueAttribute', {
+        custom 'linebreakMixinValueAttribute', {
             it.replaceAll(/(?m)(?<!@Mixin\()value\s*=\s*/, '\n        value = ')
         }
         custom 'indentNestedAt', {
             it.replaceAll(/(?m)    (at = @At\()/, '    $1')
-            it.replaceAll(/(?m)    (args|name|opcode|ordinal|shift|target|value) = /, '        $1 = ')
+            it.replaceAll(/(?m)    (args|argsOnly|name|opcode|ordinal|shift|target|value) = /, '        $1 = ')
         }
-        custom 'fixUniqueAnnotation', {
+        custom 'linebreakUniqueAnnotation', {
             it.replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n    $1')
         }
         leadingTabsToSpaces(4)
         trimTrailingWhitespace()
         endWithNewline()
+    }
+    format 'zBlockBehaviourFormatting', {
+        target 'src/main/java/dev/ores/registry/ModBlocks.java'
+        custom 'linebreakBlockBehaviour', {
+            it.replaceAll(/\s*BlockBehaviour\.Properties\.of/, '\n        BlockBehaviour.Properties.of')
+        }
+    }
+    format 'zResolveFormatting', {
+        target 'src/main/java/**/datagen/**/*.java'
+        custom 'linebreakResolve', {
+            it.replaceAll(/\s*\.resolve/, '\n            .resolve')
+        }
     }
 }
 

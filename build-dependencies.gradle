@@ -13,3 +13,19 @@ repositories {
 dependencies {
     implementation ( "com.terraformersmc:modmenu:18.0.0-alpha.8" )
 }
+
+// Modrinth Maven
+repositories {
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+}
+
+// Create https://modrinth.com/mod/create-fly/versions?l=fabric
+dependencies {
+    implementation("maven.modrinth:create-fly:26.1-pre-2-6.0.9-1")
+}
