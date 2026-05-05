@@ -66,7 +66,7 @@ if (file("build-runtime.gradle").exists()) {
 spotless {
     java {
         target 'src/**/*.java'
-        targetExclude (
+        targetExclude(
             'src/main/java/**/feature/**/*ConfiguredFeature.java',
             'src/main/java/**/feature/**/*PlacedFeature.java',
             'src/main/java/**/feature/geode/*Geode.java'
@@ -87,21 +87,15 @@ spotless {
         custom 'linebreakUniqueAnnotation', {
             it.replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n    $1')
         }
-        leadingTabsToSpaces(4)
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
-    format 'zBlockBehaviourFormatting', {
-        target 'src/main/java/dev/ores/registry/ModBlocks.java'
         custom 'linebreakBlockBehaviour', {
             it.replaceAll(/\s*BlockBehaviour\.Properties\.of/, '\n        BlockBehaviour.Properties.of')
         }
-    }
-    format 'zResolveFormatting', {
-        target 'src/main/java/**/datagen/**/*.java'
         custom 'linebreakResolve', {
             it.replaceAll(/\s*\.resolve/, '\n            .resolve')
         }
+        leadingTabsToSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
     }
 }
 
