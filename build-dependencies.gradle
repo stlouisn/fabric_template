@@ -1,4 +1,22 @@
-// Cloth Config API --> https://modrinth.com/mod/cloth-config/versions?l=fabric
+// Local Repository --> /libs
+repositories {
+    flatDir { dirs 'libs' }
+}
+dependencies {
+}
+
+// Modrinth Maven
+repositories {
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+}
+
+// Cloth Config --> https://modrinth.com/mod/cloth-config/versions?l=fabric
 repositories {
     maven { url = "https://maven.shedaniel.me/" }
 }
@@ -14,18 +32,7 @@ dependencies {
     implementation ( "com.terraformersmc:modmenu:18.0.0-alpha.8" )
 }
 
-// Modrinth Maven
-repositories {
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-        content {
-            includeGroup "maven.modrinth"
-        }
-    }
-}
-
-// Create https://modrinth.com/mod/create-fly/versions?l=fabric
+// Create --> https://modrinth.com/mod/create-fly/versions?l=fabric
 dependencies {
     implementation("maven.modrinth:create-fly:26.1-pre-2-6.0.9-1")
 }
