@@ -6,7 +6,7 @@ minecraft_version = 26.1.2
 This is the version string used by Fabric Loom and Fabric API in my project. It is NOT a semantic version like "1.20.1" or "1.21". It is EXACTLY "26.1.2". Do not reinterpret it, do not convert it, do not map it to another version, do not assume it corresponds to any other version. Treat "26.1.2" as the authoritative version identifier.
 
 My Fabric API version is:
-fabric_api_version = 0.146.1+26.1.2
+fabric_api_version = 0.149.0+26.1.2
 
 My loader version is:
 fabric_loader_version = 0.19.2
