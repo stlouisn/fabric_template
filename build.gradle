@@ -47,6 +47,10 @@ dependencies {
 repositories { maven { url = "https://maven.terraformersmc.com/" } }
 dependencies { localRuntime("com.terraformersmc:modmenu:${project.modmenu_version}") }
 
+// Reliable Recipe Viewer
+repositories { maven { url = "https://maven.cassian.cc" } }
+dependencies { runtimeOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${project.rrv_version}") }
+
 // Mixin Extras
 if (file("src/main/resources/${project.archives_base_name}.mixins.json").exists()) {
     dependencies { implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${project.mixinextras_version}")) }
