@@ -15,11 +15,9 @@ base {
 loom {
     runs {
         client {
-            programArg "--username"
-            programArg "DevPlayer"
-            programArg "--uuid"
-            programArg "00000000-0000-0000-0000-000000000000"
-            ideConfigGenerated = true
+            getProgramArguments().add("--username DevPlayer")
+            getProgramArguments().add("--uuid 00000000-0000-0000-0000-000000000000")
+            getGenerateRunConfig().set(true)
         }
     }
 }
