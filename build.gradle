@@ -17,6 +17,8 @@ loom {
         client {
             getProgramArguments().add("--username DevPlayer")
             getProgramArguments().add("--uuid 00000000-0000-0000-0000-000000000000")
+            vmArgs "-Dfabric.disableYggdrasil=true"
+            vmArgs "-Dfabric.disableRealms=true"
             getGenerateRunConfig().set(true)
         }
     }
