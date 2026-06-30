@@ -15,8 +15,10 @@ base {
 loom {
     runs {
         client {
-            getProgramArguments().add("--username DevPlayer")
-            getProgramArguments().add("--uuid 00000000-0000-0000-0000-000000000000")
+            getProgramArguments().add("--username")
+            getProgramArguments().add("DevPlayer")
+            getProgramArguments().add("--uuid")
+            getProgramArguments().add("00000000-0000-0000-0000-000000000000")
             getJvmArguments().addAll(Arrays.asList("-Dfabric.disableYggdrasil=true"))
             getJvmArguments().addAll(Arrays.asList("-Dfabric.disableRealms=true"))
             getGenerateRunConfig().set(true)
