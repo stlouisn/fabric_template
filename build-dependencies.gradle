@@ -1,3 +1,9 @@
+// Mixin Constraints - https://github.com/moulberry/mixinconstraints
+def mixinConstraintsVersion= "1.1.0"
+dependencies {
+    include(implementation("com.moulberry:mixinconstraints:${mixinConstraintsVersion}"))
+}
+
 // Modrinth Maven
 repositories {
     maven {

@@ -25,14 +25,26 @@
     "main": [
       "com.mod_id.ModName"
     ],
+    "client": [
+      "com.mod_id.ModNameClient"
+    ],
     "modmenu": [
       "com.mod_id.config.ModMenuIntegration"
+    ],
+    "jei_mod_plugin": [
+      "com.mod_id.jei.ModNameJEIPlugin"
+    ],
+    "rrv": [
+      "com.mod_id.rrv.ModNameRRVServerPlugin"
+    ],
+    "rrv_client": [
+      "com.mod_id.rrv.ModNameRRVClientPlugin"
     ]
   },
-  "accessWidener": "mod_id.accesswidener",
-//  "accessWidener": "mod_id.classtweaker",
+  "accessWidener": "${mod_id}.accesswidener",
+//  "accessWidener": "${mod_id}.classtweaker",
   "mixins": [
-    "mod_id.mixins.json"
+    "${mod_id}.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
