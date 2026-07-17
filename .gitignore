@@ -28,3 +28,4 @@ build/*
 # minecraft
 run
 runs
+.cache

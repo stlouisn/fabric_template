@@ -84,7 +84,7 @@ spotless {
             it.replaceAll(/(?m)(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target)\s*=\s*/, '\n        $1 = ')
         }
         custom 'linebreakMixinValueAttribute', {
-            it.replaceAll(/(?m)(?<!@Mixin\()value\s*=\s*/, '\n        value = ')
+            it.replaceAll(/(?m)(?<!@Mixin\()(?<!@IfModLoaded\()value\s*=\s*/, '\n        value = ')
         }
         custom 'indentNestedAt', {
             it.replaceAll(/(?m)    (at = @At\()/, '    $1')
@@ -93,8 +93,11 @@ spotless {
         custom 'linebreakUniqueAnnotation', {
             it.replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n    $1')
         }
+        custom 'linebreakCommonAnnotations', {
+            it.replaceAll(/(?m)^(\s*)@(Override|NotNull|ParametersAreNonnullByDefault)\b(?!\s*$)\s+/, '$1@$2\n$1')
+        }
         custom 'linebreakBlockBehaviour', {
-            it.replaceAll(/\s*BlockBehaviour\.Properties\.of/, '\n        BlockBehaviour.Properties.of')
+            it.replaceAll("(?<!import[^\n]*)BlockBehaviour\\.Properties\\.of", "\n        BlockBehaviour.Properties.of")
         }
         custom 'linebreakResolve', {
             it.replaceAll(/\s*\.resolve/, '\n            .resolve')
