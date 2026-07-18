@@ -16,6 +16,7 @@ out
 !.idea/dictionaries
 !.idea/inspectionProfiles
 !.idea/.name
+!.idea/betterCommentsSettings.xml
 
 # gradle
 build/*
