@@ -13,6 +13,9 @@ base {
 }
 
 loom {
+    if (file("src/main/resources/${project.archives_base_name}.accesswidener").exists()) {
+        accessWidenerPath = file("src/main/resources/${project.archives_base_name}.accesswidener")
+    }
     runs {
         client {
             getProgramArguments().add("--username")
@@ -69,43 +72,9 @@ if (file("build-runtime.gradle").exists()) {
     apply from: "build-runtime.gradle"
 }
 
-spotless {
-    java {
-        target 'src/**/*.java'
-        targetExclude(
-            'src/main/java/**/feature/**/*ConfiguredFeature.java',
-            'src/main/java/**/feature/**/*PlacedFeature.java',
-            'src/main/java/**/feature/geode/*Geode.java'
-        )
-        eclipse().configFile('.java-style.xml')
-        removeUnusedImports()
-        formatAnnotations()
-        custom 'linebreakMixinAttributes', {
-            it.replaceAll(/(?m)(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target)\s*=\s*/, '\n        $1 = ')
-        }
-        custom 'linebreakMixinValueAttribute', {
-            it.replaceAll(/(?m)(?<!@Mixin\()(?<!@IfModLoaded\()value\s*=\s*/, '\n        value = ')
-        }
-        custom 'indentNestedAt', {
-            it.replaceAll(/(?m)    (at = @At\()/, '    $1')
-            it.replaceAll(/(?m)    (args|argsOnly|name|opcode|ordinal|shift|target|value) = /, '        $1 = ')
-        }
-        custom 'linebreakUniqueAnnotation', {
-            it.replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n    $1')
-        }
-        custom 'linebreakCommonAnnotations', {
-            it.replaceAll(/(?m)^(\s*)@(Override|NotNull|ParametersAreNonnullByDefault)\b(?!\s*$)\s+/, '$1@$2\n$1')
-        }
-        custom 'linebreakBlockBehaviour', {
-            it.replaceAll("(?<!import[^\n]*)BlockBehaviour\\.Properties\\.of", "\n        BlockBehaviour.Properties.of")
-        }
-        custom 'linebreakResolve', {
-            it.replaceAll(/\s*\.resolve/, '\n            .resolve')
-        }
-        leadingTabsToSpaces(4)
-        trimTrailingWhitespace()
-        endWithNewline()
-    }
+// Spotless Config
+if (file("build-spotless.gradle").exists()) {
+    apply from: "build-spotless.gradle"
 }
 
 idea {
