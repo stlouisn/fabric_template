@@ -194,10 +194,7 @@ spotless {
         )
         applyPreConfig(delegate)
         custom 'linebreakMixinAttributes', {
-            it.replaceAll(/(?m)(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target)\s*=\s*/, '\n' + indent2 + '$1 = ')
-        }
-        custom 'linebreakMixinValueAttribute', {
-            it.replaceAll(/(?m)(?<!@Mixin\()(?<!@IfModLoaded\()value\s*=\s*/, '\n' + indent2 + 'value = ')
+            it.replaceAll(/(?m)(?<!@IfModLoaded\(|@Local\(|@Mixin\()(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target|value)\s*=\s*/, '\n' + indent2 + '$1 = ')
         }
         custom 'indentNestedAt', {
             it.replaceAll(/(?m)    (at = @At\()/, indent1 + '$1')
