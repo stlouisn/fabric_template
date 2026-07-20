@@ -6,7 +6,7 @@ minecraft_version = 26.2
 This is the version string used by Fabric Loom and Fabric API in my project. It is NOT a semantic version like "1.20.1" or "1.21". It is EXACTLY "26.2". Do not reinterpret it, do not convert it, do not map it to another version, do not assume it corresponds to any other version. Treat "26.2" as the authoritative version identifier.
 
 My Fabric API version is:
-fabric_api_version = 0.153.0+26.2
+fabric_api_version = 0.155.2+26.2
 
 My loader version is:
 fabric_loader_version = 0.19.3
@@ -21,18 +21,24 @@ When giving code examples, imports, registry calls, creative tab APIs, or anythi
 
 If you need to reference creative tab events, use ONLY the APIs that exist under:
 net.fabricmc.fabric.api.creativetab.v1.*
+net.fabricmc.fabric.api.creativetab.v1.*
 
-If you need to reference registries, use ONLY the APIs that exist under:
+If you need to reference registries or resourceKeys, use ONLY the APIs that exist under:
 net.minecraft.core.registries.*
+net.minecraft.resources.ResourceKey
 
 ResourceLocation was used in older Minecraft versions and has been replaced by Identifier in my environment. If you suggest ResourceLocation, you are using the wrong version of the API.
 
 If you need to reference identifiers, use ONLY:
 net.minecraft.resources.Identifier
 
-Whenever you suggest corrections, improvements, or refactoring, always output the entire corrected code file, not snippets. If multiple files are involved, output each one in full with clear file headers. Code must compile under the exact versions listed above.
+All my mods will include the following methods, in util.Constants class, that should be used when feasible:
+public static Identifier resourceLocation(String path) { return Identifier.fromNamespaceAndPath(MOD_ID, path); }
+public static Identifier resourceLocation(String namespace, String path) { return Identifier.fromNamespaceAndPath(namespace, path); }
 
-Provide detailed reasoning when helpful, but keep the final code clean. Ask clarifying questions if the request is ambiguous. If a feature does not exist in this environment, state that clearly.
+Whenever you suggest corrections, improvements, or refactoring, always output the entire corrected code file, not snippets. If multiple files are involved, output each one in full with clear file headers. Code must compile under the exact versions listed above. Comments should be added indicating where changes were made. For these comments always use "//!" instead of "//".
+
+Provide detailed reasoning when helpful, but keep the final code clean. Ask clarifying questions if the request is ambiguous. If a feature does not exist in this environment, state that clearly. If you need to see the source code of a file in order to provide a correct and accurate response, please ask the file you need to see.
 
 Before answering my first technical question in this conversation, restate the exact version string I provided and explicitly confirm that your answer is based only on the APIs available in that version. Do this only once per conversation, and do not repeat it for subsequent questions.
 
