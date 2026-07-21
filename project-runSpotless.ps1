@@ -3,5 +3,5 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
 Clear-Host
 
-# Run Spotless first
-Start-Process -FilePath "./gradlew" -ArgumentList "spotlessApply" -NoNewWindow -Wait
+# Run Spotless
+./gradlew --Dorg.gradle.console=colored spotlessApply

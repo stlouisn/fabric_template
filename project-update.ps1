@@ -28,9 +28,6 @@ $FilesToDownload = @(
     "settings.gradle"
 )
 
-# Destination path
-$DestinationDir = "."
-
 # Download and overwrite files
 $ProgressPreference = 'SilentlyContinue'
 foreach ($FileName in $FilesToDownload) {
@@ -48,7 +45,6 @@ $gradleVersions = Invoke-RestMethod "https://services.gradle.org/versions/all"
 $gradleLatest = ($gradleVersions | Where-Object { $_.current -eq $true }).version
 
 # Update the Gradle Wrapper to the latest version
-./gradlew wrapper --gradle-version $gradleLatest --distribution-type bin --no-daemon
-
+./gradlew --Dorg.gradle.console=colored wrapper --gradle-version $gradleLatest --distribution-type bin
 Write-Host
 Write-Host "Gradle Wrapper: $gradleLatest"

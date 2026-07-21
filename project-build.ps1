@@ -3,5 +3,5 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
 Clear-Host
 
-# Run the Gradle build
-Start-Process -FilePath "./gradlew" -ArgumentList "clean", "build", "-Dorg.gradle.console=colored" -NoNewWindow -Wait
+# Build JAR
+./gradlew --Dorg.gradle.console=colored clean build

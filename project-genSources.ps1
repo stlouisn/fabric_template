@@ -3,5 +3,5 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
 Clear-Host
 
-# Run the Gradle build
-Start-Process -FilePath "./gradlew" -ArgumentList "-Dorg.gradle.console=colored", "genSources" -NoNewWindow -Wait
+# Generate sources
+./gradlew --Dorg.gradle.console=colored genSources
