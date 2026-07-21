@@ -39,6 +39,10 @@ Write-Host
 $ProgressPreference = 'SilentlyContinue'
 foreach ($FileName in $FilesToDownload) {
     Write-Host "Downloading: $FileName..." -ForegroundColor Cyan
+    $Directory = Split-Path ".\$FileName" -Parent
+    if (-not (Test-Path $Directory)) {
+        New-Item -ItemType Directory -Path $Directory -Force | Out-Null
+    }
     Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
 }
 
