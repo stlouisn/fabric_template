@@ -45,6 +45,6 @@ $gradleVersions = Invoke-RestMethod "https://services.gradle.org/versions/all"
 $gradleLatest = ($gradleVersions | Where-Object { $_.current -eq $true }).version
 
 # Update the Gradle Wrapper to the latest version
-./gradlew wrapper --gradle-version $gradleLatest --distribution-type bin --Dorg.gradle.console=colored
+./gradlew --console=colored wrapper --gradle-version $gradleLatest --distribution-type bin
 Write-Host
 Write-Host "Gradle Wrapper: $gradleLatest"

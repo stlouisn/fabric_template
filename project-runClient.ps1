@@ -4,4 +4,4 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 Clear-Host
 
 # Run Client
-./gradlew --Dorg.gradle.console=colored runClient
+./gradlew --console=colored runClient

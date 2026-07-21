@@ -4,4 +4,4 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 Clear-Host
 
 # Generate sources
-./gradlew --Dorg.gradle.console=colored genSources
+./gradlew --console=colored genSources

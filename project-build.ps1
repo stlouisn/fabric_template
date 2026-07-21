@@ -4,4 +4,4 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 Clear-Host
 
 # Build JAR
-./gradlew --Dorg.gradle.console=colored clean build
+./gradlew --console=colored clean build
