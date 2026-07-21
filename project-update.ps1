@@ -43,10 +43,14 @@ Write-Host
 
 # Download and overwrite files
 $ProgressPreference = 'SilentlyContinue'
+$Headers = @{
+    "Cache-Control" = "no-cache, no-store, must-revalidate"
+    "Pragma"        = "no-cache"
+}
 foreach ($FileName in $FilesToDownload) {
     Write-Host "Downloading: $FileName..." -ForegroundColor Cyan
     $NoCacheUrl = "$BaseRawUrl/$FileName`?nocache=$(Get-Date -UFormat %s)"
-    Invoke-WebRequest -Uri "$NoCacheUrl" -OutFile ".\$FileName" -ErrorAction Stop
+    Invoke-WebRequest -Uri "$NoCacheUrl" -Headers $Headers -OutFile ".\$FileName" -ErrorAction Stop
 }
 
 Write-Host
