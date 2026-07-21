@@ -9,6 +9,10 @@ def applyPreConfig = { target ->
 }
 
 def applyPostConfig = { target ->
+    target.custom 'linebreakNullable', {
+        it.replaceAll(/(?m)^(\s*)@Nullable\s+public\b/, '$1@Nullable\n$1public')
+          .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*public\b)/, '$1@Nullable\n$2')
+    }
     target.leadingTabsToSpaces(4)
     target.trimTrailingWhitespace()
     target.endWithNewline()
@@ -82,6 +86,9 @@ spotless {
         custom 'linebreakIsValidSpawnAttribute', {
             it.replaceAll(/\s*\.isValidSpawn\(/, '\n' + indent3 + '.isValidSpawn(')
         }
+        custom 'linebreakLightLevelAttribute', {
+            it.replaceAll(/\s*\.lightLevel\(/, '\n' + indent3 + '.lightLevel(')
+        }
         custom 'linebreakMapColorAttribute', {
             it.replaceAll(/\s*\.mapColor\(/, '\n' + indent3 + '.mapColor(')
         }
@@ -105,6 +112,9 @@ spotless {
         }
         custom 'linebreakReplaceableAttribute', {
             it.replaceAll(/\s*\.replaceable\(/, '\n' + indent3 + '.replaceable(')
+        }
+        custom 'linebreakRequiresCorrectToolForDropsAttribute', {
+            it.replaceAll(/\s*\.requiresCorrectToolForDrops\(/, '\n' + indent3 + '.requiresCorrectToolForDrops(')
         }
         custom 'linebreakSoundAttribute', {
             it.replaceAll(/\s*\.sound\(/, '\n' + indent3 + '.sound(')
@@ -196,7 +206,7 @@ spotless {
         custom 'linebreakMixinAttributes', {
             it.replaceAll(/(?m)(?<!@IfModLoaded\(|@Local\(|@Mixin\()(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target|value)\s*=\s*/, '\n' + indent2 + '$1 = ')
         }
-        custom 'indentNestedAt', {
+        custom 'indentMixinAttributes', {
             it.replaceAll(/(?m)    (at = @At\()/, indent1 + '$1')
             it.replaceAll(/(?m)    (args|argsOnly|name|opcode|ordinal|shift|target|value) = /, indent2 + '$1 = ')
         }
@@ -206,23 +216,9 @@ spotless {
         applyPostConfig(delegate)
     }
 
-    spotlessExtension.format('BiomeModifiers', javaExtensionClass) {
-        target(
-            'src/main/java/**/worldgen/biome/BiomeModifiers.java'
-        )
-        applyPreConfig(delegate)
-        custom 'linebreakBiomeRegistryCalls', {
-            it.replaceAll(/(,\s*)(Identifier\.withDefaultNamespace|resourceLocation)\(/, ",\n" + indent3 + "\$2(")
-        }
-        custom 'linebreakModificationPhase', {
-            it.replaceAll(/\s*\.add\(ModificationPhase\./, "\n" + indent3 + ".add(ModificationPhase.")
-        }
-        applyPostConfig(delegate)
-    }
-
     spotlessExtension.format('RegisterConfiguredFeatures', javaExtensionClass) {
         target(
-            'src/main/java/**/worldgen/configured/RegisterConfiguredFeatures.java'
+            'src/main/java/**/worldgen/**/RegisterConfiguredFeatures.java'
         )
         applyPreConfig(delegate)
         custom 'formatFeatureUtilsRegistry', {
@@ -236,12 +232,19 @@ spotless {
                 return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
             }
         }
+        custom 'lineBreakAfterListOf', {
+//            it.replaceAll(/(?s)(?<!Immutable)(List\.of\()(?!\s*\n)/, '$1\n' + indent3)
+            it.replaceAll(/(?s)(?<!Immutable)(?<!RandomFeatureConfiguration\()(List\.of\()(?!\s*\n)/, '$1\n' + indent3)
+        }
+        custom 'indentRegisterBlocks', {
+            it.replaceAll(/(?s)\n\s*(RegisterBlocks\.)/, '\n' + indent4 + '$1')
+        }
         applyPostConfig(delegate)
     }
 
     spotlessExtension.format('RegisterPlacedFeatures', javaExtensionClass) {
         target(
-            'src/main/java/**/worldgen/placed/RegisterPlacedFeatures.java'
+            'src/main/java/**/worldgen/**/RegisterPlacedFeatures.java'
         )
         applyPreConfig(delegate)
         custom 'formatFeatureUtilsRegistry', {
@@ -254,6 +257,12 @@ spotless {
                 def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + indent1)
                 return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
             }
+        }
+        custom 'lineBreakAfterHeightRangeUniform', {
+            it.replaceAll(/(?s)(HeightRangePlacement\.uniform\()(?!\s*\n)/, '$1\n' + indent4)
+        }
+        custom 'indentVerticalAnchor', {
+            it.replaceAll(/(?s)\n\s*(VerticalAnchor\.)/, '\n' + indent4 + '$1')
         }
         applyPostConfig(delegate)
     }
@@ -268,9 +277,8 @@ spotless {
             'src/main/java/**/content/registry/RegisterItems.java',
             'src/main/java/**/loot/LootTableModifiers.java',
             'src/main/java/**/mixin/**/*.java',
-            'src/main/java/**/worldgen/biome/BiomeModifiers.java',
-            'src/main/java/**/worldgen/configured/RegisterConfiguredFeatures.java',
-            'src/main/java/**/worldgen/placed/RegisterPlacedFeatures.java'
+            'src/main/java/**/worldgen/**/RegisterConfiguredFeatures.java',
+            'src/main/java/**/worldgen/**/RegisterPlacedFeatures.java'
         )
         applyPreConfig(delegate)
         applyPostConfig(delegate)
