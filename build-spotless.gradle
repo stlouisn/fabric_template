@@ -193,7 +193,7 @@ spotless {
         )
         applyPreConfig(delegate)
         custom 'linebreakLootPoolBuilder', {
-            it.replaceAll(/(?m)^(\s*)(LootPool\.Builder\s+poolBuilder\s*=\s*LootPool\.lootPool\(\))\.setRolls\((.*?)\)\.add\((.*?)\)\.add\((.*);/, '$1$2\n' + indent5 + '.setRolls($3)\n' + indent5 + '.add($4)\n' + indent5 + '.add($5;')
+            it.replaceAll(/(?m)^(\s*)(final\s+LootPool\.Builder\s+\w+\s*=\s*LootPool\.lootPool\(\))\.setRolls\((.*?)\)\.add\((.*?)\)\.add\((.*?);/, '$1$2\n' + indent5 + '.setRolls($3)\n' + indent5 + '.add($4)\n' + indent5 + '.add($5;')
         }
         applyPostConfig(delegate)
     }
