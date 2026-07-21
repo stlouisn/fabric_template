@@ -1,7 +1,13 @@
-'```plaintext' | Set-Content file-structure.md
+# Filename
+$File = "file-structure.md"
 
+# Write header
+'```plaintext' | Set-Content $File
+
+# Write filtered tree output
 tree .\src /F /A |
     Select-String -NotMatch "^(Folder PATH|Volume serial|[A-Z]:\\)" |
-    Add-Content project-FileStructure.md
+    Add-Content $File
 
-'```' | Add-Content project-fileStructure.md
+# Write footer
+'```' | Add-Content $File
