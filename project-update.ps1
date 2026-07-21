@@ -45,7 +45,8 @@ Write-Host
 $ProgressPreference = 'SilentlyContinue'
 foreach ($FileName in $FilesToDownload) {
     Write-Host "Downloading: $FileName..." -ForegroundColor Cyan
-    Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
+    $NoCacheUrl = "$BaseRawUrl/$FileName`?nocache=$(Get-Date -UFormat %s)"
+    Invoke-WebRequest -Uri "$NoCacheUrl" -OutFile ".\$FileName" -ErrorAction Stop
 }
 
 Write-Host
