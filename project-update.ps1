@@ -3,11 +3,25 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
 Clear-Host
 
-# Define repository branch
-$BranchRef  = "fabric-26.2"
+# Define repository details
+$Owner  = "stlouisn"
+$Repo   = "fabric_template"
+$Branch = "fabric-26.2"
+
+# Fetch the latest Commit SHA
+Write-Host "Fetching latest commit SHA for '$Branch'..." -ForegroundColor Yellow
+try {
+    $ApiUrl = "https://api.github.com/repos/$Owner/$Repo/commits/$Branch"
+    $CommitInfo = Invoke-RestMethod -Uri $ApiUrl -Headers @{ "User-Agent" = "PowerShell" }
+    $CommitSha = $CommitInfo.sha
+    Write-Host "Latest Commit: $CommitSha" -ForegroundColor Green
+} catch {
+    Write-Host "Failed to fetch commit SHA, falling back to branch name..." -ForegroundColor Red
+    $CommitSha = $Branch
+}
 
 # Base URL for GitHub raw content
-$BaseRawUrl = "https://raw.githubusercontent.com/stlouisn/fabric_template/$BranchRef"
+$BaseRawUrl = "https://raw.githubusercontent.com/$Owner/$Repo/$CommitSha"
 
 # List of files to download
 $FilesToDownload = @(
@@ -33,7 +47,7 @@ $FilesToDownload = @(
     "settings.gradle"
 )
 
-# Create copilot path
+# Ensure copilot folder exists
 $Directory = ".\copilot"
 if (-not (Test-Path $Directory)) {
     New-Item -ItemType Directory -Path $Directory -Force | Out-Null
@@ -41,16 +55,11 @@ if (-not (Test-Path $Directory)) {
 
 Write-Host
 
-# Download and overwrite files
+# Download directly using the commit SHA
 $ProgressPreference = 'SilentlyContinue'
-$Headers = @{
-    "Cache-Control" = "no-cache, no-store, must-revalidate"
-    "Pragma"        = "no-cache"
-}
 foreach ($FileName in $FilesToDownload) {
     Write-Host "Downloading: $FileName..." -ForegroundColor Cyan
-    $NoCacheUrl = "$BaseRawUrl/$FileName`?nocache=$(Get-Date -UFormat %s)"
-    Invoke-WebRequest -Uri "$NoCacheUrl" -Headers $Headers -OutFile ".\$FileName" -ErrorAction Stop
+    Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
 }
 
 Write-Host
