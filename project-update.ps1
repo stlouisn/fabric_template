@@ -34,7 +34,6 @@ $DestinationDir = "."
 # Download and overwrite files
 $ProgressPreference = 'SilentlyContinue'
 foreach ($FileName in $FilesToDownload) {
-    Write-Host
     Write-Host "Downloading: $FileName..." -ForegroundColor Cyan
     Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
 }
