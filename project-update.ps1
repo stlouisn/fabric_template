@@ -7,7 +7,7 @@ Clear-Host
 $BranchRef  = "fabric-26.2"
 
 # Base URL for GitHub raw content
-$BaseRawUrl = "https://raw.githubusercontent.com/stlouisn/fabric_template/refs/heads/$BranchRef"
+$BaseRawUrl = "https://raw.githubusercontent.com/stlouisn/fabric_template/$BranchRef"
 
 # List of files to download
 $FilesToDownload = @(
