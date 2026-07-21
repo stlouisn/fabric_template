@@ -11,6 +11,11 @@ $BaseRawUrl = "https://raw.githubusercontent.com/stlouisn/fabric_template/refs/h
 
 # List of files to download
 $FilesToDownload = @(
+    ".idea/inspectionProfiles/Project_Default.xml",
+    ".idea/betterCommentsSettings.xml",
+    "copilot/coding.txt",
+    "copilot/efficiency_audit.txt",
+    "copilot/generate_javadoc.txt",
     ".editorconfig",
     ".gitattributes",
     ".gitignore",

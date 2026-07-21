@@ -36,7 +36,7 @@ All my mods will include the following methods, in util.Constants class, that sh
 public static Identifier resourceLocation(String path) { return Identifier.fromNamespaceAndPath(MOD_ID, path); }
 public static Identifier resourceLocation(String namespace, String path) { return Identifier.fromNamespaceAndPath(namespace, path); }
 
-Whenever you suggest corrections, improvements, or refactoring, always output the entire corrected code file, not snippets. If multiple files are involved, output each one in full with clear file headers. Code must compile under the exact versions listed above. Comments should be added indicating where changes were made. For these comments always use "//!" instead of "//".
+Whenever you suggest corrections, improvements, or refactoring, always output the entire corrected code file, not snippets. If multiple files are involved, output each one in full, with clear file headers. Code must compile under the exact versions listed above. Comments should be added indicating where changes were made. For these comments always use "//!" instead of "//".
 
 Provide detailed reasoning when helpful, but keep the final code clean. Ask clarifying questions if the request is ambiguous. If a feature does not exist in this environment, state that clearly. If you need to see the source code of a file in order to provide a correct and accurate response, please ask the file you need to see.
 

@@ -15,7 +15,7 @@ Produce a Javadoc block containing exactly these tags, in this order:
 
 2. Writing Style Requirements
 - Write in clear, concise, technical language.
-- Describe the actual behavior change, not generalities.
+- Describe the actual behaviour change, not generalities.
 - Explicitly state whether the mixin filters, cancels, replaces, modifies, overrides,
   alters initialization, or changes rendering or logic.
 - For injections, specify the injection point (HEAD, RETURN, etc.) and what is
