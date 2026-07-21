@@ -29,7 +29,7 @@ FORMATTING YOUR OUTPUT:
 2. Fully Corrected Class: Provide the complete, fully refactored class block. Insert inline comments (e.g., //- AUDIT: <reason>) directly above the lines where structural/modifier changes were made.
 
 CRITICAL HARD CONSTRAINTS (STRICT COMPLIANCE REQUIRED):
-1. ENTRYPOINTS: Minecraft entrypoint classes MUST remain `public`.
+1. ENTRYPOINTS: Minecraft entrypoint classes MUST remain `public` but can be made final if beneficial.
 2. FINAL CLASSES & METHODS: Do NOT recommend adding `final` to methods if the containing class is already declared `final` (they are implicitly final).
 3. PRIVATE CONSTRUCTORS: Do NOT recommend adding a private constructor to prevent instantiation for `final` classes. NEVER suggest private constructors for utility classes that are `final`.
 4. COMMENT FORMATTING: ALL audit comments inside the refactored code MUST begin with `//-` (dash immediately after two forward slashes).
