@@ -33,16 +33,18 @@ $FilesToDownload = @(
     "settings.gradle"
 )
 
+# Create copilot path
+$Directory = ".\copilot"
+if (-not (Test-Path $Directory)) {
+    New-Item -ItemType Directory -Path $Directory -Force | Out-Null
+}
+
 Write-Host
 
 # Download and overwrite files
 $ProgressPreference = 'SilentlyContinue'
 foreach ($FileName in $FilesToDownload) {
     Write-Host "Downloading: $FileName..." -ForegroundColor Cyan
-    $Directory = Split-Path ".\$FileName" -Parent
-    if (-not (Test-Path $Directory)) {
-        New-Item -ItemType Directory -Path $Directory -Force | Out-Null
-    }
     Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
 }
 
