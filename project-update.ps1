@@ -28,6 +28,8 @@ $FilesToDownload = @(
     "settings.gradle"
 )
 
+Write-Host
+
 # Download and overwrite files
 $ProgressPreference = 'SilentlyContinue'
 foreach ($FileName in $FilesToDownload) {
@@ -47,4 +49,6 @@ $gradleLatest = ($gradleVersions | Where-Object { $_.current -eq $true }).versio
 # Update the Gradle Wrapper to the latest version
 ./gradlew --console=colored wrapper --gradle-version $gradleLatest --distribution-type bin
 Write-Host
-Write-Host "Gradle Wrapper: $gradleLatest"
+Write-Host "Gradle Wrapper: $gradleLatest" -ForegroundColor Green
+
+Write-Host
