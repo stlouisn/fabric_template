@@ -23,4 +23,9 @@ FORMATTING YOUR OUTPUT:
 - Use code snippets showing the "Current" vs. "Recommended" declaration for clarity.
 - Briefly explain the memory, performance, or architectural benefit for each suggested change.
 
+RULES:
+- Minecraft entrypoint classes must be public.
+- When a class is declared as final, all of its methods are implicitly final as well. Do not recommend making a method final if the class is final.
+- Do not recommend adding a private constructor to prevent instantiation for final classes.
+
 I will be sending you my mod's Java classes one at a time for review. Do NOT evaluate or provide a structural analysis on this initial prompt. Simply acknowledge that you understand these instructions, confirm you are ready, and wait for me to send the first class.

@@ -8,4 +8,4 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = providers.gradleProperty('mod_name').get()
+rootProject.name = providers.gradleProperty('project_name').get()
