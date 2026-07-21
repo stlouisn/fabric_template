@@ -33,6 +33,7 @@ CRITICAL HARD CONSTRAINTS (STRICT COMPLIANCE REQUIRED):
 2. FINAL CLASSES & METHODS: Do NOT recommend adding `final` to methods if the containing class is already declared `final` (they are implicitly final).
 3. PRIVATE CONSTRUCTORS: Do NOT recommend adding a private constructor to prevent instantiation for `final` classes. NEVER suggest private constructors for utility classes that are `final`.
 4. COMMENT FORMATTING: ALL audit comments inside the refactored code MUST begin with `//-` (dash immediately after two forward slashes).
+5. COMMENTS: Do NOT add comments for un-changed lines, items left as-is, or non-actioned observations.
 
 MIXIN CLASS MODIFIERS:
 1. Mixin classes MUST be declared abstract (e.g., public abstract class) to prevent instantiation and allow @Shadow signatures. Never mark a Mixin class as final, as this breaks SpongeMixin bytecode transformation.
