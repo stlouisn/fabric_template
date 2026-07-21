@@ -1,4 +1,4 @@
-'```plaintext' | Set-Content project-fileStructure.md
+'```plaintext' | Set-Content file-structure.md
 
 tree .\src /F /A |
     Select-String -NotMatch "^(Folder PATH|Volume serial|[A-Z]:\\)" |

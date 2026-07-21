@@ -8,4 +8,4 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = 'Fabric Template'
+rootProject.name = providers.gradleProperty('mod_name').orElse('Fabric Template').get()
