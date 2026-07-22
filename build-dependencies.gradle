@@ -4,13 +4,13 @@ dependencies {
     include(implementation("com.moulberry:mixinconstraints:${mixinConstraintsVersion}"))
 }
 
-// Modrinth Maven
-repositories {
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-        content {
-            includeGroup "maven.modrinth"
-        }
-    }
+// JEI
+dependencies {
+    compileOnly( "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}" )
+    compileOnly( "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}" )
+}
+
+// RRV
+dependencies {
+    compileOnly( "cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}" )
 }

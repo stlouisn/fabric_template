@@ -50,18 +50,52 @@ dependencies {
     compileOnly "com.github.spotbugs:spotbugs-annotations:latest.release"
 }
 
+// Common Repositories
+repositories {
+    maven {
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven {
+        name = "BlameJared"
+        url = "https://maven.blamejared.com"
+    }
+    maven {
+        name = "Cassian"
+        url = "https://maven.cassian.cc"
+        content {
+            includeGroupAndSubgroups("cc.cassian")
+        }
+    }
+}
+
 // Mod Menu
-repositories { maven { url = "https://maven.terraformersmc.com/" } }
-dependencies { localRuntime("com.terraformersmc:modmenu:${modmenu_version}") }
+dependencies {
+    localRuntime( "com.terraformersmc:modmenu:${modmenu_version}" )
+}
+
+// Just Enough Items
+if (recipe_viewer == "jei") {
+    dependencies {
+        localRuntime( "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}" )
+    }
+}
 
 // Reliable Recipe Viewer
-repositories { maven { url = "https://maven.cassian.cc" } }
-dependencies { runtimeOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}") }
+if (recipe_viewer == "rrv") {
+    dependencies {
+        localRuntime( "cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}" )
+    }
+}
 
 // Mixin Extras
 if (file("src/main/resources/${archives_base_name}.mixins.json").exists()) {
-    dependencies { implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixinextras_version}")) }
-    dependencies { implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${mixinextras_version}")) }
+    dependencies {
+        implementation( annotationProcessor( "io.github.llamalad7:mixinextras-common:${mixinextras_version}" ))
+    }
+    dependencies {
+        implementation( annotationProcessor( "io.github.llamalad7:mixinextras-fabric:${mixinextras_version}" ))
+    }
 }
 
 // Build Dependencies
@@ -85,6 +119,9 @@ idea {
         downloadJavadoc = true
         excludeDirs += file('run')
         excludeDirs += file('runs')
+        excludeDirs += file('src/generated/resources/.cache')
+        excludeDirs += file('gradlew')
+        excludeDirs += file('gradlew.bat')
     }
 }
 
@@ -102,6 +139,8 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.withType(Javadoc).configureEach {
     options.addStringOption('tag', 'reason:a:Reason for Override:')
+    options.addStringOption('tag', 'desc:a:Description:')
+    options.addStringOption('tag', 'spec:a:Specification:')
 }
 
 def mod_name_final = mod_name_custom.toBoolean() ? "${mod_name} [C]" : mod_name
