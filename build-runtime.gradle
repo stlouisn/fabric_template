@@ -12,23 +12,23 @@ repositories {
 // Puzzles - https://modrinth.com/mod/puzzles-lib/versions?g=26.2&l=fabric
 def puzzlesVersion= "HfGQTxSR"
 dependencies {
-    localRuntime("maven.modrinth:QAGBst4M:${puzzlesVersion}");
+    localRuntime("maven.modrinth:QAGBst4M:${puzzlesVersion}")
 }
 
 // Forge Config API - https://modrinth.com/mod/forge-config-api-port/versions?g=26.2&l=fabric
 def fgaVersion= "rSd3GiG8"
 dependencies {
-    localRuntime("maven.modrinth:ohNO6lps:${fgaVersion}");
+    localRuntime("maven.modrinth:ohNO6lps:${fgaVersion}")
 }
 
 // Diagonal Walls - https://modrinth.com/mod/diagonal-walls/versions?g=26.2&l=fabric
 def dwVersion= "CPViyp2m"
 dependencies {
-    localRuntime("maven.modrinth:FQgc8dib:${dwVersion}");
+    localRuntime("maven.modrinth:FQgc8dib:${dwVersion}")
 }
 
 // Diagonal Fences - https://modrinth.com/mod/diagonal-fences/versions?g=26.2&l=fabric
 def dfVersion= "XxnvsgPA"
 dependencies {
-    localRuntime("maven.modrinth:IKARgflD:${dfVersion}");
+    localRuntime("maven.modrinth:IKARgflD:${dfVersion}")
 }
