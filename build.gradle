@@ -61,6 +61,13 @@ repositories {
         url = "https://maven.blamejared.com"
     }
     maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+    maven {
         name = "Cassian"
         url = "https://maven.cassian.cc"
         content {

@@ -1,38 +1,83 @@
-You are generating Javadoc comments for Minecraft Mixin methods.
-Follow these strict rules exactly:
+You are generating Javadoc comments for Minecraft Mixin classes.
 
-1. Required Javadoc Structure
-Produce a Javadoc block containing exactly these tags, in this order:
+Your task has two parts:
+1. Generate Javadocs for all Mixin methods.
+2. Generate Javadocs for all @Unique fields.
 
-/**
- * @author <author name>
- * @reason <short explanation of why this mixin exists>
- *
- * @desc <1–3 sentence description of what the injected or overwritten code does.
- *       Use precise technical language describing the behavior change, the
- *       modification being applied, and its effect on vanilla logic.>
- */
+Follow ALL rules below exactly.
 
-2. Writing Style Requirements
+====================================================================
+PART 1 — JAVADOCS FOR MIXIN METHODS
+====================================================================
+
+For every method in the mixin class, produce a Javadoc block containing
+EXACTLY these tags, in this order:
+
+     /**
+      * @author <author name>
+      * @reason <short explanation of why this mixin exists>
+      *
+      * @desc <1–3 sentence description of what the injected or overwritten
+      *       code does. Use precise technical language describing the
+      *       behaviour change, the modification being applied, and its
+      *       effect on vanilla logic. Do NOT mention the injection type
+      *       (Inject, Redirect, ModifyArg, etc.) or the injection point
+      *       (HEAD, RETURN, TAIL, etc.).>
+      */
+
+
+STRICT RULES:
 - Write in clear, concise, technical language.
 - Describe the actual behaviour change, not generalities.
-- Explicitly state whether the mixin filters, cancels, replaces, modifies, overrides,
-  alters initialization, or changes rendering or logic.
-- For injections, specify the injection point (HEAD, RETURN, etc.) and what is
-  prevented, altered, or added.
-- For overwrites, specify what vanilla logic is replaced and what the new logic
-  accomplishes.
-
-3. Multiple Methods Rule
-If the mixin contains more than one method, generate a separate Javadoc block
-for each method. Each block must follow all rules above.
-
-4. Prohibited Content
+- Explicitly state whether the mixin filters, cancels, replaces,
+  modifies, overrides, alters initialization, or changes rendering or logic.
+- For injections, specify the injection point (HEAD, RETURN, TAIL, etc.)
+  and what is prevented, altered, or added.
+- For overwrites, specify what vanilla logic is replaced and what the
+  new logic accomplishes.
+- If the mixin contains multiple methods, generate a SEPARATE Javadoc
+  block for each method.
 - No tags other than @author, @reason, and @desc.
 - No commentary outside the Javadoc block.
-- No assumptions about code not shown.
 - Do not rewrite the method, class, or annotations.
 
-5. Output Format
-Wrap each Javadoc block in a separate ```java code block.
-Return only the completed code‑block‑wrapped Javadoc block(s). No additional text.
+OUTPUT FORMAT:
+- Wrap each Javadoc block in its own ```java code block.
+- Output ONLY the completed code-block-wrapped Javadoc blocks.
+
+====================================================================
+PART 2 — JAVADOCS FOR @Unique FIELDS
+====================================================================
+
+Locate every field annotated with @Unique.
+
+For each @Unique field, generate a Javadoc block using EXACTLY this template:
+
+    /**
+     * @desc <clear technical description of the field’s purpose>
+     * @spec <precise constraints, invariants, or acceptable value range>
+     */
+
+STRICT RULES:
+- Only modify or add Javadocs for @Unique fields.
+- Do NOT alter non-@Unique members.
+- @desc must explain what the field represents and why it exists in the mixin.
+- @spec must be a short, constraint‑style statement, not a descriptive sentence.
+It MUST follow the format:
+- Maintain concise, technical language.
+- Infer purpose only from code context; do not invent behaviour.
+- @spec must follow one of the following formats or something similarly concise such as:
+    * @spec Range: 0.0–1.0
+    * @spec Range: ≥ 0 (non‑negative)
+    * @spec Constant; Immutable
+
+OUTPUT FORMAT:
+- Wrap each Javadoc block in its own ```java code block.
+- Output ONLY the completed code-block-wrapped Javadoc blocks.
+
+====================================================================
+FINAL OUTPUT RULE
+====================================================================
+
+Return ONLY the generated Javadoc blocks (each inside ```java).
+No explanations, no commentary, no extra text.
