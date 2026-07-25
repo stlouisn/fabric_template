@@ -1,12 +1,6 @@
 # Filename
 $File = "file-structure.md"
 
-# Delete cache folder if it exists
-$CachePath = "src/generated/resources/.cache"
-if (Test-Path $CachePath) {
-    Remove-Item $CachePath -Recurse -Force
-}
-
 # Write header
 '```plaintext' | Set-Content $File
 
