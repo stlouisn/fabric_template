@@ -12,6 +12,8 @@ def applyPostConfig = { target ->
     target.custom 'linebreakNullable', {
         it.replaceAll(/(?m)^(\s*)@Nullable\s+public\b/, '$1@Nullable\n$1public')
           .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*public\b)/, '$1@Nullable\n$2')
+          .replaceAll(/(?m)^(\s*)@Nullable\s+private\b/, '$1@Nullable\n$1public')
+          .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*private\b)/, '$1@Nullable\n$2')
     }
     target.leadingTabsToSpaces(4)
     target.trimTrailingWhitespace()
