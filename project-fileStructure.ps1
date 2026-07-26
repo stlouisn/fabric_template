@@ -5,7 +5,7 @@ $File = "file-structure.md"
 '```plaintext' | Set-Content $File
 
 # Write filtered tree output
-tree .\src /F /A |
+tree ./src /F /A |
     Select-String -NotMatch "^(Folder PATH|Volume serial|[A-Z]:\\)" |
     Add-Content $File
 
