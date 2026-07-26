@@ -16,12 +16,12 @@
   "license": "${mod_license}",
   "icon": "logo.png",
   "environment": "*",
-  //  "environment": "client",
-  //  "environment": "server",
+  "environment": "client",
+  "environment": "server",
   "entrypoints": {
-    //    "fabric-datagen": [
-    //      "dev.mymod.MymodDataGenerator"
-    //    ],
+    "fabric-datagen": [
+      "com.mod_id.datagen.ModNameDataGenerator"
+    ],
     "main": [
       "com.mod_id.ModName"
     ],
@@ -41,10 +41,9 @@
       "com.mod_id.rrv.ModNameRRVClientPlugin"
     ]
   },
-  "accessWidener": "${mod_id}.accesswidener",
-//  "accessWidener": "${mod_id}.classtweaker",
+  "accessWidener": "mod_id.accesswidener",
   "mixins": [
-    "${mod_id}.mixins.json"
+    "mod_id.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
