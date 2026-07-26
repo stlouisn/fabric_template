@@ -5,7 +5,6 @@ import com.google.common.hash.HashingOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.mod_id.util.Constants;
 import com.mojang.serialization.JsonOps;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.DetectedVersion;
@@ -32,6 +31,8 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Pattern;
 
+import static com.mod_id.util.Constants.MOD_NAME;
+
 @SuppressWarnings("UnstableApiUsage")
 public final class DatagenPackMetadataGenerator extends PackMetadataGenerator {
 
@@ -45,7 +46,7 @@ public final class DatagenPackMetadataGenerator extends PackMetadataGenerator {
         super(output);
         this.output = output;
 
-        this.packMetadataSection = new PackMetadataSection(Component.literal(Constants.MOD_NAME + " Resource Pack"), DetectedVersion.BUILT_IN.packVersion(PackType.SERVER_DATA).minorRange());
+        this.packMetadataSection = new PackMetadataSection(Component.literal(MOD_NAME + " Resource Pack"), DetectedVersion.BUILT_IN.packVersion(PackType.SERVER_DATA).minorRange());
 
         this.addMinecraftFilterBlocks(
         );
