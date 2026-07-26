@@ -6,6 +6,7 @@ import com.mod_id.datagen.provider.DatagenItemTagProvider;
 import com.mod_id.datagen.provider.DatagenLanguageProvider;
 import com.mod_id.datagen.provider.DatagenModelProvider;
 import com.mod_id.datagen.provider.DatagenPackMetadataGenerator;
+import com.mod_id.datagen.provider.DatagenRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
@@ -23,5 +24,6 @@ public final class ModNameDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider((output, registries) -> new DatagenItemTagProvider(output, registries, blockTagProvider));
 
         pack.addProvider(DatagenBlockLootSubProvider::new);
+        pack.addProvider(DatagenRecipeProvider::new);
     }
 }
