@@ -91,9 +91,9 @@ public final class DatagenPackMetadataGenerator extends PackMetadataGenerator {
 
     @SuppressWarnings("SameParameterValue")
     private void addFilterBlock(final String namespace, final String... paths) {
-        Optional<Pattern> nsPattern = Optional.of(Pattern.compile(namespace));
+        Optional<Pattern> namespacePattern = Optional.of(Pattern.compile(namespace));
         for (String path : paths) {
-            IdentifierPattern pattern = new IdentifierPattern(nsPattern, Optional.of(Pattern.compile(path)));
+            IdentifierPattern pattern = new IdentifierPattern(namespacePattern, Optional.of(Pattern.compile(path)));
             this.filterPatterns.add(pattern);
         }
     }
