@@ -18,8 +18,6 @@ import net.minecraft.server.packs.resources.ResourceFilterSection;
 import net.minecraft.util.IdentifierPattern;
 import net.minecraft.util.Util;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -53,15 +51,11 @@ public final class DatagenPackMetadataGenerator extends PackMetadataGenerator {
     }
 
     @Override
-    @Nonnull
-    @ParametersAreNonnullByDefault
     public <T> DatagenPackMetadataGenerator add(final MetadataSectionType<T> type, final T value) {
         return this;
     }
 
     @Override
-    @Nonnull
-    @ParametersAreNonnullByDefault
     public CompletableFuture<?> run(final CachedOutput cache) {
         JsonObject result = new JsonObject();
         result.add("pack", PackMetadataSection.SERVER_TYPE.codec().encodeStart(JsonOps.INSTANCE, this.packMetadataSection).getOrThrow(IllegalArgumentException::new));
