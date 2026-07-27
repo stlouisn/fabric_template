@@ -15,7 +15,7 @@ public final class DatagenDynamicRegistryProvider extends FabricDynamicRegistryP
     }
 
     @Override
-    protected void configure(HolderLookup.Provider provider, Entries entries) {
+    protected void configure(final HolderLookup.Provider provider, final Entries entries) {
     }
 
     @Override
