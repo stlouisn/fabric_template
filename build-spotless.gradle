@@ -214,6 +214,17 @@ spotless {
         applyPostConfig(delegate)
     }
 
+    spotlessExtension.format('DatagenItemTagProvider', javaExtensionClass) {
+        target(
+            'src/main/java/**/datagen/provider/DatagenItemTagProvider.java'
+        )
+        applyPreConfig(delegate)
+        custom 'linebreakAddTagAttribute', {
+            it.replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
+        }
+        applyPostConfig(delegate)
+    }
+
     spotlessExtension.format('Mixins', javaExtensionClass) {
         target(
             'src/main/java/**/mixin/**/*.java'
@@ -292,6 +303,7 @@ spotless {
             'src/main/java/**/content/registry/RegisterItems.java',
             'src/main/java/**/loot/LootTableModifiers.java',
             'src/main/java/**/datagen/provider/DatagenBlockTagProvider.java',
+            'src/main/java/**/datagen/provider/DatagenItemTagProvider.java',
             'src/main/java/**/mixin/**/*.java',
             'src/main/java/**/worldgen/**/RegisterConfiguredFeatures.java',
             'src/main/java/**/worldgen/**/RegisterPlacedFeatures.java'
