@@ -11,9 +11,9 @@ def applyPreConfig = { target ->
 def applyPostConfig = { target ->
     target.custom 'linebreakNullable', {
         it.replaceAll(/(?m)^(\s*)@Nullable\s+public\b/, '$1@Nullable\n$1public')
-          .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*public\b)/, '$1@Nullable\n$2')
-          .replaceAll(/(?m)^(\s*)@Nullable\s+private\b/, '$1@Nullable\n$1private')
-          .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*private\b)/, '$1@Nullable\n$2')
+            .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*public\b)/, '$1@Nullable\n$2')
+            .replaceAll(/(?m)^(\s*)@Nullable\s+private\b/, '$1@Nullable\n$1private')
+            .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*private\b)/, '$1@Nullable\n$2')
     }
     target.leadingTabsToSpaces(4)
     target.trimTrailingWhitespace()
@@ -200,6 +200,20 @@ spotless {
         applyPostConfig(delegate)
     }
 
+    spotlessExtension.format('DatagenBlockTagProvider', javaExtensionClass) {
+        target(
+            'src/main/java/**/datagen/provider/DatagenBlockTagProvider.java'
+        )
+        applyPreConfig(delegate)
+        custom 'linebreakAddTagAttribute', {
+            it.replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
+        }
+        custom 'linebreakKeyBlockItems', {
+            it.replaceAll(/(?m)\s*KeyBlockItems\./, '\n' + indent3 + 'KeyBlockItems.')
+        }
+        applyPostConfig(delegate)
+    }
+
     spotlessExtension.format('Mixins', javaExtensionClass) {
         target(
             'src/main/java/**/mixin/**/*.java'
@@ -235,7 +249,6 @@ spotless {
             }
         }
         custom 'lineBreakAfterListOf', {
-//            it.replaceAll(/(?s)(?<!Immutable)(List\.of\()(?!\s*\n)/, '$1\n' + indent3)
             it.replaceAll(/(?s)(?<!Immutable)(?<!RandomFeatureConfiguration\()(List\.of\()(?!\s*\n)/, '$1\n' + indent3)
         }
         custom 'indentRegisterBlocks', {
@@ -278,6 +291,7 @@ spotless {
             'src/main/java/**/content/registry/RegisterItemEntityTypes.java',
             'src/main/java/**/content/registry/RegisterItems.java',
             'src/main/java/**/loot/LootTableModifiers.java',
+            'src/main/java/**/datagen/provider/DatagenBlockTagProvider.java',
             'src/main/java/**/mixin/**/*.java',
             'src/main/java/**/worldgen/**/RegisterConfiguredFeatures.java',
             'src/main/java/**/worldgen/**/RegisterPlacedFeatures.java'
