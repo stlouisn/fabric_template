@@ -10,6 +10,8 @@ import com.mod_id.datagen.provider.DatagenPackMetadataGenerator;
 import com.mod_id.datagen.provider.DatagenRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 
 public final class ModNameDataGenerator implements DataGeneratorEntrypoint {
 
@@ -29,4 +31,8 @@ public final class ModNameDataGenerator implements DataGeneratorEntrypoint {
 
         pack.addProvider(DatagenDynamicRegistryProvider::new);
     }
+
+//    @Override
+//    public void buildRegistry(RegistrySetBuilder registryBuilder) {
+//    }
 }
