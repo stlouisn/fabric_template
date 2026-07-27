@@ -2,6 +2,7 @@ package com.mod_id.datagen;
 
 import com.mod_id.datagen.provider.DatagenBlockLootSubProvider;
 import com.mod_id.datagen.provider.DatagenBlockTagProvider;
+import com.mod_id.datagen.provider.DatagenDynamicRegistryProvider;
 import com.mod_id.datagen.provider.DatagenItemTagProvider;
 import com.mod_id.datagen.provider.DatagenLanguageProvider;
 import com.mod_id.datagen.provider.DatagenModelProvider;
@@ -25,5 +26,7 @@ public final class ModNameDataGenerator implements DataGeneratorEntrypoint {
 
         pack.addProvider(DatagenBlockLootSubProvider::new);
         pack.addProvider(DatagenRecipeProvider::new);
+
+        pack.addProvider(DatagenDynamicRegistryProvider::new);
     }
 }
