@@ -27,6 +27,6 @@ build/*
 .architectury-transformer
 
 # minecraft
-run
-runs
+run/*
+!run/defaultpacks
 .cache
