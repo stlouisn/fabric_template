@@ -29,4 +29,5 @@ build/*
 # minecraft
 run/*
 !run/defaultpacks
+!run/resourcepacks
 .cache
