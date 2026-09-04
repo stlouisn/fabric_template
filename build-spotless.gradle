@@ -208,6 +208,9 @@ spotless {
         custom 'linebreakAddTagAttribute', {
             it.replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
         }
+        custom 'linebreakKeyBlocks', {
+            it.replaceAll(/(?m)\s*KeyBlocks\./, '\n' + indent3 + 'KeyBlocks.')
+        }
         custom 'linebreakKeyBlockItems', {
             it.replaceAll(/(?m)\s*KeyBlockItems\./, '\n' + indent3 + 'KeyBlockItems.')
         }
