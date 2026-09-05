@@ -9,8 +9,8 @@ def applyPreConfig = { target ->
 }
 
 def applyPostConfig = { target ->
-    target.custom 'linebreakNullable', {
-        it.replaceAll(/(?m)^(\s*)@Nullable\s+public\b/, '$1@Nullable\n$1public')
+    target.custom 'linebreakNullable', { text ->
+        text.replaceAll(/(?m)^(\s*)@Nullable\s+public\b/, '$1@Nullable\n$1public')
             .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*public\b)/, '$1@Nullable\n$2')
             .replaceAll(/(?m)^(\s*)@Nullable\s+private\b/, '$1@Nullable\n$1private')
             .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*private\b)/, '$1@Nullable\n$2')
@@ -18,6 +18,17 @@ def applyPostConfig = { target ->
     target.leadingTabsToSpaces(4)
     target.trimTrailingWhitespace()
     target.endWithNewline()
+}
+
+def applyLineBreakLambdaArrow = { target ->
+    target.custom 'linebreakLambdaArrow', { text ->
+        text.replaceAll(/(?m)^([ \t]*)(\S[^\r\n]*?\b(\([^)]+\)|[a-zA-Z0-9_$]+))[ \t]*->(?!\s*\{)[ \t]*/) { match, indent, preLambda, param ->
+            return "${indent}${preLambda}\n${indent}    -> "
+        }
+            .replaceAll(/(?m)^([ \t]*)(\S[^\r\n]*?)[ \t]*\(\)\s*->(?!\s*\{)[ \t]*/) { match, indent, preLambda ->
+                return "${indent}${preLambda}\n${indent}    () -> "
+            }
+    }
 }
 
 def indentDepth = { depth -> '    ' * depth }
@@ -40,15 +51,15 @@ spotless {
             'src/main/java/**/content/block/*.java'
         )
         applyPreConfig(delegate)
-        custom 'formatUpdateShapeParameters', {
-            it.replaceAll("(?m)^(\\s*)(protected\\s+BlockState\\s+updateShape\\()(.*?)\\)\\s*\\{", { Object[] args ->
+        custom 'formatUpdateShapeParameters', { text ->
+            text.replaceAll("(?m)^(\\s*)(protected\\s+BlockState\\s+updateShape\\()(.*?)\\)\\s*\\{", { Object[] args ->
                 def baseIndent = args[1]
                 def methodSignature = args[2]
                 def rawParams = args[3]
                 def alignPadding = " " * (methodSignature.length())
-                def splitParams= rawParams.split(/,\s*/)
-                def formattedParams= splitParams.collect { it.trim() }.join(",\n" + baseIndent + alignPadding)
-                return baseIndent + methodSignature + formattedParams + ")\n" + indent1 + "{"
+                def splitParams = rawParams.split(/,\s*/)
+                def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + alignPadding)
+                return baseIndent + methodSignature + formattedParams + ")\n" + baseIndent + "{"
             })
         }
         applyPostConfig(delegate)
@@ -59,8 +70,8 @@ spotless {
             'src/main/java/**/content/registry/RegisterBlocks.java'
         )
         applyPreConfig(delegate)
-        custom 'formatTreeGrowerConstructor', {
-            it.replaceAll(/(?m)^([ \t]*)(TreeGrower\s+[A-Z_]+\s*=\s*new\s+TreeGrower\()(.*?)\);/) { Object[] args ->
+        custom 'formatTreeGrowerConstructor', { text ->
+            text.replaceAll(/(?m)^([ \t]*)(TreeGrower\s+[A-Z_]+\s*=\s*new\s+TreeGrower\()(.*?)\);/) { Object[] args ->
                 def baseIndent = args[1]
                 def methodSignature = args[2]
                 def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
@@ -70,60 +81,58 @@ spotless {
                 return baseIndent + methodSignature + formattedParams + ");"
             }
         }
-        custom 'linebreakLambdaArrow', {
-            it.replaceAll(/(?m)\bproperties\s*->\s*/, "properties\n" + indent2 + "-> ")
+        custom 'linebreakForceSolidOnAttribute', { text ->
+            text.replaceAll(/\s*\.forceSolidOn\(/, '\n' + indent3 + '.forceSolidOn(')
         }
-        custom 'linebreakForceSolidOnAttribute', {
-            it.replaceAll(/\s*\.forceSolidOn\(/, '\n' + indent3 + '.forceSolidOn(')
+        custom 'linebreakIgnitedByLavaAttribute', { text ->
+            text.replaceAll(/\s*\.ignitedByLava\(/, '\n' + indent3 + '.ignitedByLava(')
         }
-        custom 'linebreakIgnitedByLavaAttribute', {
-            it.replaceAll(/\s*\.ignitedByLava\(/, '\n' + indent3 + '.ignitedByLava(')
+        custom 'linebreakInstabreakAttribute', { text ->
+            text.replaceAll(/\s*\.instabreak\(/, '\n' + indent3 + '.instabreak(')
         }
-        custom 'linebreakInstabreakAttribute', {
-            it.replaceAll(/\s*\.instabreak\(/, '\n' + indent3 + '.instabreak(')
+        custom 'linebreakInstrumentAttribute', { text ->
+            text.replaceAll(/\s*\.instrument\(/, '\n' + indent3 + '.instrument(')
         }
-        custom 'linebreakInstrumentAttribute', {
-            it.replaceAll(/\s*\.instrument\(/, '\n' + indent3 + '.instrument(')
+        custom 'linebreakIsValidSpawnAttribute', { text ->
+            text.replaceAll(/\s*\.isValidSpawn\(/, '\n' + indent3 + '.isValidSpawn(')
         }
-        custom 'linebreakIsValidSpawnAttribute', {
-            it.replaceAll(/\s*\.isValidSpawn\(/, '\n' + indent3 + '.isValidSpawn(')
+        custom 'linebreakLightLevelAttribute', { text ->
+            text.replaceAll(/\s*\.lightLevel\(/, '\n' + indent3 + '.lightLevel(')
         }
-        custom 'linebreakLightLevelAttribute', {
-            it.replaceAll(/\s*\.lightLevel\(/, '\n' + indent3 + '.lightLevel(')
+        custom 'linebreakMapColorAttribute', { text ->
+            text.replaceAll(/\s*\.mapColor\(/, '\n' + indent3 + '.mapColor(')
         }
-        custom 'linebreakMapColorAttribute', {
-            it.replaceAll(/\s*\.mapColor\(/, '\n' + indent3 + '.mapColor(')
+        custom 'linebreakNoCollisionAttribute', { text ->
+            text.replaceAll(/\s*\.noCollision\(/, '\n' + indent3 + '.noCollision(')
         }
-        custom 'linebreakNoCollisionAttribute', {
-            it.replaceAll(/\s*\.noCollision\(/, '\n' + indent3 + '.noCollision(')
+        custom 'linebreakNoOcclusionAttribute', { text ->
+            text.replaceAll(/\s*\.noOcclusion\(/, '\n' + indent3 + '.noOcclusion(')
         }
-        custom 'linebreakNoOcclusionAttribute', {
-            it.replaceAll(/\s*\.noOcclusion\(/, '\n' + indent3 + '.noOcclusion(')
+        custom 'linebreakOffsetTypeAttribute', { text ->
+            text.replaceAll(/\s*\.offsetType\(/, '\n' + indent3 + '.offsetType(')
         }
-        custom 'linebreakOffsetTypeAttribute', {
-            it.replaceAll(/\s*\.offsetType\(/, '\n' + indent3 + '.offsetType(')
+        custom 'linebreakOverrideLootTableAttribute', { text ->
+            text.replaceAll(/\s*\.overrideLootTable\(/, '\n' + indent3 + '.overrideLootTable(')
         }
-        custom 'linebreakOverrideLootTableAttribute', {
-            it.replaceAll(/\s*\.overrideLootTable\(/, '\n' + indent3 + '.overrideLootTable(')
+        custom 'linebreakPushReactionAttribute', { text ->
+            text.replaceAll(/\s*\.pushReaction\(/, '\n' + indent3 + '.pushReaction(')
         }
-        custom 'linebreakPushReactionAttribute', {
-            it.replaceAll(/\s*\.pushReaction\(/, '\n' + indent3 + '.pushReaction(')
+        custom 'linebreakRandomTicksAttribute', { text ->
+            text.replaceAll(/\s*\.randomTicks\(/, '\n' + indent3 + '.randomTicks(')
         }
-        custom 'linebreakRandomTicksAttribute', {
-            it.replaceAll(/\s*\.randomTicks\(/, '\n' + indent3 + '.randomTicks(')
+        custom 'linebreakReplaceableAttribute', { text ->
+            text.replaceAll(/\s*\.replaceable\(/, '\n' + indent3 + '.replaceable(')
         }
-        custom 'linebreakReplaceableAttribute', {
-            it.replaceAll(/\s*\.replaceable\(/, '\n' + indent3 + '.replaceable(')
+        custom 'linebreakRequiresCorrectToolForDropsAttribute', { text ->
+            text.replaceAll(/\s*\.requiresCorrectToolForDrops\(/, '\n' + indent3 + '.requiresCorrectToolForDrops(')
         }
-        custom 'linebreakRequiresCorrectToolForDropsAttribute', {
-            it.replaceAll(/\s*\.requiresCorrectToolForDrops\(/, '\n' + indent3 + '.requiresCorrectToolForDrops(')
+        custom 'linebreakSoundAttribute', { text ->
+            text.replaceAll(/\s*\.sound\(/, '\n' + indent3 + '.sound(')
         }
-        custom 'linebreakSoundAttribute', {
-            it.replaceAll(/\s*\.sound\(/, '\n' + indent3 + '.sound(')
+        custom 'linebreakStrengthAttribute', { text ->
+            text.replaceAll(/\s*\.strength\(/, '\n' + indent3 + '.strength(')
         }
-        custom 'linebreakStrengthAttribute', {
-            it.replaceAll(/\s*\.strength\(/, '\n' + indent3 + '.strength(')
-        }
+        applyLineBreakLambdaArrow(delegate)
         applyPostConfig(delegate)
     }
 
@@ -151,21 +160,19 @@ spotless {
             'src/main/java/**/content/registry/RegisterItemEntityTypes.java'
         )
         applyPreConfig(delegate)
-        custom 'linebreakLambdaArrow', {
-            it.replaceAll(/(?m)\(\)\s*->\s*/, "\n" + indent2 + "() -> ")
+        custom 'linebreakNoLootTableAttribute', { text ->
+            text.replaceAll(/\s*\.noLootTable\(/, '\n' + indent3 + '.noLootTable(')
         }
-        custom 'linebreakNoLootTableAttribute', {
-            it.replaceAll(/\s*\.noLootTable\(/, '\n' + indent3 + '.noLootTable(')
+        custom 'linebreakSizedAttribute', { text ->
+            text.replaceAll(/\s*\.sized\(/, '\n' + indent3 + '.sized(')
         }
-        custom 'linebreakSizedAttribute', {
-            it.replaceAll(/\s*\.sized\(/, '\n' + indent3 + '.sized(')
+        custom 'linebreakEyeHeightAttribute', { text ->
+            text.replaceAll(/\s*\.eyeHeight\(/, '\n' + indent3 + '.eyeHeight(')
         }
-        custom 'linebreakEyeHeightAttribute', {
-            it.replaceAll(/\s*\.eyeHeight\(/, '\n' + indent3 + '.eyeHeight(')
+        custom 'linebreakClientTrackingRangeAttribute', { text ->
+            text.replaceAll(/\s*\.clientTrackingRange\(/, '\n' + indent3 + '.clientTrackingRange(')
         }
-        custom 'linebreakClientTrackingRangeAttribute', {
-            it.replaceAll(/\s*\.clientTrackingRange\(/, '\n' + indent3 + '.clientTrackingRange(')
-        }
+        applyLineBreakLambdaArrow(delegate)
         applyPostConfig(delegate)
     }
 
@@ -174,18 +181,16 @@ spotless {
             'src/main/java/**/content/registry/RegisterItems.java'
         )
         applyPreConfig(delegate)
-        custom 'linebreakLambdaArrow', {
-            it.replaceAll(/(?m)(\(?properties\)?)\s*->/, '$1\n' + indent2 + '->')
+        custom 'linebreakUseBlockDescriptionPrefixAttribute', { text ->
+            text.replaceAll(/\s*\.useBlockDescriptionPrefix\(/, '\n' + indent3 + '.useBlockDescriptionPrefix(')
         }
-        custom 'linebreakUseBlockDescriptionPrefixAttribute', {
-            it.replaceAll(/\s*\.useBlockDescriptionPrefix\(/, '\n' + indent3 + '.useBlockDescriptionPrefix(')
+        custom 'linebreakRarityAttribute', { text ->
+            text.replaceAll(/\s*\.rarity\(/, '\n' + indent3 + '.rarity(')
         }
-        custom 'linebreakRarityAttribute', {
-            it.replaceAll(/\s*\.rarity\(/, '\n' + indent3 + '.rarity(')
+        custom 'linebreakStacksToAttribute', { text ->
+            text.replaceAll(/\s*\.stacksTo\(/, '\n' + indent3 + '.stacksTo(')
         }
-        custom 'linebreakStacksToAttribute', {
-            it.replaceAll(/\s*\.stacksTo\(/, '\n' + indent3 + '.stacksTo(')
-        }
+        applyLineBreakLambdaArrow(delegate)
         applyPostConfig(delegate)
     }
 
@@ -194,8 +199,8 @@ spotless {
             'src/main/java/**/loot/LootTableModifiers.java'
         )
         applyPreConfig(delegate)
-        custom 'linebreakLootPoolBuilder', {
-            it.replaceAll(/(?m)^(\s*)(final\s+LootPool\.Builder\s+\w+\s*=\s*LootPool\.lootPool\(\))\.setRolls\((.*?)\)\.add\((.*?)\)\.add\((.*?);/, '$1$2\n' + indent5 + '.setRolls($3)\n' + indent5 + '.add($4)\n' + indent5 + '.add($5;')
+        custom 'linebreakLootPoolBuilder', { text ->
+            text.replaceAll(/(?m)^(\s*)(final\s+LootPool\.Builder\s+\w+\s*=\s*LootPool\.lootPool\(\))\.setRolls\((.*?)\)\.add\((.*?)\)\.add\((.*?);/, '$1$2\n' + indent5 + '.setRolls($3)\n' + indent5 + '.add($4)\n' + indent5 + '.add($5;')
         }
         applyPostConfig(delegate)
     }
@@ -205,14 +210,14 @@ spotless {
             'src/main/java/**/datagen/provider/DatagenBlockTagProvider.java'
         )
         applyPreConfig(delegate)
-        custom 'linebreakAddTagAttribute', {
-            it.replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
+        custom 'linebreakAddTagAttribute', { text ->
+            text.replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
         }
-        custom 'linebreakKeyBlocks', {
-            it.replaceAll(/(?m)\s*KeyBlocks\./, '\n' + indent3 + 'KeyBlocks.')
+        custom 'linebreakKeyBlocks', { text ->
+            text.replaceAll(/(?m)\s*KeyBlocks\./, '\n' + indent3 + 'KeyBlocks.')
         }
-        custom 'linebreakKeyBlockItems', {
-            it.replaceAll(/(?m)\s*KeyBlockItems\./, '\n' + indent3 + 'KeyBlockItems.')
+        custom 'linebreakKeyBlockItems', { text ->
+            text.replaceAll(/(?m)\s*KeyBlockItems\./, '\n' + indent3 + 'KeyBlockItems.')
         }
         applyPostConfig(delegate)
     }
@@ -222,8 +227,8 @@ spotless {
             'src/main/java/**/datagen/provider/DatagenItemTagProvider.java'
         )
         applyPreConfig(delegate)
-        custom 'linebreakAddTagAttribute', {
-            it.replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
+        custom 'linebreakAddTagAttribute', { text ->
+            text.replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
         }
         applyPostConfig(delegate)
     }
@@ -233,15 +238,15 @@ spotless {
             'src/main/java/**/mixin/**/*.java'
         )
         applyPreConfig(delegate)
-        custom 'linebreakMixinAttributes', {
-            it.replaceAll(/(?m)(?<!@IfModLoaded\(|@Local\(|@Mixin\()(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target|value)\s*=\s*/, '\n' + indent2 + '$1 = ')
+        custom 'linebreakMixinAttributes', { text ->
+            text.replaceAll(/(?m)(?<!@IfModLoaded\(|@Local\(|@Mixin\()(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target|value)\s*=\s*/, '\n' + indent2 + '$1 = ')
         }
-        custom 'indentMixinAttributes', {
-            it.replaceAll(/(?m)    (at = @At\()/, indent1 + '$1')
-            it.replaceAll(/(?m)    (args|argsOnly|name|opcode|ordinal|shift|target|value) = /, indent2 + '$1 = ')
+        custom 'indentMixinAttributes', { text ->
+            text.replaceAll(/(?m)    (at = @At\()/, indent1 + '$1')
+                .replaceAll(/(?m)    (args|argsOnly|name|opcode|ordinal|shift|target|value) = /, indent2 + '$1 = ')
         }
-        custom 'linebreakUniqueAnnotation', {
-            it.replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n' + indent1 + '$1')
+        custom 'linebreakUniqueAnnotation', { text ->
+            text.replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n' + indent1 + '$1')
         }
         applyPostConfig(delegate)
     }
@@ -251,8 +256,8 @@ spotless {
             'src/main/java/**/worldgen/**/RegisterConfiguredFeatures.java'
         )
         applyPreConfig(delegate)
-        custom 'formatFeatureUtilsRegistry', {
-            it.replaceAll(/(?m)^([ \t]*)(FeatureUtils\.register\()(.*?)(\);)/) { Object[] args ->
+        custom 'formatFeatureUtilsRegistry', { text ->
+            text.replaceAll(/(?m)^([ \t]*)(FeatureUtils\.register\()(.*?)(\);)/) { Object[] args ->
                 def baseIndent = args[1]
                 def methodSignature = args[2]
                 def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
@@ -262,11 +267,11 @@ spotless {
                 return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
             }
         }
-        custom 'lineBreakAfterListOf', {
-            it.replaceAll(/(?s)(?<!Immutable)(?<!RandomFeatureConfiguration\()(List\.of\()(?!\s*\n)/, '$1\n' + indent3)
+        custom 'lineBreakAfterListOf', { text ->
+            text.replaceAll(/(?s)(?<!Immutable)(?<!RandomFeatureConfiguration\()(List\.of\()(?!\s*\n)/, '$1\n' + indent3)
         }
-        custom 'indentRegisterBlocks', {
-            it.replaceAll(/(?s)\n\s*(RegisterBlocks\.)/, '\n' + indent4 + '$1')
+        custom 'indentRegisterBlocks', { text ->
+            text.replaceAll(/(?s)\n\s*(RegisterBlocks\.)/, '\n' + indent4 + '$1')
         }
         applyPostConfig(delegate)
     }
@@ -276,8 +281,8 @@ spotless {
             'src/main/java/**/worldgen/**/RegisterPlacedFeatures.java'
         )
         applyPreConfig(delegate)
-        custom 'formatFeatureUtilsRegistry', {
-            it.replaceAll(/(?m)^([ \t]*)(PlacementUtils\.register\()(.*?)(\);)/) { Object[] args ->
+        custom 'formatFeatureUtilsRegistry', { text ->
+            text.replaceAll(/(?m)^([ \t]*)(PlacementUtils\.register\()(.*?)(\);)/) { Object[] args ->
                 def baseIndent = args[1]
                 def methodSignature = args[2]
                 def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
@@ -287,12 +292,21 @@ spotless {
                 return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
             }
         }
-        custom 'lineBreakAfterHeightRangeUniform', {
-            it.replaceAll(/(?s)(HeightRangePlacement\.uniform\()(?!\s*\n)/, '$1\n' + indent4)
+        custom 'lineBreakAfterHeightRangeUniform', { text ->
+            text.replaceAll(/(?s)(HeightRangePlacement\.uniform\()(?!\s*\n)/, '$1\n' + indent4)
         }
-        custom 'indentVerticalAnchor', {
-            it.replaceAll(/(?s)\n\s*(VerticalAnchor\.)/, '\n' + indent4 + '$1')
+        custom 'indentVerticalAnchor', { text ->
+            text.replaceAll(/(?s)\n\s*(VerticalAnchor\.)/, '\n' + indent4 + '$1')
         }
+        applyPostConfig(delegate)
+    }
+
+    spotlessExtension.format('BiomeModifiers', javaExtensionClass) {
+        target(
+            'src/main/java/**/worldgen/biome/BiomeModifiers.java'
+        )
+        applyPreConfig(delegate)
+        applyLineBreakLambdaArrow(delegate)
         applyPostConfig(delegate)
     }
 
@@ -309,10 +323,10 @@ spotless {
             'src/main/java/**/datagen/provider/DatagenItemTagProvider.java',
             'src/main/java/**/mixin/**/*.java',
             'src/main/java/**/worldgen/**/RegisterConfiguredFeatures.java',
-            'src/main/java/**/worldgen/**/RegisterPlacedFeatures.java'
+            'src/main/java/**/worldgen/**/RegisterPlacedFeatures.java',
+            'src/main/java/**/worldgen/biome/BiomeModifiers.java'
         )
         applyPreConfig(delegate)
         applyPostConfig(delegate)
     }
-
 }
