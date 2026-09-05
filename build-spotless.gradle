@@ -20,12 +20,18 @@ def applyPostConfig = { target ->
     target.endWithNewline()
 }
 
+def applyLineBreakLambdaExceptionList = [
+    '\\.lightLevel',
+    '\\.mapColor',
+    'RegisterItems\\.register'
+]
+def applyLineBreakLambdaArrowExceptions = applyLineBreakLambdaExceptionList.join('|')
 def applyLineBreakLambdaArrow = { target ->
     target.custom 'linebreakLambdaArrow', { text ->
-        text.replaceAll(/(?m)^([ \t]*)(\S[^\r\n]*?\b(\([^)]+\)|[a-zA-Z0-9_$]+))[ \t]*->(?!\s*\{)[ \t]*/) { match, indent, preLambda, param ->
+        text.replaceAll(/(?m)^([ \t]*)((?!\s*(?:${applyLineBreakLambdaArrowExceptions})\s*\().*?\b([a-zA-Z0-9_$%]+|\([^)]+\)))[ \t]*->(?!\s*\{)[ \t]*/) { match, indent, preLambda, param ->
             return "${indent}${preLambda}\n${indent}    -> "
         }
-            .replaceAll(/(?m)^([ \t]*)(\S[^\r\n]*?)[ \t]*\(\)\s*->(?!\s*\{)[ \t]*/) { match, indent, preLambda ->
+            .replaceAll(/(?m)^([ \t]*)((?!\s*(?:${applyLineBreakLambdaArrowExceptions})\s*\().*?)[ \t]*\(\)\s*->(?!\s*\{)[ \t]*/) { match, indent, preLambda ->
                 return "${indent}${preLambda}\n${indent}    () -> "
             }
     }
