@@ -14,6 +14,7 @@ try {
     $ApiUrl = "https://api.github.com/repos/$Owner/$Repo/commits/$Branch"
     $CommitInfo = Invoke-RestMethod -Uri $ApiUrl -Headers @{ "User-Agent" = "PowerShell" }
     $CommitSha = $CommitInfo.sha
+    Write-Host
     Write-Host "Latest Commit: $CommitSha" -ForegroundColor Green
 } catch {
     Write-Host
@@ -73,14 +74,16 @@ foreach ($FileName in $FilesToDownload) {
 Write-Host
 Write-Host "Downloads complete." -ForegroundColor Green
 
+Write-Host
+
 # Build gradle.properties
-$GradleTemplate = "gradle-template.properties"
+$GradleTemplate     = "gradle-template.properties"
 $ProjectVersions    = "project-versions.properties"
 $GradleProperties   = "gradle.properties"
 try {
     Write-Host "Combining '$GradleTemplate' and '$ProjectVersions' into '$GradleProperties'" -ForegroundColor Yellow
     Get-Content -Path $GradleTemplate -ErrorAction Stop | Set-Content -Path $GradleProperties -Force -ErrorAction Stop
-    Add-Content -Path $GradleProperties -Value "`n" -ErrorAction Stop
+    Add-Content -Path $GradleProperties -Value "" -ErrorAction Stop
     Get-Content -Path $ProjectVersions -ErrorAction Stop | Add-Content -Path $GradleProperties -ErrorAction Stop
 } catch {
     Write-Host
