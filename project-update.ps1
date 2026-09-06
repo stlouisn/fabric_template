@@ -44,6 +44,7 @@ $FilesToDownload = @(
     "project-runClient.ps1",
     "project-runSpotless.ps1",
     "project-update.ps1",
+    "project-versions.properties",
     "settings.gradle"
 )
 
@@ -62,8 +63,26 @@ foreach ($FileName in $FilesToDownload) {
     Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
 }
 
+#todo: add try/catch to check for downloaded files
 Write-Host
 Write-Host "Downloads complete.`n" -ForegroundColor Green
+
+# Build gradle.properties
+$GradleTemplate = "gradle-template.properties"
+$ProjectVersions    = "project-versions.properties"
+$GradleProperties   = "gradle.properties"
+try {
+    Write-Host "Combining '$ProjectProps' and '$ProjectVersions' into '$GradleProps'..." -ForegroundColor Yellow
+    Get-Content -Path $ProjectProps -ErrorAction Stop | Set-Content -Path $GradleProps -Force -ErrorAction Stop
+    Add-Content -Path $GradleProps -Value "`n" -ErrorAction Stop
+    Get-Content -Path $ProjectVersions -ErrorAction Stop | Add-Content -Path $GradleProps -ErrorAction Stop
+} catch {
+    Write-Host "Failed to generate '$GradleProps': $_" -ForegroundColor Red
+    throw "Script execution stopped because required property files could not be processed."
+}
+
+Write-Host
+Write-Host "Generated '$GradleProps' successfully.`n" -ForegroundColor Green
 
 # Fetch Gradle versions
 $gradleVersions = Invoke-RestMethod "https://services.gradle.org/versions/all"
