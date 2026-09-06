@@ -16,6 +16,7 @@ try {
     $CommitSha = $CommitInfo.sha
     Write-Host "Latest Commit: $CommitSha" -ForegroundColor Green
 } catch {
+    Write-Host
     Write-Host "Failed to fetch commit SHA, falling back to branch name..." -ForegroundColor Red
     $CommitSha = $Branch
 }
@@ -58,31 +59,37 @@ Write-Host
 
 # Download directly using the commit SHA
 $ProgressPreference = 'SilentlyContinue'
+
 foreach ($FileName in $FilesToDownload) {
-    Write-Host "Downloading: $FileName..." -ForegroundColor Cyan
+    Write-Host "Downloading: $FileName ..." -ForegroundColor Cyan
     Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
+    if (-not (Test-Path -Path ".\$FileName")) {
+        Write-Host
+        Write-Host "Failed to download file: $FileName" -ForegroundColor Red
+        throw "Script execution stopped due to missing download file."
+    }
 }
 
-#todo: add try/catch to check for downloaded files
 Write-Host
-Write-Host "Downloads complete.`n" -ForegroundColor Green
+Write-Host "Downloads complete." -ForegroundColor Green
 
 # Build gradle.properties
 $GradleTemplate = "gradle-template.properties"
 $ProjectVersions    = "project-versions.properties"
 $GradleProperties   = "gradle.properties"
 try {
-    Write-Host "Combining '$ProjectProps' and '$ProjectVersions' into '$GradleProps'..." -ForegroundColor Yellow
-    Get-Content -Path $ProjectProps -ErrorAction Stop | Set-Content -Path $GradleProps -Force -ErrorAction Stop
-    Add-Content -Path $GradleProps -Value "`n" -ErrorAction Stop
-    Get-Content -Path $ProjectVersions -ErrorAction Stop | Add-Content -Path $GradleProps -ErrorAction Stop
+    Write-Host "Combining '$GradleTemplate' and '$ProjectVersions' into '$GradleProperties'" -ForegroundColor Yellow
+    Get-Content -Path $GradleTemplate -ErrorAction Stop | Set-Content -Path $GradleProperties -Force -ErrorAction Stop
+    Add-Content -Path $GradleProperties -Value "`n" -ErrorAction Stop
+    Get-Content -Path $ProjectVersions -ErrorAction Stop | Add-Content -Path $GradleProperties -ErrorAction Stop
 } catch {
-    Write-Host "Failed to generate '$GradleProps': $_" -ForegroundColor Red
+    Write-Host
+    Write-Host "Failed to generate '$GradleProperties': $_" -ForegroundColor Red
     throw "Script execution stopped because required property files could not be processed."
 }
 
 Write-Host
-Write-Host "Generated '$GradleProps' successfully.`n" -ForegroundColor Green
+Write-Host "Generated '$GradleProperties' successfully.`n" -ForegroundColor Green
 
 # Fetch Gradle versions
 $gradleVersions = Invoke-RestMethod "https://services.gradle.org/versions/all"
