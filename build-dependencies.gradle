@@ -1,7 +1,17 @@
-// Mixin Constraints - https://github.com/moulberry/mixinconstraints
-def mixinConstraintsVersion= "1.1.0"
+// Modrinth Maven
+repositories {
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+}
+
+// Mixin Constraints
 dependencies {
-    include(implementation("com.moulberry:mixinconstraints:${mixinConstraintsVersion}"))
+    include(implementation("com.moulberry:mixinconstraints:${mixin_constraints_version}"))
 }
 
 // JEI
@@ -13,4 +23,14 @@ dependencies {
 // RRV
 dependencies {
     compileOnly( "cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}" )
+}
+
+// Create
+dependencies {
+    implementation(localRuntime("maven.modrinth:dKvj0eNn:${create_version}"))
+}
+
+// Farmer's Delight
+dependencies {
+    implementation(localRuntime("maven.modrinth:7vxePowz:${farmersdelight_version}"))
 }
