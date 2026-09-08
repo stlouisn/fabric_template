@@ -9,26 +9,22 @@ repositories {
     }
 }
 
-// Puzzles - https://modrinth.com/mod/puzzles-lib/versions?g=26.2&l=fabric
-def puzzlesVersion= "HfGQTxSR"
+// Diagonal Fences
 dependencies {
-    localRuntime("maven.modrinth:QAGBst4M:${puzzlesVersion}")
+    runtimeOnly("maven.modrinth:QAGBst4M:${puzzles_version}")
+    runtimeOnly("maven.modrinth:ohNO6lps:${forge_config_version}")
+    runtimeOnly("maven.modrinth:IKARgflD:${diagonal_fences_version}")
 }
 
-// Forge Config API - https://modrinth.com/mod/forge-config-api-port/versions?g=26.2&l=fabric
-def fgaVersion= "rSd3GiG8"
+// Diagonal Walls
 dependencies {
-    localRuntime("maven.modrinth:ohNO6lps:${fgaVersion}")
+    runtimeOnly("maven.modrinth:QAGBst4M:${puzzles_version}")
+    runtimeOnly("maven.modrinth:ohNO6lps:${forge_config_version}")
+    runtimeOnly("maven.modrinth:FQgc8dib:${diagonal_walls_version}")
 }
 
-// Diagonal Walls - https://modrinth.com/mod/diagonal-walls/versions?g=26.2&l=fabric
-def dwVersion= "CPViyp2m"
+// KleeSlabs
 dependencies {
-    localRuntime("maven.modrinth:FQgc8dib:${dwVersion}")
-}
-
-// Diagonal Fences - https://modrinth.com/mod/diagonal-fences/versions?g=26.2&l=fabric
-def dfVersion= "XxnvsgPA"
-dependencies {
-    localRuntime("maven.modrinth:IKARgflD:${dfVersion}")
+    runtimeOnly("maven.modrinth:MBAkmtvl:${balm_version}")
+    runtimeOnly("maven.modrinth:7uh75ruZ:${kleeslabs_version}")
 }
