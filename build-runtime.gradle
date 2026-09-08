@@ -1,12 +1,11 @@
-// Modrinth Maven
-repositories {
-    maven {
-        name = "Modrinth"
-        url = "https://api.modrinth.com/maven"
-        content {
-            includeGroup "maven.modrinth"
-        }
-    }
+// Audaki Cart Engine
+dependencies {
+    runtimeOnly("maven.modrinth:V8qsCwta:${audaki_cart_engine_version}")
+}
+
+// Create
+dependencies {
+    runtimeOnly("maven.modrinth:dKvj0eNn:${create_version}")
 }
 
 // Diagonal Fences
@@ -27,4 +26,9 @@ dependencies {
 dependencies {
     runtimeOnly("maven.modrinth:MBAkmtvl:${balm_version}")
     runtimeOnly("maven.modrinth:7uh75ruZ:${kleeslabs_version}")
+}
+
+// Rail Placement Fix
+dependencies {
+    runtimeOnly("maven.modrinth:7z0IZqoa:${rail_placement_fix_version}")
 }
