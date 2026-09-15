@@ -33,8 +33,26 @@ dependencies {
     runtimeOnly("maven.modrinth:7z0IZqoa:${rail_placement_fix_version}")
 }
 
+// Reliable Recipes
+dependencies {
+    runtimeOnly("maven.modrinth:1eAoo2KR:${yacl_version}")
+    runtimeOnly("maven.modrinth:Hl4ARA1z:${reliable_recipes_version}")
+}
+
+// Reliable Remover
+dependencies {
+    runtimeOnly("maven.modrinth:1eAoo2KR:${yacl_version}")
+    runtimeOnly("maven.modrinth:Hl4ARA1z:${reliable_recipes_version}")
+    runtimeOnly("maven.modrinth:pLxsKvNt:${reliable_remover_version}")
+}
+
 // Storage Drawers
 dependencies {
     runtimeOnly("maven.modrinth:ohNO6lps:${forge_config_version}")
     runtimeOnly("maven.modrinth:guitPqEi:${storage_drawers_version}")
+}
+
+// Trim Patcher
+dependencies {
+    runtimeOnly("maven.modrinth:bNK1MS7o:${trim_patcher_version}")
 }
