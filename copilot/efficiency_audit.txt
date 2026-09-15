@@ -15,6 +15,7 @@ Please evaluate the code against the following three categories:
 
 3. Immutability & Modifiers (Static vs. Final)
 - Are there variables, fields, or parameters that can be marked 'final' to allow JVM optimizations and ensure thread safety?
+- Are there variables, fields, or parameters that are marked 'final' which does not provide any JVM optimizations or thread safety that should be removed for simplification?
 - Are methods or utility fields candidate for 'static' to save heap allocations?
 - Are there constants missing 'static final'?
 
