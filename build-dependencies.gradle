@@ -33,3 +33,13 @@ dependencies {
 dependencies {
     implementation(localRuntime("maven.modrinth:7vxePowz:${farmersdelight_version}"))
 }
+
+// Midnight Library
+dependencies {
+    implementation(localRuntime("maven.modrinth:codAaoxh:${midnight_lib_version}"))
+}
+
+// ModMenu
+dependencies {
+    implementation(localRuntime("com.terraformersmc:modmenu:${modmenu_version}"))
+}
