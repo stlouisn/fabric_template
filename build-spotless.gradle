@@ -2,40 +2,7 @@
 //file:noinspection GroovyUnusedAssignment
 //file:noinspection GrUnresolvedAccess
 
-def applyPreConfig = { target ->
-    target.eclipse().configFile('.java-style.xml')
-    target.removeUnusedImports()
-    target.formatAnnotations()
-}
-
-def applyPostConfig = { target ->
-    target.custom 'linebreakNullable', { text ->
-        text.replaceAll(/(?m)^(\s*)@Nullable\s+public\b/, '$1@Nullable\n$1public')
-            .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*public\b)/, '$1@Nullable\n$2')
-            .replaceAll(/(?m)^(\s*)@Nullable\s+private\b/, '$1@Nullable\n$1private')
-            .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*private\b)/, '$1@Nullable\n$2')
-    }
-    target.leadingTabsToSpaces(4)
-    target.trimTrailingWhitespace()
-    target.endWithNewline()
-}
-
-def applyLineBreakLambdaExceptionList = [
-    '\\.lightLevel',
-    '\\.mapColor',
-    'RegisterItems\\.register'
-]
-def applyLineBreakLambdaArrowExceptions = applyLineBreakLambdaExceptionList.join('|')
-def applyLineBreakLambdaArrow = { target ->
-    target.custom 'linebreakLambdaArrow', { text ->
-        text.replaceAll(/(?m)^([ \t]*)((?!\s*(?:${applyLineBreakLambdaArrowExceptions})\s*\().*?\b([a-zA-Z0-9_$%]+|\([^)]+\)))[ \t]*->(?!\s*\{)[ \t]*/) { match, indent, preLambda, param ->
-            return "${indent}${preLambda}\n${indent}    -> "
-        }
-            .replaceAll(/(?m)^([ \t]*)((?!\s*(?:${applyLineBreakLambdaArrowExceptions})\s*\().*?)[ \t]*\(\)\s*->(?!\s*\{)[ \t]*/) { match, indent, preLambda ->
-                return "${indent}${preLambda}\n${indent}    () -> "
-            }
-    }
-}
+// ------------------------------------------------------------------------------------------
 
 def indentDepth = { depth -> '    ' * depth }
 def indent1 = indentDepth(1)
@@ -47,293 +14,143 @@ def indent6 = indentDepth(6)
 def indent7 = indentDepth(7)
 def indent8 = indentDepth(8)
 
-def spotlessExtension = project.extensions.getByName('spotless')
-def javaExtensionClass = spotlessExtension.getClass().getClassLoader().loadClass('com.diffplug.gradle.spotless.JavaExtension')
+// ------------------------------------------------------------------------------------------
+
+def applyPreConfig = { spec ->
+    spec.eclipse().configFile('.java-style.xml')
+    spec.removeUnusedImports()
+    spec.importOrder()
+    spec.formatAnnotations()
+}
+
+def applyPostConfig = { spec ->
+    spec.custom 'linebreakNullable', { text ->
+        text.replaceAll(/(?m)^(\s*)@Nullable\s+public\b/, '$1@Nullable\n$1public')
+            .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*public\b)/, '$1@Nullable\n$2')
+            .replaceAll(/(?m)^(\s*)@Nullable\s+private\b/, '$1@Nullable\n$1private')
+            .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*private\b)/, '$1@Nullable\n$2')
+    }
+    spec.leadingTabsToSpaces(4)
+    spec.trimTrailingWhitespace()
+    spec.endWithNewline()
+}
+
+// ------------------------------------------------------------------------------------------
+
+def conditionalMixinRule = { spec ->
+    spec.custom 'MixinRule', { text ->
+        if (!text.contains("@Mixin")) {
+            return text
+        }
+        return text
+            .replaceAll(/(?m)(?<!@IfModLoaded\(|@Local\(|@Mixin\()(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target|value)\s*=\s*/, '\n' + indent2 + '$1 = ')
+            .replaceAll(/(?m)    (at = @At\()/, indent1 + '$1')
+            .replaceAll(/(?m)    (args|argsOnly|name|opcode|ordinal|shift|target|value) = /, indent2 + '$1 = ')
+            .replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n' + indent1 + '$1')
+    }
+}
+
+def conditionalLambdaLineBreakRule = { spec ->
+    spec.custom 'LambdaLineBreakRule', { text ->
+        if (!text.contains("class BiomeModifiers")) {
+            return text
+        }
+        println "test"
+        return text
+            .replaceAll(
+                /(?m)^([ \t]*)(.*?\b([a-zA-Z0-9_$%]+|\([^)]+\)))[ \t]*->(?!\s*\{)[ \t]*/,
+                { Object[] args ->
+                    def indent = args[1]
+                    def preLambda = args[2]
+                    return "${indent}${preLambda}\n${indent}    -> "
+                }
+            )
+            .replaceAll(
+                /(?m)^([ \t]*)(.*?)[ \t]*\(\)\s*->(?!\s*\{)[ \t]*/,
+                { Object[] args ->
+                    def indent = args[1]
+                    def preLambda = args[2]
+                    return "${indent}${preLambda}\n${indent}    () -> "
+                }
+            )
+    }
+}
+
+def conditionalDatagenAdvancementProviderRule = { spec ->
+    spec.custom 'DatagenAdvancementProviderRule', { String text ->
+        if (!text.contains("class DatagenAdvancementProvider")) {
+            return text
+        }
+        return text.replaceAll(/Advancement\.Builder\.advancement\(\)(.*?\.save\(.*?\);)/, { Object[] args ->
+            def chain = args[1]
+            def formatted = chain
+                .replaceAll(/\.parent\(/, "\n${indent3}.parent(")
+                .replaceAll(/\.display\(/, "\n${indent3}.display(")
+                .replaceAll(/\.addCriterion\(/, "\n${indent3}.addCriterion(")
+                .replaceAll(/\.save\(/, "\n${indent3}.save(")
+            return "Advancement.Builder.advancement()" + formatted
+        })
+    }
+}
+
+def conditionalDatagenBlockTagProviderRule = { spec ->
+    spec.custom 'DatagenBlockTagProviderRule', { String text ->
+        if (!text.contains("class DatagenBlockTagProvider")) {
+            return text
+        }
+        return text
+            .replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
+            .replaceAll(/(?m)\s*KeyBlocks\./, '\n' + indent3 + 'KeyBlocks.')
+            .replaceAll(/(?m)\s*KeyBlockItems\./, '\n' + indent3 + 'KeyBlockItems.')
+    }
+}
+
+def conditionalRegisterConfiguredFeaturesRule = { spec ->
+    spec.custom 'RegisterConfiguredFeaturesRule', { String text ->
+        if (!text.contains("class RegisterConfiguredFeatures")) {
+            return text
+        }
+        text.replaceAll(/(?m)^([ \t]*)(FeatureUtils\.register\()(.*?)(\);)/) { Object[] args ->
+            def baseIndent = args[1]
+            def methodSignature = args[2]
+            def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
+            def suffix = args[4]
+            def splitParams = rawParams.split(/,(?![^\(]*\))/)
+            def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + indent1)
+            return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
+        }
+    }
+}
+
+def conditionalRegisterPlacedFeaturesRule = { spec ->
+    spec.custom 'RegisterPlacedFeaturesRule', { String text ->
+        if (!text.contains("class RegisterPlacedFeatures")) {
+            return text
+        }
+        text.replaceAll(/(?m)^([ \t]*)(PlacementUtils\.register\()(.*?)(\);)/) { Object[] args ->
+            def baseIndent = args[1]
+            def methodSignature = args[2]
+            def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
+            def suffix = args[4]
+            def splitParams = rawParams.split(/,(?![^\(]*\))/)
+            def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + indent1)
+            return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
+        }
+    }
+}
+
+// ------------------------------------------------------------------------------------------
 
 spotless {
-
-    spotlessExtension.format('Block', javaExtensionClass) {
-        target(
-            'src/main/java/**/content/block/*.java'
-        )
+    java {
+        target 'src/main/**/*.java'
         applyPreConfig(delegate)
-        custom 'formatUpdateShapeParameters', { text ->
-            text.replaceAll("(?m)^(\\s*)(protected\\s+BlockState\\s+updateShape\\()(.*?)\\)\\s*\\{", { Object[] args ->
-                def baseIndent = args[1]
-                def methodSignature = args[2]
-                def rawParams = args[3]
-                def alignPadding = " " * (methodSignature.length())
-                def splitParams = rawParams.split(/,\s*/)
-                def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + alignPadding)
-                return baseIndent + methodSignature + formattedParams + ")\n" + baseIndent + "{"
-            })
-        }
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('RegisterBlocks', javaExtensionClass) {
-        target(
-            'src/main/java/**/content/registry/RegisterBlocks.java'
-        )
-        applyPreConfig(delegate)
-        custom 'formatTreeGrowerConstructor', { text ->
-            text.replaceAll(/(?m)^([ \t]*)(TreeGrower\s+[A-Z_]+\s*=\s*new\s+TreeGrower\()(.*?)\);/) { Object[] args ->
-                def baseIndent = args[1]
-                def methodSignature = args[2]
-                def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
-                def alignPadding = indent1
-                def splitParams = rawParams.split(/,\s*/)
-                def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + alignPadding)
-                return baseIndent + methodSignature + formattedParams + ");"
-            }
-        }
-        custom 'linebreakForceSolidOnAttribute', { text ->
-            text.replaceAll(/\s*\.forceSolidOn\(/, '\n' + indent3 + '.forceSolidOn(')
-        }
-        custom 'linebreakIgnitedByLavaAttribute', { text ->
-            text.replaceAll(/\s*\.ignitedByLava\(/, '\n' + indent3 + '.ignitedByLava(')
-        }
-        custom 'linebreakInstabreakAttribute', { text ->
-            text.replaceAll(/\s*\.instabreak\(/, '\n' + indent3 + '.instabreak(')
-        }
-        custom 'linebreakInstrumentAttribute', { text ->
-            text.replaceAll(/\s*\.instrument\(/, '\n' + indent3 + '.instrument(')
-        }
-        custom 'linebreakIsValidSpawnAttribute', { text ->
-            text.replaceAll(/\s*\.isValidSpawn\(/, '\n' + indent3 + '.isValidSpawn(')
-        }
-        custom 'linebreakLightLevelAttribute', { text ->
-            text.replaceAll(/\s*\.lightLevel\(/, '\n' + indent3 + '.lightLevel(')
-        }
-        custom 'linebreakMapColorAttribute', { text ->
-            text.replaceAll(/\s*\.mapColor\(/, '\n' + indent3 + '.mapColor(')
-        }
-        custom 'linebreakNoCollisionAttribute', { text ->
-            text.replaceAll(/\s*\.noCollision\(/, '\n' + indent3 + '.noCollision(')
-        }
-        custom 'linebreakNoOcclusionAttribute', { text ->
-            text.replaceAll(/\s*\.noOcclusion\(/, '\n' + indent3 + '.noOcclusion(')
-        }
-        custom 'linebreakOffsetTypeAttribute', { text ->
-            text.replaceAll(/\s*\.offsetType\(/, '\n' + indent3 + '.offsetType(')
-        }
-        custom 'linebreakOverrideLootTableAttribute', { text ->
-            text.replaceAll(/\s*\.overrideLootTable\(/, '\n' + indent3 + '.overrideLootTable(')
-        }
-        custom 'linebreakPushReactionAttribute', { text ->
-            text.replaceAll(/\s*\.pushReaction\(/, '\n' + indent3 + '.pushReaction(')
-        }
-        custom 'linebreakRandomTicksAttribute', { text ->
-            text.replaceAll(/\s*\.randomTicks\(/, '\n' + indent3 + '.randomTicks(')
-        }
-        custom 'linebreakReplaceableAttribute', { text ->
-            text.replaceAll(/\s*\.replaceable\(/, '\n' + indent3 + '.replaceable(')
-        }
-        custom 'linebreakRequiresCorrectToolForDropsAttribute', { text ->
-            text.replaceAll(/\s*\.requiresCorrectToolForDrops\(/, '\n' + indent3 + '.requiresCorrectToolForDrops(')
-        }
-        custom 'linebreakSoundAttribute', { text ->
-            text.replaceAll(/\s*\.sound\(/, '\n' + indent3 + '.sound(')
-        }
-        custom 'linebreakStrengthAttribute', { text ->
-            text.replaceAll(/\s*\.strength\(/, '\n' + indent3 + '.strength(')
-        }
-        applyLineBreakLambdaArrow(delegate)
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('RegisterCreativeModeTabs', javaExtensionClass) {
-        target(
-            'src/main/java/**/content/registry/RegisterCreativeModeTabs.java'
-        )
-        applyPreConfig(delegate)
-        custom 'formatInsertAfterInputs', { text ->
-            return text.replaceAll(/(?s)(output\.insertAfter\()(.*?)(\);)/) { match, start, args, end ->
-                def result = match
-                def registerCalls = (args =~ /(RegisterBlocks|RegisterItems)\./).getCount()
-                if (registerCalls > 2) {
-                    def formattedArgs = args.replaceAll(/(,\s*)(RegisterBlocks|RegisterItems)\./, ",\n" + indent3 + "\$2.")
-                    result = start + formattedArgs + end
-                }
-                return result
-            }
-        }
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('RegisterItemEntityTypes', javaExtensionClass) {
-        target(
-            'src/main/java/**/content/registry/RegisterItemEntityTypes.java'
-        )
-        applyPreConfig(delegate)
-        custom 'linebreakNoLootTableAttribute', { text ->
-            text.replaceAll(/\s*\.noLootTable\(/, '\n' + indent3 + '.noLootTable(')
-        }
-        custom 'linebreakSizedAttribute', { text ->
-            text.replaceAll(/\s*\.sized\(/, '\n' + indent3 + '.sized(')
-        }
-        custom 'linebreakEyeHeightAttribute', { text ->
-            text.replaceAll(/\s*\.eyeHeight\(/, '\n' + indent3 + '.eyeHeight(')
-        }
-        custom 'linebreakClientTrackingRangeAttribute', { text ->
-            text.replaceAll(/\s*\.clientTrackingRange\(/, '\n' + indent3 + '.clientTrackingRange(')
-        }
-        applyLineBreakLambdaArrow(delegate)
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('RegisterItems', javaExtensionClass) {
-        target(
-            'src/main/java/**/content/registry/RegisterItems.java'
-        )
-        applyPreConfig(delegate)
-        custom 'linebreakUseBlockDescriptionPrefixAttribute', { text ->
-            text.replaceAll(/\s*\.useBlockDescriptionPrefix\(/, '\n' + indent3 + '.useBlockDescriptionPrefix(')
-        }
-        custom 'linebreakRarityAttribute', { text ->
-            text.replaceAll(/\s*\.rarity\(/, '\n' + indent3 + '.rarity(')
-        }
-        custom 'linebreakStacksToAttribute', { text ->
-            text.replaceAll(/\s*\.stacksTo\(/, '\n' + indent3 + '.stacksTo(')
-        }
-        applyLineBreakLambdaArrow(delegate)
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('LootTableModifiers', javaExtensionClass) {
-        target(
-            'src/main/java/**/loot/LootTableModifiers.java'
-        )
-        applyPreConfig(delegate)
-        custom 'linebreakLootPoolBuilder', { text ->
-            text.replaceAll(/(?m)^(\s*)(final\s+LootPool\.Builder\s+\w+\s*=\s*LootPool\.lootPool\(\))\.setRolls\((.*?)\)\.add\((.*?)\)\.add\((.*?);/, '$1$2\n' + indent5 + '.setRolls($3)\n' + indent5 + '.add($4)\n' + indent5 + '.add($5;')
-        }
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('DatagenBlockTagProvider', javaExtensionClass) {
-        target(
-            'src/main/java/**/datagen/provider/DatagenBlockTagProvider.java'
-        )
-        applyPreConfig(delegate)
-        custom 'linebreakAddTagAttribute', { text ->
-            text.replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
-        }
-        custom 'linebreakKeyBlocks', { text ->
-            text.replaceAll(/(?m)\s*KeyBlocks\./, '\n' + indent3 + 'KeyBlocks.')
-        }
-        custom 'linebreakKeyBlockItems', { text ->
-            text.replaceAll(/(?m)\s*KeyBlockItems\./, '\n' + indent3 + 'KeyBlockItems.')
-        }
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('DatagenItemTagProvider', javaExtensionClass) {
-        target(
-            'src/main/java/**/datagen/provider/DatagenItemTagProvider.java'
-        )
-        applyPreConfig(delegate)
-        custom 'linebreakAddTagAttribute', { text ->
-            text.replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
-        }
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('Mixins', javaExtensionClass) {
-        target(
-            'src/main/java/**/mixin/**/*.java'
-        )
-        applyPreConfig(delegate)
-        custom 'linebreakMixinAttributes', { text ->
-            text.replaceAll(/(?m)(?<!@IfModLoaded\(|@Local\(|@Mixin\()(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target|value)\s*=\s*/, '\n' + indent2 + '$1 = ')
-        }
-        custom 'indentMixinAttributes', { text ->
-            text.replaceAll(/(?m)    (at = @At\()/, indent1 + '$1')
-                .replaceAll(/(?m)    (args|argsOnly|name|opcode|ordinal|shift|target|value) = /, indent2 + '$1 = ')
-        }
-        custom 'linebreakUniqueAnnotation', { text ->
-            text.replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n' + indent1 + '$1')
-        }
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('RegisterConfiguredFeatures', javaExtensionClass) {
-        target(
-            'src/main/java/**/worldgen/**/RegisterConfiguredFeatures.java'
-        )
-        applyPreConfig(delegate)
-        custom 'formatFeatureUtilsRegistry', { text ->
-            text.replaceAll(/(?m)^([ \t]*)(FeatureUtils\.register\()(.*?)(\);)/) { Object[] args ->
-                def baseIndent = args[1]
-                def methodSignature = args[2]
-                def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
-                def suffix = args[4]
-                def splitParams = rawParams.split(/,(?![^\(]*\))/)
-                def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + indent1)
-                return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
-            }
-        }
-        custom 'lineBreakAfterListOf', { text ->
-            text.replaceAll(/(?s)(?<!Immutable)(?<!RandomFeatureConfiguration\()(List\.of\()(?!\s*\n)/, '$1\n' + indent3)
-        }
-        custom 'indentRegisterBlocks', { text ->
-            text.replaceAll(/(?s)\n\s*(RegisterBlocks\.)/, '\n' + indent4 + '$1')
-        }
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('RegisterPlacedFeatures', javaExtensionClass) {
-        target(
-            'src/main/java/**/worldgen/**/RegisterPlacedFeatures.java'
-        )
-        applyPreConfig(delegate)
-        custom 'formatFeatureUtilsRegistry', { text ->
-            text.replaceAll(/(?m)^([ \t]*)(PlacementUtils\.register\()(.*?)(\);)/) { Object[] args ->
-                def baseIndent = args[1]
-                def methodSignature = args[2]
-                def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
-                def suffix = args[4]
-                def splitParams = rawParams.split(/,(?![^\(]*\))/)
-                def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + indent1)
-                return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
-            }
-        }
-        custom 'lineBreakAfterHeightRangeUniform', { text ->
-            text.replaceAll(/(?s)(HeightRangePlacement\.uniform\()(?!\s*\n)/, '$1\n' + indent4)
-        }
-        custom 'indentVerticalAnchor', { text ->
-            text.replaceAll(/(?s)\n\s*(VerticalAnchor\.)/, '\n' + indent4 + '$1')
-        }
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('BiomeModifiers', javaExtensionClass) {
-        target(
-            'src/main/java/**/worldgen/biome/BiomeModifiers.java'
-        )
-        applyPreConfig(delegate)
-        applyLineBreakLambdaArrow(delegate)
-        applyPostConfig(delegate)
-    }
-
-    spotlessExtension.format('Java', javaExtensionClass) {
-        target 'src/**/*.java'
-        targetExclude(
-            'src/main/java/**/content/block/**.java',
-            'src/main/java/**/content/registry/RegisterBlocks.java',
-            'src/main/java/**/content/registry/RegisterCreativeModeTabs.java',
-            'src/main/java/**/content/registry/RegisterItemEntityTypes.java',
-            'src/main/java/**/content/registry/RegisterItems.java',
-            'src/main/java/**/loot/LootTableModifiers.java',
-            'src/main/java/**/datagen/provider/DatagenBlockTagProvider.java',
-            'src/main/java/**/datagen/provider/DatagenItemTagProvider.java',
-            'src/main/java/**/mixin/**/*.java',
-            'src/main/java/**/worldgen/**/RegisterConfiguredFeatures.java',
-            'src/main/java/**/worldgen/**/RegisterPlacedFeatures.java',
-            'src/main/java/**/worldgen/biome/BiomeModifiers.java',
-            'src/archived/**'
-        )
-        applyPreConfig(delegate)
+        conditionalMixinRule(delegate)
+        conditionalLambdaLineBreakRule(delegate)
+        conditionalDatagenAdvancementProviderRule(delegate)
+        conditionalDatagenBlockTagProviderRule(delegate)
+        conditionalRegisterConfiguredFeaturesRule(delegate)
+        conditionalRegisterPlacedFeaturesRule(delegate)
         applyPostConfig(delegate)
     }
 }
