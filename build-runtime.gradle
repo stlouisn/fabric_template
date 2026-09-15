@@ -52,6 +52,13 @@ dependencies {
     runtimeOnly("maven.modrinth:guitPqEi:${storage_drawers_version}")
 }
 
+// Vehicle Upgrade
+dependencies {
+    runtimeOnly("maven.modrinth:QAGBst4M:${puzzles_version}")
+    runtimeOnly("maven.modrinth:ohNO6lps:${forge_config_version}")
+    runtimeOnly("maven.modrinth:9B9c6QcJ:${vehicle_upgrade_version}")
+}
+
 // Trim Patcher
 dependencies {
     runtimeOnly("maven.modrinth:bNK1MS7o:${trim_patcher_version}")
