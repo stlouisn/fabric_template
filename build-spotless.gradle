@@ -24,11 +24,9 @@ def applyPreConfig = { spec ->
 }
 
 def applyPostConfig = { spec ->
-    spec.custom 'linebreakNullable', { text ->
-        text.replaceAll(/(?m)^(\s*)@Nullable\s+public\b/, '$1@Nullable\n$1public')
-            .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*public\b)/, '$1@Nullable\n$2')
-            .replaceAll(/(?m)^(\s*)@Nullable\s+private\b/, '$1@Nullable\n$1private')
-            .replaceAll(/(?m)^(\s*)@Nullable\s*\n\s*\n(\s*private\b)/, '$1@Nullable\n$2')
+    spec.custom 'linebreakNullabilityAnnotations', { text ->
+        text.replaceAll(/(?m)^(\s*)(@(?>Nullable|NonNull))\s+(public|protected|private)\b/, '$1$2\n$1$3')
+            .replaceAll(/(?m)^(\s*)(@(?>Nullable|NonNull))\s*\n\s*\n(\s*(?:public|protected|private)\b)/, '$1$2\n$3')
     }
     spec.leadingTabsToSpaces(4)
     spec.trimTrailingWhitespace()
