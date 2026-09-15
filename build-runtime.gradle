@@ -32,3 +32,9 @@ dependencies {
 dependencies {
     runtimeOnly("maven.modrinth:7z0IZqoa:${rail_placement_fix_version}")
 }
+
+// Storage Drawers
+dependencies {
+    runtimeOnly("maven.modrinth:ohNO6lps:${forge_config_version}")
+    runtimeOnly("maven.modrinth:guitPqEi:${storage_drawers_version}")
+}
