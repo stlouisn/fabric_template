@@ -2,6 +2,7 @@
 dependencies {
     compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+    compileOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
 }
 
 // RRV
