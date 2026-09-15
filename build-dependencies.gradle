@@ -23,6 +23,11 @@ dependencies {
     implementation(localRuntime("maven.modrinth:dKvj0eNn:${create_version}"))
 }
 
+// Ecologics
+dependencies {
+    implementation(localRuntime("maven.modrinth:NCKpPR0Z:${ecologics_version}"))
+}
+
 // Farmer's Delight
 dependencies {
     implementation(localRuntime("maven.modrinth:7vxePowz:${farmersdelight_version}"))
