@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="NONE" />
+    <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc2b25b0-a0d5-452e-a7cd-9ab4d93a5414" name="Changes" comment="update" />
+    <list default="true" id="b0a3ddb7-6248-43c1-88b7-0cddda386c22" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.ignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
   </component>
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
@@ -38,9 +48,10 @@
   }
 }</component>
   <component name="ProjectColorInfo">{
-    &quot;associatedIndex&quot;: 4
-    }</component>
-  <component name="ProjectId" id="3JMgbBkPADUFvNC4bBaE9yVzeHz" />
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="3JSYMKiVBi7q9SZDm4gIBdy1Ov6" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -52,8 +63,8 @@
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;fabric-26.2&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/st-louis.nm/IdeaProjects/fabric_template&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
 }</component>
   <component name="RunManager">
@@ -72,114 +83,21 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10315.125" />
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10968.63" />
       </set>
     </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bc2b25b0-a0d5-452e-a7cd-9ab4d93a5414" name="Changes" comment="" />
-      <created>1789476419685</created>
+      <changelist id="b0a3ddb7-6248-43c1-88b7-0cddda386c22" name="Changes" comment="" />
+      <created>1789655891708</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1789476419685</updated>
+      <updated>1789655891708</updated>
     </task>
-    <task id="LOCAL-00001" summary="update">
-      <option name="closed" value="true" />
-      <created>1789477056856</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1789477056856</updated>
-    </task>
-    <task id="LOCAL-00002" summary="update">
-      <option name="closed" value="true" />
-      <created>1789477231801</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1789477231801</updated>
-    </task>
-    <task id="LOCAL-00003" summary="update">
-      <option name="closed" value="true" />
-      <created>1789477259492</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1789477259492</updated>
-    </task>
-    <task id="LOCAL-00004" summary="update">
-      <option name="closed" value="true" />
-      <created>1789477854258</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1789477854258</updated>
-    </task>
-    <task id="LOCAL-00005" summary="update">
-      <option name="closed" value="true" />
-      <created>1789486380776</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1789486380776</updated>
-    </task>
-    <task id="LOCAL-00006" summary="update">
-      <option name="closed" value="true" />
-      <created>1789487321914</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1789487321914</updated>
-    </task>
-    <task id="LOCAL-00007" summary="update">
-      <option name="closed" value="true" />
-      <created>1789487675370</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1789487675370</updated>
-    </task>
-    <task id="LOCAL-00008" summary="update">
-      <option name="closed" value="true" />
-      <created>1789490594285</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1789490594285</updated>
-    </task>
-    <task id="LOCAL-00009" summary="update">
-      <option name="closed" value="true" />
-      <created>1789490626764</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1789490626764</updated>
-    </task>
-    <task id="LOCAL-00010" summary="update">
-      <option name="closed" value="true" />
-      <created>1789495650487</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1789495650487</updated>
-    </task>
-    <task id="LOCAL-00011" summary="update">
-      <option name="closed" value="true" />
-      <created>1789495862636</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1789495862636</updated>
-    </task>
-    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
 </project>
