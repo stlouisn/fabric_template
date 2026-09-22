@@ -4,4 +4,4 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 Clear-Host
 
 # Run Client
-./gradlew --console=plain --warn --non-interactive runClient
+./gradlew --console=plain --warn --non-interactive runDatagen

@@ -44,6 +44,7 @@ $FilesToDownload = @(
     "project-fileStructure.ps1",
     "project-genSources.ps1",
     "project-runClient.ps1",
+    "project-runDatagen.ps1",
     "project-runSpotless.ps1",
     "project-update.ps1",
     "project-versions.properties",
