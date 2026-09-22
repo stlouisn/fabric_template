@@ -1,7 +1,17 @@
+# Path to this script
+$Self = $MyInvocation.MyCommand.Path
+
+# Ensure copilot path exists
+$CopilotDirectory = ".\copilot"
+if (-not (Test-Path $CopilotDirectory)) {
+    New-Item -ItemType Directory -Path $CopilotDirectory -Force | Out-Null
+}
+
 # Forcefully terminate all java.exe processes silently
 Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
-Clear-Host
+# Compute hash before update
+$BeforeHash = (Get-FileHash -Path $Self -Algorithm SHA256).Hash
 
 # Define repository details
 $Owner  = "stlouisn"
@@ -9,7 +19,7 @@ $Repo   = "fabric_template"
 $Branch = "fabric-26.2"
 
 # Fetch the latest Commit SHA
-Write-Host "Fetching latest commit SHA for '$Branch'..." -ForegroundColor Yellow
+Write-Host "Fetching latest Commit SHA for '$Branch'..." -ForegroundColor Yellow
 try {
     $ApiUrl = "https://api.github.com/repos/$Owner/$Repo/commits/$Branch"
     $CommitInfo = Invoke-RestMethod -Uri $ApiUrl -Headers @{ "User-Agent" = "PowerShell" }
@@ -24,6 +34,31 @@ try {
 
 # Base URL for GitHub raw content
 $BaseRawUrl = "https://raw.githubusercontent.com/$Owner/$Repo/$CommitSha"
+
+# Download directly using the commit SHA
+$ProgressPreference = 'SilentlyContinue'
+
+# Filename of the update script
+$ScriptFilename = "project-update.ps1"
+
+# Download update script
+Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Cyan
+Invoke-WebRequest -Uri "$BaseRawUrl/$ScriptFilename" -OutFile ".\$ScriptFilename" -ErrorAction Stop
+if (-not (Test-Path -Path ".\$ScriptFilename")) {
+    Write-Host
+    Write-Host "Failed to download file: $ScriptFilename" -ForegroundColor Red
+    throw "Script execution stopped due to missing download file."
+}
+
+# Compute hash after update
+$AfterHash = (Get-FileHash -Path ".\$ScriptFilename" -Algorithm SHA256).Hash
+
+# If the script updated itself, restart it
+if ($BeforeHash -ne $AfterHash) {
+    Write-Host "`nScript updated. Restarting..." -ForegroundColor Yellow
+    & powershell -ExecutionPolicy Bypass -File $Self
+    exit
+}
 
 # List of files to download
 $FilesToDownload = @(
@@ -46,22 +81,13 @@ $FilesToDownload = @(
     "project-runClient.ps1",
     "project-runDatagen.ps1",
     "project-runSpotless.ps1",
-    "project-update.ps1",
     "project-versions.properties",
     "settings.gradle"
 )
 
-# Ensure copilot folder exists
-$Directory = ".\copilot"
-if (-not (Test-Path $Directory)) {
-    New-Item -ItemType Directory -Path $Directory -Force | Out-Null
-}
-
 Write-Host
 
-# Download directly using the commit SHA
-$ProgressPreference = 'SilentlyContinue'
-
+# Download files from repository
 foreach ($FileName in $FilesToDownload) {
     Write-Host "Downloading: $FileName ..." -ForegroundColor Cyan
     Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
