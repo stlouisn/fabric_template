@@ -1,17 +1,17 @@
+# Forcefully terminate all java.exe processes silently
+Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
+
+# Filename of this script
+$ScriptFilename = "project-update.ps1"
+
 # Path to this script
-$Self = $MyInvocation.MyCommand.Path
+$Self = Join-Path $PSScriptRoot $ScriptFilename
 
 # Ensure copilot path exists
 $CopilotDirectory = ".\copilot"
 if (-not (Test-Path $CopilotDirectory)) {
     New-Item -ItemType Directory -Path $CopilotDirectory -Force | Out-Null
 }
-
-# Forcefully terminate all java.exe processes silently
-Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
-
-# Compute hash before update
-$BeforeHash = (Get-FileHash -Path $Self -Algorithm SHA256).Hash
 
 # Define repository details
 $Owner  = "stlouisn"
@@ -39,8 +39,8 @@ $BaseRawUrl = "https://raw.githubusercontent.com/$Owner/$Repo/$CommitSha"
 # Download directly using the commit SHA
 $ProgressPreference = 'SilentlyContinue'
 
-# Filename of the update script
-$ScriptFilename = "project-update.ps1"
+# Compute hash before update
+$BeforeHash = (Get-FileHash -Path $Self -Algorithm SHA256).Hash
 
 # Download update script
 Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Cyan
@@ -52,13 +52,13 @@ if (-not (Test-Path -Path ".\$ScriptFilename")) {
 }
 
 # Compute hash after update
-$AfterHash = (Get-FileHash -Path ".\$ScriptFilename" -Algorithm SHA256).Hash
+$AfterHash = (Get-FileHash -Path $Self -Algorithm SHA256).Hash
 
-# If the script updated itself, restart it
+# If the script updated itself, ?
 if ($BeforeHash -ne $AfterHash) {
-    Write-Host "`nScript updated. Restarting..." -ForegroundColor Yellow
-    & powershell -ExecutionPolicy Bypass -File $Self
-    exit
+    Write-Host
+    Write-Host "Script updated. You will need to restart it." -ForegroundColor Red
+    exit 1
 }
 
 # List of files to download
