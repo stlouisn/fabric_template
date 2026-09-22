@@ -19,6 +19,7 @@ $Repo   = "fabric_template"
 $Branch = "fabric-26.2"
 
 # Fetch the latest Commit SHA
+Write-Host
 Write-Host "Fetching latest Commit SHA for '$Branch'..." -ForegroundColor Yellow
 try {
     $ApiUrl = "https://api.github.com/repos/$Owner/$Repo/commits/$Branch"
