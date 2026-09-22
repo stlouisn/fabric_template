@@ -40,7 +40,7 @@ $BaseRawUrl = "https://raw.githubusercontent.com/$Owner/$Repo/$CommitSha"
 $ProgressPreference = 'SilentlyContinue'
 
 Write-Host
-Write-Host "Fetching repository files..." -ForegroundColor Yellow
+Write-Host "Downloading files..." -ForegroundColor Yellow
 
 # Compute hash before update
 $BeforeHash = (Get-FileHash -Path $Self -Algorithm SHA256).Hash
@@ -90,8 +90,6 @@ $FilesToDownload = @(
     "project-versions.properties",
     "settings.gradle"
 )
-
-Write-Host
 
 # Download files from repository
 foreach ($FileName in $FilesToDownload) {
