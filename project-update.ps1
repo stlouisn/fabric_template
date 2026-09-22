@@ -43,7 +43,7 @@ $ProgressPreference = 'SilentlyContinue'
 $BeforeHash = (Get-FileHash -Path $Self -Algorithm SHA256).Hash
 
 # Download update script
-Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Yellow
+Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Gray
 Invoke-WebRequest -Uri "$BaseRawUrl/$ScriptFilename" -OutFile ".\$ScriptFilename" -ErrorAction Stop
 if (-not (Test-Path -Path ".\$ScriptFilename")) {
     Write-Host
@@ -91,7 +91,7 @@ Write-Host
 
 # Download files from repository
 foreach ($FileName in $FilesToDownload) {
-    Write-Host "Downloading: $FileName ..." -ForegroundColor Yellow
+    Write-Host "Downloading: $FileName ..." -ForegroundColor Gray
     Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
     if (-not (Test-Path -Path ".\$FileName")) {
         Write-Host
