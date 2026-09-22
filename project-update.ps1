@@ -58,6 +58,7 @@ $AfterHash = (Get-FileHash -Path $Self -Algorithm SHA256).Hash
 if ($BeforeHash -ne $AfterHash) {
     Write-Host
     Write-Host "Script updated. You will need to restart it." -ForegroundColor Red
+    Write-Host
     exit 1
 }
 
