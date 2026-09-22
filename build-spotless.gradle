@@ -41,7 +41,7 @@ def conditionalMixinRule = { spec ->
             return text
         }
         return text
-            .replaceAll(/(?m)(?<!@IfModLoaded\(|@Local\(|@Mixin\()(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target|value)\s*=\s*/, '\n' + indent2 + '$1 = ')
+            .replaceAll(/(?m)(?<!@IfModLoaded\(|@Local\(|@Mixin\()(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target|value)\s*=\s{1,}(?!\=)/, '\n' + indent2 + '$1 = ')
             .replaceAll(/(?m)    (at = @At\()/, indent1 + '$1')
             .replaceAll(/(?m)    (args|argsOnly|name|opcode|ordinal|shift|target|value) = /, indent2 + '$1 = ')
             .replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n' + indent1 + '$1')
