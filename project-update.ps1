@@ -39,10 +39,14 @@ $BaseRawUrl = "https://raw.githubusercontent.com/$Owner/$Repo/$CommitSha"
 # Download directly using the commit SHA
 $ProgressPreference = 'SilentlyContinue'
 
+Write-Host
+Write-Host "Fetching repository files..." -ForegroundColor Yellow
+
 # Compute hash before update
 $BeforeHash = (Get-FileHash -Path $Self -Algorithm SHA256).Hash
 
 # Download update script
+Write-Host
 Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Gray
 Invoke-WebRequest -Uri "$BaseRawUrl/$ScriptFilename" -OutFile ".\$ScriptFilename" -ErrorAction Stop
 if (-not (Test-Path -Path ".\$ScriptFilename")) {
