@@ -22,6 +22,11 @@ dependencies {
     runtimeOnly("maven.modrinth:FQgc8dib:${diagonal_walls_version}")
 }
 
+// Inline Tooltips
+dependencies {
+    runtimeOnly("maven.modrinth:TVOgzXyj:${inline_tooltips_version}")
+}
+
 // KleeSlabs
 dependencies {
     runtimeOnly("maven.modrinth:MBAkmtvl:${balm_version}")
