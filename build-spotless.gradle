@@ -136,6 +136,21 @@ def conditionalRegisterPlacedFeaturesRule = { spec ->
     }
 }
 
+def conditionalRecipeProviderRule = { spec ->
+    spec.custom 'RecipeProviderRule', { String text ->
+        if (!text.contains("class RecipeProvider") && !text.contains("class VanillaRecipeProvider")) {
+            return text
+        }
+        return text.replaceAll(/(?s)([ \t]*)(shaped|shapeless)\b(.*?);/) { Object[] args ->
+            def indent = args[1]
+            def rawBody = args[2] + args[3]
+            def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
+            def formatted = cleanSingleLine.replaceAll(/\s*\.(pattern|define|unlockedBy|save|group|showNotification)\(/, '\n' + indent + indent1 + '.$1(')
+            return indent + formatted + ";"
+        }
+    }
+}
+
 // ------------------------------------------------------------------------------------------
 
 spotless {
@@ -148,6 +163,7 @@ spotless {
         conditionalDatagenBlockTagProviderRule(delegate)
         conditionalRegisterConfiguredFeaturesRule(delegate)
         conditionalRegisterPlacedFeaturesRule(delegate)
+        conditionalRecipeProviderRule(delegate)
         applyPostConfig(delegate)
     }
 }

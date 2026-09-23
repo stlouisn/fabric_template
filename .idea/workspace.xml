@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b0a3ddb7-6248-43c1-88b7-0cddda386c22" name="Changes" comment="update" />
+    <list default="true" id="b0a3ddb7-6248-43c1-88b7-0cddda386c22" name="Changes" comment="update">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mod_id/content/key/KeyItems.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mod_id/content/registry/RegisterBrewingRecipes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mod_id/content/registry/RegisterCreativeModeTabs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/mod_id/content/registry/RegisterItems.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build-spotless.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build-spotless.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle-template.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle-template.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -58,12 +66,13 @@
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;fabric-26.2&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/st-louis.nm/IdeaProjects/fabric_template&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/st-louis.nm/IdeaProjects/fabric_template/src/main/java/com/mod_id&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\st-louis.nm\IdeaProjects\fabric_template\src\main\java\com\mod_id" />
       <recent name="C:\Users\st-louis.nm\IdeaProjects\fabric_template" />
     </key>
   </component>
@@ -199,7 +208,15 @@
       <option name="project" value="LOCAL" />
       <updated>1790079986099</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="update">
+      <option name="closed" value="true" />
+      <created>1790082957350</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1790082957350</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
