@@ -102,6 +102,21 @@ def conditionalDatagenBlockTagProviderRule = { spec ->
     }
 }
 
+def conditionalRegisterItemsRule = { spec ->
+    spec.custom 'RegisterItemsRule', { String text ->
+        if (!text.contains("class RegisterItems")) {
+            return text
+        }
+        return text.replaceAll(/(?s)([ \t]*)(public static final Item)\b(.*?);/) { Object[] args ->
+            def indent = args[1]
+            def rawBody = args[2] + args[3]
+            def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
+            def formatted = cleanSingleLine.replaceAll(/\s*\.(component|delayedComponent|durability|enchantable|fireResistant|food|humanoidArmor|rarity|repairable|tool)\(/, '\n' + indent + indent1 + '.$1(')
+            return indent + formatted + ";"
+        }
+    }
+}
+
 def conditionalRegisterConfiguredFeaturesRule = { spec ->
     spec.custom 'RegisterConfiguredFeaturesRule', { String text ->
         if (!text.contains("class RegisterConfiguredFeatures")) {
@@ -161,6 +176,7 @@ spotless {
         conditionalLambdaLineBreakRule(delegate)
         conditionalDatagenAdvancementProviderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
+        conditionalRegisterItemsRule(delegate)
         conditionalRegisterConfiguredFeaturesRule(delegate)
         conditionalRegisterPlacedFeaturesRule(delegate)
         conditionalRecipeProviderRule(delegate)
