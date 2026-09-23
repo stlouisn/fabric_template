@@ -7,10 +7,20 @@ $ScriptFilename = "project-update.ps1"
 # Path to this script
 $Self = Join-Path $PSScriptRoot $ScriptFilename
 
-# Ensure copilot path exists
-$CopilotDirectory = ".\copilot"
+# Ensure idea paths exists
+$CopilotDirectory = ".idea\copilot"
 if (-not (Test-Path $CopilotDirectory)) {
     New-Item -ItemType Directory -Path $CopilotDirectory -Force | Out-Null
+}
+
+# Ensure copilot path exists
+$InspectionProfilesDirectory = ".idea\inspectionProfiles"
+if (-not (Test-Path $InspectionProfilesDirectory)) {
+    New-Item -ItemType Directory -Path $InspectionProfilesDirectory -Force | Out-Null
+}
+$DictionariesDirectory = ".idea\dictionaries"
+if (-not (Test-Path $DictionariesDirectory)) {
+    New-Item -ItemType Directory -Path $DictionariesDirectory -Force | Out-Null
 }
 
 # Define repository details
