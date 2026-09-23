@@ -5,13 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b0a3ddb7-6248-43c1-88b7-0cddda386c22" name="Changes" comment="update">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mod_id/content/key/KeyItems.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mod_id/content/registry/RegisterBrewingRecipes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mod_id/content/registry/RegisterCreativeModeTabs.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/mod_id/content/registry/RegisterItems.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build-spotless.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build-spotless.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle-template.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle-template.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/content/key/KeyItems.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/content/registry/RegisterBrewingRecipes.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/content/registry/RegisterCreativeModeTabs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/content/registry/RegisterItems.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/DatagenEquipmentAssetsProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/VanillaLanguageProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/VanillaRecipeProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/ModName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/ModName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/client/ModNameClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/client/ModNameClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/config/ModConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/config/ModConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/config/ModMenuIntegration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/config/ModMenuIntegration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/datagen/ModNameDataGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/ModNameDataGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/datagen/provider/DatagenBlockLootSubProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/DatagenBlockLootSubProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/datagen/provider/DatagenBlockTagProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/DatagenBlockTagProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/datagen/provider/DatagenDynamicRegistryProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/DatagenDynamicRegistryProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/datagen/provider/DatagenItemTagProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/DatagenItemTagProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/datagen/provider/DatagenLanguageProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/DatagenLanguageProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/datagen/provider/DatagenModelProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/DatagenModelProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/datagen/provider/DatagenPackMetadataGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/DatagenPackMetadataGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/datagen/provider/DatagenRecipeProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/datagen/provider/DatagenRecipeProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/datagen/provider/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/mod_id/util/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/mod_id/util/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fabric.mod.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fabric.mod.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mod_id.mixins.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mod_id.mixins.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,18 +75,20 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;fabric-26.2&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/st-louis.nm/IdeaProjects/fabric_template/src/main/java/com/mod_id&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "fabric-26.2",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/st-louis.nm/IdeaProjects/fabric_template/src/main/java/dev/mod_id/datagen/provider",
+    "node.js.detected.package.jshint": "true",
+    "node.js.selected.package.jshint": "",
+    "nodejs_package_manager_path": "npm"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\st-louis.nm\IdeaProjects\fabric_template\src\main\java\com\mod_id" />
@@ -216,7 +235,15 @@
       <option name="project" value="LOCAL" />
       <updated>1790082957350</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="update">
+      <option name="closed" value="true" />
+      <created>1790165869526</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1790165869526</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

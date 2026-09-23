@@ -1,4 +1,4 @@
-package com.mod_id.util;
+package dev.mod_id.util;
 
 import net.minecraft.resources.Identifier;
 
