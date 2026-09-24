@@ -133,7 +133,7 @@ try {
 }
 
 Write-Host
-Write-Host "Generated '$GradleProperties' successfully.`n" -ForegroundColor Green
+Write-Host "Generated '$GradleProperties' successfully." -ForegroundColor Green
 
 # Fetch Gradle versions
 $gradleVersions = Invoke-RestMethod "https://services.gradle.org/versions/all"
