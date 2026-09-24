@@ -141,25 +141,6 @@ $gradleVersions = Invoke-RestMethod "https://services.gradle.org/versions/all"
 # Find the latest stable release
 $gradleLatest = ($gradleVersions | Where-Object { $_.current -eq $true }).version
 
-# Graddle Wrapper
-$wrapperJar = ".\gradle\wrapper\gradle-wrapper.jar"
-
-# If wrapper is missing, bootstrap Gradle
-if (-not (Test-Path $wrapperJar)) {
-    Write-Host
-    Write-Host "gradle-wrapper.jar missing. Bootstrapping Gradle..." -ForegroundColor Yellow
-    $zipFile = Join-Path $env:TEMP "gradle-$gradleLatest-bin.zip"
-    $extractPath = Join-Path $env:TEMP "gradle-$gradleLatest"
-    if (-not (Test-Path $extractPath)) {
-        Invoke-WebRequest -Uri "https://services.gradle.org/distributions/gradle-$gradleLatest-bin.zip" -OutFile $zipFile
-        Expand-Archive -Path $zipFile -DestinationPath $env:TEMP -Force
-    }
-    & "$extractPath\bin\gradle.bat" wrapper --gradle-version $gradleLatest --distribution-type bin
-    if (-not (Test-Path $wrapperJar)) {
-        throw "Failed to generate gradle-wrapper.jar"
-    }
-}
-
 # Update the Gradle Wrapper to the latest version
 ./gradlew --console=colored wrapper --gradle-version $gradleLatest --distribution-type bin
 Write-Host
