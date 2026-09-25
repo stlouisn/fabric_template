@@ -8,7 +8,7 @@ $ScriptFilename = "project-update.ps1"
 $Self = Join-Path $PSScriptRoot $ScriptFilename
 
 # Ensure idea paths exists
-$CopilotDirectory = ".idea\copilot"
+$CopilotDirectory = "copilot"
 if (-not (Test-Path $CopilotDirectory)) {
     New-Item -ItemType Directory -Path $CopilotDirectory -Force | Out-Null
 }
