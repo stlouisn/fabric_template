@@ -102,6 +102,38 @@ def conditionalDatagenBlockTagProviderRule = { spec ->
     }
 }
 
+def conditionalDatagenRecipeProviderRule = { spec ->
+    spec.custom 'DatagenRecipeProviderRule', { String text ->
+        if (!text.contains("class DatagenRecipeProvider") && !text.contains("class VanillaRecipeProvider")) {
+            return text
+        }
+        return text.replaceAll(/(?s)([ \t]*)(shaped|shapeless)\b(.*?);/) { Object[] args ->
+            def indent = args[1]
+            def rawBody = args[2] + args[3]
+            def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
+            def formatted = cleanSingleLine.replaceAll(/\s*\.(group|define|pattern|requires|unlockedBy|save|showNotification)\(/, '\n' + indent + indent5 + '.$1(')
+            return indent + formatted + ";"
+        }
+    }
+}
+
+def conditionalBlockDataRule = { spec ->
+    spec.custom 'BlockDataRule', { String text ->
+        if (!text.contains("public record BlockData")) {
+            return text
+        }
+        return text.replaceAll(/(?s)([ \t]*)(public static final List<BlockData> \w+\s*=\s*List\.of\()(.*?)(\);)/) { Object[] args ->
+            def baseIndent = args[1]
+            def prefix = args[2]
+            def rawBody = args[3]
+            def suffix = args[4]
+            def items = rawBody.split(/(?<=^|\G|\)),\s*(?=new BlockData)/)
+            def formattedItems = items.collect { it.trim() }.findAll { !it.isEmpty() }.join(",\n" + baseIndent + indent1)
+            return baseIndent + prefix + "\n" + baseIndent + indent1 + formattedItems + "\n" + baseIndent + suffix
+        }
+    }
+}
+
 def conditionalRegisterItemsRule = { spec ->
     spec.custom 'RegisterItemsRule', { String text ->
         if (!text.contains("class RegisterItems")) {
@@ -176,6 +208,8 @@ spotless {
         conditionalLambdaLineBreakRule(delegate)
         conditionalDatagenAdvancementProviderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
+        conditionalDatagenRecipeProviderRule(delegate)
+        conditionalBlockDataRule(delegate)
         conditionalRegisterItemsRule(delegate)
         conditionalRegisterConfiguredFeaturesRule(delegate)
         conditionalRegisterPlacedFeaturesRule(delegate)
