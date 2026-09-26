@@ -48,25 +48,6 @@ def conditionalMixinRule = { spec ->
     }
 }
 
-def conditionalLambdaLineBreakRule = { spec ->
-    spec.custom 'LambdaLineBreakRule', { text ->
-        if (!text.contains("class BiomeModifiers") && !text.contains("class RegisterItems")) {
-            return text
-        }
-        return text
-            .replaceAll(/(?m)^([ \t]*)(.*?\b([a-zA-Z0-9_$%]+|\([^)]+\)))[ \t]*->(?!\s*\{)[ \t]*/, { Object[] args ->
-                def indent = args[1]
-                def preLambda = args[2]
-                return "${indent}${preLambda}\n${indent}    -> "
-            })
-            .replaceAll(/(?m)^([ \t]*)(.*?)[ \t]*\(\)\s*->(?!\s*\{)[ \t]*/, { Object[] args ->
-                def indent = args[1]
-                def preLambda = args[2]
-                return "${indent}${preLambda}\n${indent}    () -> "
-            })
-    }
-}
-
 def conditionalDatagenAdvancementProviderRule = { spec ->
     spec.custom 'DatagenAdvancementProviderRule', { String text ->
         if (!text.contains("class DatagenAdvancementProvider")) {
@@ -206,7 +187,6 @@ spotless {
         target 'src/main/**/*.java'
         applyPreConfig(delegate)
         conditionalMixinRule(delegate)
-//        conditionalLambdaLineBreakRule(delegate)
         conditionalDatagenAdvancementProviderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
         conditionalDatagenRecipeProviderRule(delegate)
