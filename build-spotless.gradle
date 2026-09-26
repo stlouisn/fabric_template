@@ -54,22 +54,16 @@ def conditionalLambdaLineBreakRule = { spec ->
             return text
         }
         return text
-            .replaceAll(
-                /(?m)^([ \t]*)(.*?\b([a-zA-Z0-9_$%]+|\([^)]+\)))[ \t]*->(?!\s*\{)[ \t]*/,
-                { Object[] args ->
-                    def indent = args[1]
-                    def preLambda = args[2]
-                    return "${indent}${preLambda}\n${indent}    -> "
-                }
-            )
-            .replaceAll(
-                /(?m)^([ \t]*)(.*?)[ \t]*\(\)\s*->(?!\s*\{)[ \t]*/,
-                { Object[] args ->
-                    def indent = args[1]
-                    def preLambda = args[2]
-                    return "${indent}${preLambda}\n${indent}    () -> "
-                }
-            )
+            .replaceAll(/(?m)^([ \t]*)(.*?\b([a-zA-Z0-9_$%]+|\([^)]+\)))[ \t]*->(?!\s*\{)[ \t]*/, { Object[] args ->
+                def indent = args[1]
+                def preLambda = args[2]
+                return "${indent}${preLambda}\n${indent}    -> "
+            })
+            .replaceAll(/(?m)^([ \t]*)(.*?)[ \t]*\(\)\s*->(?!\s*\{)[ \t]*/, { Object[] args ->
+                def indent = args[1]
+                def preLambda = args[2]
+                return "${indent}${preLambda}\n${indent}    () -> "
+            })
     }
 }
 
@@ -78,15 +72,16 @@ def conditionalDatagenAdvancementProviderRule = { spec ->
         if (!text.contains("class DatagenAdvancementProvider")) {
             return text
         }
-        return text.replaceAll(/Advancement\.Builder\.advancement\(\)(.*?\.save\(.*?\);)/, { Object[] args ->
-            def chain = args[1]
-            def formatted = chain
-                .replaceAll(/\.parent\(/, "\n${indent3}.parent(")
-                .replaceAll(/\.display\(/, "\n${indent3}.display(")
-                .replaceAll(/\.addCriterion\(/, "\n${indent3}.addCriterion(")
-                .replaceAll(/\.save\(/, "\n${indent3}.save(")
-            return "Advancement.Builder.advancement()" + formatted
-        })
+        return text
+            .replaceAll(/Advancement\.Builder\.advancement\(\)(.*?\.save\(.*?\);)/, { Object[] args ->
+                def chain = args[1]
+                def formatted = chain
+                    .replaceAll(/\.parent\(/, "\n${indent3}.parent(")
+                    .replaceAll(/\.display\(/, "\n${indent3}.display(")
+                    .replaceAll(/\.addCriterion\(/, "\n${indent3}.addCriterion(")
+                    .replaceAll(/\.save\(/, "\n${indent3}.save(")
+                return "Advancement.Builder.advancement()" + formatted
+            })
     }
 }
 
@@ -107,13 +102,14 @@ def conditionalDatagenRecipeProviderRule = { spec ->
         if (!text.contains("class DatagenRecipeProvider") && !text.contains("class VanillaRecipeProvider")) {
             return text
         }
-        return text.replaceAll(/(?s)([ \t]*)(shaped|shapeless)\b(.*?);/) { Object[] args ->
-            def indent = args[1]
-            def rawBody = args[2] + args[3]
-            def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
-            def formatted = cleanSingleLine.replaceAll(/\s*\.(group|define|pattern|requires|unlockedBy|save|showNotification)\(/, '\n' + indent + indent5 + '.$1(')
-            return indent + formatted + ";"
-        }
+        return text
+            .replaceAll(/(?s)([ \t]*)(shaped|shapeless)\b(.*?);/) { Object[] args ->
+                def indent = args[1]
+                def rawBody = args[2] + args[3]
+                def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
+                def formatted = cleanSingleLine.replaceAll(/\s*\.(group|define|pattern|requires|unlockedBy|save|showNotification)\(/, '\n' + indent + indent5 + '.$1(')
+                return indent + formatted + ";"
+            }
     }
 }
 
@@ -122,15 +118,16 @@ def conditionalBlockDataRule = { spec ->
         if (!text.contains("public record BlockData")) {
             return text
         }
-        return text.replaceAll(/(?s)([ \t]*)(public static final List<BlockData> \w+\s*=\s*List\.of\()(.*?)(\);)/) { Object[] args ->
-            def baseIndent = args[1]
-            def prefix = args[2]
-            def rawBody = args[3]
-            def suffix = args[4]
-            def items = rawBody.split(/(?<=^|\G|\)),\s*(?=new BlockData)/)
-            def formattedItems = items.collect { it.trim() }.findAll { !it.isEmpty() }.join(",\n" + baseIndent + indent1)
-            return baseIndent + prefix + "\n" + baseIndent + indent1 + formattedItems + "\n" + baseIndent + suffix
-        }
+        return text
+            .replaceAll(/(?s)([ \t]*)(public static final List<BlockData> \w+\s*=\s*List\.of\()(.*?)(\);)/) { Object[] args ->
+                def baseIndent = args[1]
+                def prefix = args[2]
+                def rawBody = args[3]
+                def suffix = args[4]
+                def items = rawBody.split(/(?<=^|\G|\)),\s*(?=new BlockData)/)
+                def formattedItems = items.collect { it.trim() }.findAll { !it.isEmpty() }.join(",\n" + baseIndent + indent1)
+                return baseIndent + prefix + "\n" + baseIndent + indent1 + formattedItems + "\n" + baseIndent + suffix
+            }
     }
 }
 
@@ -139,13 +136,14 @@ def conditionalRegisterItemsRule = { spec ->
         if (!text.contains("class RegisterItems")) {
             return text
         }
-        return text.replaceAll(/(?s)([ \t]*)(public static final Item)\b(.*?);/) { Object[] args ->
-            def indent = args[1]
-            def rawBody = args[2] + args[3]
-            def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
-            def formatted = cleanSingleLine.replaceAll(/\s*\.(component|delayedComponent|durability|enchantable|fireResistant|food|humanoidArmor|rarity|repairable|tool)\(/, '\n' + indent + indent1 + '.$1(')
-            return indent + formatted + ";"
-        }
+        return text
+            .replaceAll(/(?s)([ \t]*)(public static final Item)\b(.*?);/) { Object[] args ->
+                def indent = args[1]
+                def rawBody = args[2] + args[3]
+                def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
+                def formatted = cleanSingleLine.replaceAll(/\s*\.(component|delayedComponent|durability|enchantable|fireResistant|food|humanoidArmor|rarity|repairable|stacksTo|tool)\(/, '\n' + indent + indent1 + '.$1(')
+                return indent + formatted + ";"
+            }
     }
 }
 
@@ -154,15 +152,16 @@ def conditionalRegisterConfiguredFeaturesRule = { spec ->
         if (!text.contains("class RegisterConfiguredFeatures")) {
             return text
         }
-        text.replaceAll(/(?m)^([ \t]*)(FeatureUtils\.register\()(.*?)(\);)/) { Object[] args ->
-            def baseIndent = args[1]
-            def methodSignature = args[2]
-            def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
-            def suffix = args[4]
-            def splitParams = rawParams.split(/,(?![^\(]*\))/)
-            def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + indent1)
-            return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
-        }
+        text
+            .replaceAll(/(?m)^([ \t]*)(FeatureUtils\.register\()(.*?)(\);)/) { Object[] args ->
+                def baseIndent = args[1]
+                def methodSignature = args[2]
+                def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
+                def suffix = args[4]
+                def splitParams = rawParams.split(/,(?![^\(]*\))/)
+                def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + indent1)
+                return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
+            }
     }
 }
 
@@ -171,15 +170,16 @@ def conditionalRegisterPlacedFeaturesRule = { spec ->
         if (!text.contains("class RegisterPlacedFeatures")) {
             return text
         }
-        text.replaceAll(/(?m)^([ \t]*)(PlacementUtils\.register\()(.*?)(\);)/) { Object[] args ->
-            def baseIndent = args[1]
-            def methodSignature = args[2]
-            def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
-            def suffix = args[4]
-            def splitParams = rawParams.split(/,(?![^\(]*\))/)
-            def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + indent1)
-            return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
-        }
+        text
+            .replaceAll(/(?m)^([ \t]*)(PlacementUtils\.register\()(.*?)(\);)/) { Object[] args ->
+                def baseIndent = args[1]
+                def methodSignature = args[2]
+                def rawParams = args[3].replaceAll(/\s*\n\s*/, " ")
+                def suffix = args[4]
+                def splitParams = rawParams.split(/,(?![^\(]*\))/)
+                def formattedParams = splitParams.collect { it.trim() }.join(",\n" + baseIndent + indent1)
+                return baseIndent + methodSignature + "\n" + baseIndent + indent1 + formattedParams + suffix
+            }
     }
 }
 
@@ -188,13 +188,14 @@ def conditionalRecipeProviderRule = { spec ->
         if (!text.contains("class RecipeProvider") && !text.contains("class VanillaRecipeProvider")) {
             return text
         }
-        return text.replaceAll(/(?s)([ \t]*)(shaped|shapeless)\b(.*?);/) { Object[] args ->
-            def indent = args[1]
-            def rawBody = args[2] + args[3]
-            def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
-            def formatted = cleanSingleLine.replaceAll(/\s*\.(pattern|define|unlockedBy|save|group|showNotification)\(/, '\n' + indent + indent1 + '.$1(')
-            return indent + formatted + ";"
-        }
+        return text
+            .replaceAll(/(?s)([ \t]*)(shaped|shapeless)\b(.*?);/) { Object[] args ->
+                def indent = args[1]
+                def rawBody = args[2] + args[3]
+                def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
+                def formatted = cleanSingleLine.replaceAll(/\s*\.(pattern|define|unlockedBy|save|group|showNotification)\(/, '\n' + indent + indent1 + '.$1(')
+                return indent + formatted + ";"
+            }
     }
 }
 
@@ -205,7 +206,7 @@ spotless {
         target 'src/main/**/*.java'
         applyPreConfig(delegate)
         conditionalMixinRule(delegate)
-        conditionalLambdaLineBreakRule(delegate)
+//        conditionalLambdaLineBreakRule(delegate)
         conditionalDatagenAdvancementProviderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
         conditionalDatagenRecipeProviderRule(delegate)
