@@ -78,6 +78,18 @@ def conditionalDatagenBlockTagProviderRule = { spec ->
     }
 }
 
+def conditionalDatagenItemTagProviderRule = { spec ->
+    spec.custom 'DatagenItemTagProviderRule', { String text ->
+        if (!text.contains("class DatagenItemTagProvider")) {
+            return text
+        }
+        return text
+            .replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
+            .replaceAll(/(?m)\s*KeyItems\./, '\n' + indent3 + 'KeyItems.')
+            .replaceAll(/(?m)\s*KeyBlockItems\./, '\n' + indent3 + 'KeyBlockItems.')
+    }
+}
+
 def conditionalDatagenRecipeProviderRule = { spec ->
     spec.custom 'DatagenRecipeProviderRule', { String text ->
         if (!text.contains("class DatagenRecipeProvider") && !text.contains("class VanillaRecipeProvider")) {
@@ -189,6 +201,7 @@ spotless {
         conditionalMixinRule(delegate)
         conditionalDatagenAdvancementProviderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
+        conditionalDatagenItemTagProviderRule(delegate)
         conditionalDatagenRecipeProviderRule(delegate)
         conditionalBlockDataRule(delegate)
         conditionalRegisterItemsRule(delegate)
