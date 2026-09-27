@@ -48,6 +48,31 @@ def conditionalMixinRule = { spec ->
     }
 }
 
+def conditionalContentBlockRule = { spec ->
+    spec.custom 'ContentBlockRule', { String text ->
+        if (!(text =~ /(?m)^package\s+(?:dev|com)\.[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)*\.content\.block(?:\.[A-Za-z0-9_]+)*\s*;/)) {
+            return text
+        }
+        return text.replaceAll(/(?m)^([ \t]*)(.*)$/) { Object[] args ->
+            def indent = args[1]
+            def line = args[2]
+            if (line.trim().startsWith('.setValue(')) {
+                return args[0]
+            }
+            if (line.contains('?')) {
+                return args[0]
+            }
+            if (!line.contains('.setValue(')) {
+                return args[0]
+            }
+            def formattedLine = line.replaceAll(/(?<!resultState)[ \t]*\.setValue\(/) {
+                "\n${indent}${indent1}.setValue("
+            }
+            return "${indent}${formattedLine}"
+        }
+    }
+}
+
 def conditionalDatagenAdvancementProviderRule = { spec ->
     spec.custom 'DatagenAdvancementProviderRule', { String text ->
         if (!text.contains("class DatagenAdvancementProvider")) {
@@ -199,6 +224,7 @@ spotless {
         target 'src/main/**/*.java'
         applyPreConfig(delegate)
         conditionalMixinRule(delegate)
+        conditionalContentBlockRule(delegate)
         conditionalDatagenAdvancementProviderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
         conditionalDatagenItemTagProviderRule(delegate)
