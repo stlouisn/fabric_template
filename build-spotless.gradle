@@ -179,7 +179,7 @@ def conditionalRegisterItemsRule = { spec ->
                 def indent = args[1]
                 def rawBody = args[2] + args[3]
                 def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
-                def formatted = cleanSingleLine.replaceAll(/\s*\.(component|delayedComponent|durability|enchantable|fireResistant|food|humanoidArmor|rarity|repairable|stacksTo|tool|trimMaterial)\(/, '\n' + indent + indent1 + '.$1(')
+                def formatted = cleanSingleLine.replaceAll(/\s*\.(component|delayedComponent|durability|enchantable|fireResistant|food|humanoidArmor|rarity|repairable|stacksTo|tool|trimMaterial|useBlockDescriptionPrefix)\(/, '\n' + indent + indent1 + '.$1(')
                 return indent + formatted + ";"
             }
     }
