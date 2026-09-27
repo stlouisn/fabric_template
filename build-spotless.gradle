@@ -25,8 +25,27 @@ def applyPreConfig = { spec ->
 
 def applyPostConfig = { spec ->
     spec.custom 'linebreakNullabilityAnnotations', { text ->
-        text.replaceAll(/(?m)^(\s*)(@(?>Nullable|NonNull))\s+(public|protected|private)\b/, '$1$2\n$1$3')
+        text
+            .replaceAll(/(?m)^(\s*)(@(?>Nullable|NonNull))\s+(public|protected|private)\b/, '$1$2\n$1$3')
             .replaceAll(/(?m)^(\s*)(@(?>Nullable|NonNull))\s*\n\s*\n(\s*(?:public|protected|private)\b)/, '$1$2\n$3')
+    }
+    spec.custom 'formatClassArrayDeclarations', { String text ->
+        text
+            .replaceAll(/(?s)(?m)^([ \t]*)(((?:(?:public|protected|private)\s+)?static\s+final\s+Class<\?>\[\]\s+\w+\s*=\s*\{)(.*?)(\}\s*;))/) { Object[] args ->
+                def baseIndent = args[1]
+                def declaration = args[2]
+                def prefix = args[3]
+                def rawEntries = args[4]
+                def suffix = args[5]
+                def entries = rawEntries
+                    .split(/\s*,\s*/)
+                    .collect { it.trim() }
+                    .findAll { !it.isEmpty() }
+                if (entries.isEmpty() || !entries.every { it ==~ /[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*\.class/ }) {
+                    return declaration
+                }
+                return baseIndent + prefix + "\n" + entries.collect { baseIndent + indent1 + it }.join(",\n") + "\n" + baseIndent + suffix
+            }
     }
     spec.leadingTabsToSpaces(4)
     spec.trimTrailingWhitespace()
@@ -53,23 +72,24 @@ def conditionalContentBlockRule = { spec ->
         if (!(text =~ /(?m)^package\s+(?:dev|com)\.[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)*\.content\.block(?:\.[A-Za-z0-9_]+)*\s*;/)) {
             return text
         }
-        return text.replaceAll(/(?m)^([ \t]*)(.*)$/) { Object[] args ->
-            def indent = args[1]
-            def line = args[2]
-            if (line.trim().startsWith('.setValue(')) {
-                return args[0]
+        return text
+            .replaceAll(/(?m)^([ \t]*)(.*)$/) { Object[] args ->
+                def indent = args[1]
+                def line = args[2]
+                if (line.trim().startsWith('.setValue(')) {
+                    return args[0]
+                }
+                if (line.contains('?')) {
+                    return args[0]
+                }
+                if (!line.contains('.setValue(')) {
+                    return args[0]
+                }
+                def formattedLine = line.replaceAll(/(?<!resultState)[ \t]*\.setValue\(/) {
+                    "\n${indent}${indent1}.setValue("
+                }
+                return "${indent}${formattedLine}"
             }
-            if (line.contains('?')) {
-                return args[0]
-            }
-            if (!line.contains('.setValue(')) {
-                return args[0]
-            }
-            def formattedLine = line.replaceAll(/(?<!resultState)[ \t]*\.setValue\(/) {
-                "\n${indent}${indent1}.setValue("
-            }
-            return "${indent}${formattedLine}"
-        }
     }
 }
 
