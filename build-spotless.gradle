@@ -145,7 +145,7 @@ def conditionalDatagenRecipeProviderRule = { spec ->
                 def indent = args[1]
                 def rawBody = args[2] + args[3]
                 def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
-                def formatted = cleanSingleLine.replaceAll(/\s*\.(group|define|pattern|requires|unlockedBy|save|showNotification)\(/, '\n' + indent + indent5 + '.$1(')
+                def formatted = cleanSingleLine.replaceAll(/\s*\.(group|define|pattern|requires|unlockedBy|save|showNotification)\(/, '\n' + indent + indent1 + '.$1(')
                 return indent + formatted + ";"
             }
     }
