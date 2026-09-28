@@ -169,6 +169,22 @@ def conditionalBlockDataRule = { spec ->
     }
 }
 
+def conditionalRegisterBlocksRule = { spec ->
+    spec.custom 'RegisterBlocksRule', { String text ->
+        if (!text.contains("class RegisterBlocks")) {
+            return text
+        }
+        return text
+            .replaceAll(/(?s)([ \t]*)(public static final Block)\b(.*?);/) { Object[] args ->
+                def indent = args[1]
+                def rawBody = args[2] + args[3]
+                def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
+                def formatted = cleanSingleLine.replaceAll(/\s*\.(emissiveRendering|forceSolidOff|friction|ignitedByLava|instabreak|instrument|isRedstoneConductor|isValidSpawn|lightLevel|mapColor|noCollision|noLootTable|noOcclusion|pushReaction|randomTicks|requiresCorrectToolForDrops|sound|strength)\(/, '\n' + indent + indent1 + '.$1(')
+                return indent + formatted + ";"
+            }
+    }
+}
+
 def conditionalRegisterItemsRule = { spec ->
     spec.custom 'RegisterItemsRule', { String text ->
         if (!text.contains("class RegisterItems")) {
@@ -250,6 +266,7 @@ spotless {
         conditionalDatagenItemTagProviderRule(delegate)
         conditionalDatagenRecipeProviderRule(delegate)
         conditionalBlockDataRule(delegate)
+        conditionalRegisterBlocksRule(delegate)
         conditionalRegisterItemsRule(delegate)
         conditionalRegisterConfiguredFeaturesRule(delegate)
         conditionalRegisterPlacedFeaturesRule(delegate)
