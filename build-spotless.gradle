@@ -151,6 +151,22 @@ def conditionalDatagenRecipeProviderRule = { spec ->
     }
 }
 
+def conditionalDatagenRecipeBuilderRule = { spec ->
+    spec.custom 'DatagenRecipeBuilderRule', { String text ->
+        if (!text.contains("class DatagenRecipeBuilder")) {
+            return text
+        }
+        return text
+            .replaceAll(/(?s)([ \t]*)(shaped|shapeless)\b(.*?);/) { Object[] args ->
+                def indent = args[1]
+                def rawBody = args[2] + args[3]
+                def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
+                def formatted = cleanSingleLine.replaceAll(/\s*\.(group|define|pattern|requires|unlockedBy|save|showNotification)\(/, '\n' + indent + indent3 + '.$1(')
+                return indent + formatted + ";"
+            }
+    }
+}
+
 def conditionalBlockDataRule = { spec ->
     spec.custom 'BlockDataRule', { String text ->
         if (!text.contains("public record BlockData")) {
@@ -265,6 +281,7 @@ spotless {
         conditionalDatagenBlockTagProviderRule(delegate)
         conditionalDatagenItemTagProviderRule(delegate)
         conditionalDatagenRecipeProviderRule(delegate)
+        conditionalDatagenRecipeBuilderRule(delegate)
         conditionalBlockDataRule(delegate)
         conditionalRegisterBlocksRule(delegate)
         conditionalRegisterItemsRule(delegate)
