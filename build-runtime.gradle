@@ -1,3 +1,11 @@
+// Local Builds
+dependencies {
+    runtimeOnly(files(rootProject.file("../minecraft_all_the_mixins/build/libs/_custom_all-the-mixins-26.2-fabric-1.0.6.jar")))
+    runtimeOnly(files(rootProject.file("../minecraft_cypress_wood/build/libs/_custom_cypresswood-26.2-fabric-1.2.4.jar")))
+    runtimeOnly(files(rootProject.file("../minecraft_palisade_walls/build/libs/_custom_palisade-walls-26.2-fabric-26.06.23.jar")))
+    runtimeOnly(files(rootProject.file("../minecraft_consistent_ores/build/libs/_custom_consistent-ores-26.2-fabric-1.0.0.jar")))
+}
+
 // Audaki Cart Engine
 dependencies {
     runtimeOnly("maven.modrinth:V8qsCwta:${audaki_cart_engine_version}")

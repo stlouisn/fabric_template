@@ -43,3 +43,9 @@ dependencies {
 dependencies {
     implementation(localRuntime("com.terraformersmc:modmenu:${modmenu_version}"))
 }
+
+// Storage Drawers
+dependencies {
+    runtimeOnly("maven.modrinth:ohNO6lps:${forge_config_version}")
+    runtimeOnly("maven.modrinth:guitPqEi:${storage_drawers_version}")
+}
