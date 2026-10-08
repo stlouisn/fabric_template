@@ -51,12 +51,13 @@ dependencies {
 
 // Storage Drawers
 dependencies {
-    runtimeOnly("maven.modrinth:ohNO6lps:${forge_config_version}")
-    runtimeOnly("maven.modrinth:guitPqEi:${storage_drawers_version}")
+    implementation(localRuntime("maven.modrinth:ohNO6lps:${forge_config_version}"))
+    implementation(localRuntime("maven.modrinth:guitPqEi:${storage_drawers_version}"))
 }
 
 // Waystones
 dependencies {
-    runtimeOnly("maven.modrinth:MBAkmtvl:${balm_version}")
-    runtimeOnly("maven.modrinth:LOpKHB2A:${waystones_version}")
+    implementation(localRuntime("maven.modrinth:MBAkmtvl:${balm_version}"))
+    implementation(localRuntime("maven.modrinth:bi4iCmsw:${shogi_version}"))
+    implementation(localRuntime("maven.modrinth:LOpKHB2A:${waystones_version}"))
 }
