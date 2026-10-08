@@ -19,6 +19,11 @@ dependencies {
 
 // ------------------------------------------------------------------------------------------
 
+// Beautify
+dependencies {
+    implementation(localRuntime("maven.modrinth:DhSSvaxs:${beautify_version}"))
+}
+
 // Create
 dependencies {
     implementation(localRuntime("maven.modrinth:dKvj0eNn:${create_version}"))
@@ -48,4 +53,10 @@ dependencies {
 dependencies {
     runtimeOnly("maven.modrinth:ohNO6lps:${forge_config_version}")
     runtimeOnly("maven.modrinth:guitPqEi:${storage_drawers_version}")
+}
+
+// Waystones
+dependencies {
+    runtimeOnly("maven.modrinth:MBAkmtvl:${balm_version}")
+    runtimeOnly("maven.modrinth:LOpKHB2A:${waystones_version}")
 }
