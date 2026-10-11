@@ -179,4 +179,5 @@ jar {
             ]
         )
     }
+    exclude("${maven_group.replace('.', '/')}/datagen/**")
 }
