@@ -82,7 +82,8 @@ def conditionalContentBlockRule = { spec ->
                 if (line.contains('?')) {
                     return args[0]
                 }
-                if (!line.contains('.setValue(')) {
+                def setValueCount = line.findAll(/\.setValue\(/).size()
+                if (setValueCount < 2) {
                     return args[0]
                 }
                 def formattedLine = line.replaceAll(/(?<!resultState)[ \t]*\.setValue\(/) {
