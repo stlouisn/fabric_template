@@ -103,10 +103,10 @@ def conditionalDatagenAdvancementProviderRule = { spec ->
             .replaceAll(/Advancement\.Builder\.advancement\(\)(.*?\.save\(.*?\);)/, { Object[] args ->
                 def chain = args[1]
                 def formatted = chain
-                    .replaceAll(/\.parent\(/, "\n${indent3}.parent(")
-                    .replaceAll(/\.display\(/, "\n${indent3}.display(")
-                    .replaceAll(/\.addCriterion\(/, "\n${indent3}.addCriterion(")
-                    .replaceAll(/\.save\(/, "\n${indent3}.save(")
+                    .replaceAll(/\.parent\(/, "\n${indent4}.parent(")
+                    .replaceAll(/\.display\(/, "\n${indent4}.display(")
+                    .replaceAll(/\.addCriterion\(/, "\n${indent4}.addCriterion(")
+                    .replaceAll(/\.save\(/, "\n${indent4}.save(")
                 return "Advancement.Builder.advancement()" + formatted
             })
     }
