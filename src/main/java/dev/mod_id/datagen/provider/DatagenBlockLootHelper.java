@@ -1,0 +1,65 @@
+package dev.ores.datagen.provider;
+
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
+import net.minecraft.advancements.predicates.ItemPredicate;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import org.jspecify.annotations.NullMarked;
+
+import java.util.concurrent.CompletableFuture;
+
+import static dev.ores.util.Constants.resourceLocation;
+
+@SuppressWarnings("SameParameterValue")
+@NullMarked
+public abstract class DatagenBlockLootHelper extends FabricBlockLootSubProvider {
+
+    protected DatagenBlockLootHelper(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        super(output, registriesFuture);
+    }
+
+    protected void createSelfDrop(Block block) {
+        final String namespace = BuiltInRegistries.BLOCK.getKey(block).getNamespace();
+        final String path = BuiltInRegistries.BLOCK.getKey(block).getPath();
+        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
+        final LootTable.Builder builder = this.createSingleItemTable(block).setRandomSequence(identifier);
+        this.add(block, builder);
+    }
+
+    protected void createSilkTouchDrop(Block block) {
+        final String namespace = BuiltInRegistries.BLOCK.getKey(block).getNamespace();
+        final String path = BuiltInRegistries.BLOCK.getKey(block).getPath();
+        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
+        final LootTable.Builder builder = this.createSilkTouchOnlyTable(block).setRandomSequence(identifier);
+        this.add(block, builder);
+    }
+
+    protected void createGeodeClusterDrop(Block original, Item drop) {
+        final String namespace = BuiltInRegistries.BLOCK.getKey(original).getNamespace();
+        final String path = BuiltInRegistries.BLOCK.getKey(original).getPath();
+        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
+        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F))).apply(ApplyBonusCount.addOreBonusCount(this.registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))).when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(this.registries.lookupOrThrow(Registries.ITEM), ItemTags.CLUSTER_MAX_HARVESTABLES))).otherwise(this.applyExplosionDecay(original, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F)))))).setRandomSequence(identifier);
+        this.add(original, builder);
+    }
+
+    protected void createRawOreDrop(Block original, Item drop) {
+        final String namespace = BuiltInRegistries.BLOCK.getKey(original).getNamespace();
+        final String path = BuiltInRegistries.BLOCK.getKey(original).getPath();
+        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
+        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, LootItem.lootTableItem(drop).apply(ApplyBonusCount.addOreBonusCount(this.registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE)))).setRandomSequence(identifier);
+        this.add(original, builder);
+    }
+}

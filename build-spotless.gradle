@@ -118,9 +118,33 @@ def conditionalDatagenBlockTagProviderRule = { spec ->
             return text
         }
         return text
-            .replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
-            .replaceAll(/(?m)\s*KeyBlocks\./, '\n' + indent3 + 'KeyBlocks.')
-            .replaceAll(/(?m)\s*KeyBlockItems\./, '\n' + indent3 + 'KeyBlockItems.')
+            .replaceAll(/(?m)^([ \t]*)(.*)$/) { Object[] args ->
+                def indent = args[1]
+                def line = args[2]
+                def addTagCount = line.findAll(/\.addTag\(/).size()
+                if (addTagCount < 2) {
+                    return args[0]
+                }
+                return indent + line.replaceAll(/\)\s*\.addTag\(/, ')' + '\n' + indent + indent3 + '.addTag(')
+            }
+            .replaceAll(/(?m)^([ \t]*)(.*)$/) { Object[] args ->
+                def indent = args[1]
+                def line = args[2]
+                def keyBlocksCount = line.findAll(/KeyBlocks\./).size()
+                if (keyBlocksCount < 2) {
+                    return args[0]
+                }
+                return indent + line.replaceAll(/\s*KeyBlocks\./, '\n' + indent + indent3 + 'KeyBlocks.')
+            }
+            .replaceAll(/(?m)^([ \t]*)(.*)$/) { Object[] args ->
+                def indent = args[1]
+                def line = args[2]
+                def keyBlockItemsCount = line.findAll(/KeyBlockItems\./).size()
+                if (keyBlockItemsCount < 2) {
+                    return args[0]
+                }
+                return indent + line.replaceAll(/\s*KeyBlockItems\./, '\n' + indent + indent3 + 'KeyBlockItems.')
+            }
     }
 }
 
@@ -130,9 +154,33 @@ def conditionalDatagenItemTagProviderRule = { spec ->
             return text
         }
         return text
-            .replaceAll(/(?m)\)\s*\.addTag\(/, ')\n' + indent3 + '.addTag(')
-            .replaceAll(/(?m)\s*KeyItems\./, '\n' + indent3 + 'KeyItems.')
-            .replaceAll(/(?m)\s*KeyBlockItems\./, '\n' + indent3 + 'KeyBlockItems.')
+            .replaceAll(/(?m)^([ \t]*)(.*)$/) { Object[] args ->
+                def indent = args[1]
+                def line = args[2]
+                def addTagCount = line.findAll(/\.addTag\(/).size()
+                if (addTagCount < 2) {
+                    return args[0]
+                }
+                return indent + line.replaceAll(/\)\s*\.addTag\(/, ')' + '\n' + indent + indent1 + '.addTag(')
+            }
+            .replaceAll(/(?m)^([ \t]*)(.*)$/) { Object[] args ->
+                def indent = args[1]
+                def line = args[2]
+                def keyItemsCount = line.findAll(/KeyItems\./).size()
+                if (keyItemsCount < 2) {
+                    return args[0]
+                }
+                return indent + line.replaceAll(/\s*KeyItems\./, '\n' + indent + indent1 + 'KeyItems.')
+            }
+            .replaceAll(/(?m)^([ \t]*)(.*)$/) { Object[] args ->
+                def indent = args[1]
+                def line = args[2]
+                def keyBlockItemsCount = line.findAll(/KeyBlockItems\./).size()
+                if (keyBlockItemsCount < 2) {
+                    return args[0]
+                }
+                return indent + line.replaceAll(/\s*KeyBlockItems\./, '\n' + indent + indent1 + 'KeyBlockItems.')
+            }
     }
 }
 
