@@ -1,67 +1,39 @@
-package dev.turtle_armour.datagen.provider;
+package dev.ores.datagen.provider;
 
-import dev.turtle_armour.content.registry.RegisterItems;
-import dev.turtle_armour.util.Constants;
-import java.util.concurrent.CompletableFuture;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import dev.ores.content.registry.RegisterBlocks;
+import dev.ores.content.registry.RegisterItems;
+import dev.ores.content.tag.TagItems;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.resources.Identifier;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public final class VanillaRecipeProvider extends FabricRecipeProvider {
+public final class VanillaRecipeProvider extends DatagenRecipeHelper {
 
-    private static final String PROVIDER_NAME = "Vanilla Recipe Provider";
-
-    public VanillaRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
+    public VanillaRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
+        super(registries, output);
     }
 
     @Override
-    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput recipeOutput) {
-        return new RecipeProvider(registries, recipeOutput) {
+    public void buildRecipes() {
 
-            @Override
-            public void buildRecipes() {
+        createOreProcessingRecipe(Items.RAW_COPPER_BLOCK, Items.COPPER_BLOCK.weathering().unaffected(), 0.7F);
+        createOreProcessingRecipe(Items.RAW_GOLD_BLOCK, Items.GOLD_BLOCK, 1.0F);
+        createOreProcessingRecipe(Items.RAW_IRON_BLOCK, Items.IRON_BLOCK, 0.7F);
+        createOreProcessingRecipe(RegisterBlocks.RAW_NETHERITE_BLOCK, Items.NETHERITE_BLOCK, 2.0F);
+        createOreProcessingRecipe(Blocks.ANCIENT_DEBRIS, Items.NETHERITE_INGOT, 2.0F);
+        createOreProcessingRecipe(RegisterItems.RAW_NETHERITE, Items.NETHERITE_INGOT, 2.0F);
 
-                shaped(RecipeCategory.COMBAT, RegisterItems.TURTLE_LEGGINGS)
-                    .pattern("###")
-                    .pattern("# #")
-                    .pattern("# #")
-                    .define('#', Items.TURTLE_SCUTE)
-                    .unlockedBy("has_item", has(Items.TURTLE_SCUTE))
-                    .save(output);
+        createOreProcessingRecipe(ItemTags.COPPER_ORES, Items.COPPER_INGOT, 0.7F, "_copper_ore");
+        createOreProcessingRecipe(ItemTags.GOLD_ORES, Items.GOLD_INGOT, 1.0F, "_gold_ore");
+        createOreProcessingRecipe(ItemTags.IRON_ORES, Items.IRON_INGOT, 0.7F, "_iron_ore");
 
-                shaped(RecipeCategory.COMBAT, RegisterItems.TURTLE_CHESTPLATE)
-                    .pattern("# #")
-                    .pattern("###")
-                    .pattern("###")
-                    .define('#', Items.TURTLE_SCUTE)
-                    .unlockedBy("has_item", has(Items.TURTLE_SCUTE))
-                    .save(output);
-
-                shaped(RecipeCategory.COMBAT, RegisterItems.TURTLE_BOOTS)
-                    .pattern("# #")
-                    .pattern("# #")
-                    .define('#', Items.TURTLE_SCUTE)
-                    .unlockedBy("has_item", has(Items.TURTLE_SCUTE))
-                    .save(output);
-            }
-        };
-    }
-
-    @Override
-    public String getName() {
-        return PROVIDER_NAME;
-    }
-
-    @Override
-    protected Identifier getRecipeIdentifier(Identifier identifier) {
-        return Constants.resourceLocation("minecraft", identifier.getPath());
+        createOreProcessingRecipe(TagItems.SMELTS_TO_COPPER_NUGGETS, Items.COPPER_NUGGET, "copper_nugget", 0.1F, false);
+        createOreProcessingRecipe(TagItems.SMELTS_TO_GOLD_NUGGETS, Items.GOLD_NUGGET, "gold_nugget", 0.1F, false);
+        createOreProcessingRecipe(TagItems.SMELTS_TO_IRON_NUGGETS, Items.IRON_NUGGET, "iron_nugget", 0.1F, false);
+        createOreProcessingRecipe(TagItems.SMELTS_TO_NETHERITE_NUGGETS, RegisterItems.NETHERITE_NUGGET, "netherite_nugget", 0.1F, false);
     }
 }
