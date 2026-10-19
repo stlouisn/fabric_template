@@ -153,28 +153,45 @@ tasks.withType(Javadoc).configureEach {
 def mod_name_final = mod_name_custom.toBoolean() ? "${mod_name} [C]" : mod_name
 
 processResources {
-    def removingDatagen = false
+
+    // Register gradle properties as task inputs
     def stringProperties = new LinkedHashMap(providers.gradlePropertiesPrefixedBy('').get())
     stringProperties.put("mod_name_final", mod_name_final)
     stringProperties.each { key, value -> inputs.property(key as String, value) }
+
+    // Check if running datagen
+    def isDatagen = gradle.startParameter.taskNames.any {it.toLowerCase().contains("datagen") }
+    inputs.property("isDatagen", isDatagen)
+
     filesMatching(['fabric.mod.json', 'en_us.json']) {
+
+        // Remove comments
         filter { line -> line.contains('"$schema":') ? null : line }
         filter { line -> line.startsWith('/*') ? null : line }
         filter { line -> line.startsWith('//') ? null : line }
+
+        // Remove blank lines
         filter { line -> line.trim().isEmpty() ? null : line }
-        filter { line ->
-            if (line.contains('"fabric-datagen":')) {
-                removingDatagen = true
-                return null
-            }
-            if (removingDatagen) {
+
+        // Remove datagen
+        if (!isDatagen) {
+            def removingDatagen = false
+            filter { line ->
+                if (line.contains('"fabric-datagen":')) {
+                    removingDatagen = true
+                    return null
+                }
+                if (!removingDatagen) {
+                    return line
+                }
                 if (line.contains(']')) {
                     removingDatagen = false
                 }
                 return null
             }
-            return line
         }
+
+        // Replace placeholders
         expand(stringProperties) { escapeBackslash = true }
     }
 }
