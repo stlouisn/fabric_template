@@ -184,9 +184,30 @@ def conditionalDatagenItemTagProviderRule = { spec ->
     }
 }
 
-def conditionalDatagenRecipeProviderRule = { spec ->
-    spec.custom 'DatagenRecipeProviderRule', { String text ->
-        if (!text.contains("class DatagenRecipeProvider") && !text.contains("class VanillaRecipeProvider")) {
+def conditionalDatagenPackMetadataGeneratorRule = { spec ->
+    spec.custom 'DatagenPackMetadataGeneratorRule', { String text ->
+        if (!text.contains("class DatagenPackMetadataGenerator")) {
+            return text
+        }
+        return text
+            .replaceAll(/(?m)^([ \t]*)private static final List<String> FILTERED_VANILLA_ADVANCEMENTS = List\.of\(([^)]*)\);/) { Object[] args ->
+                def indent = args[1]
+                def itemIndent = indent + "    "
+                def items = args[2].findAll(/"[^"]*"/)
+                return indent + "private static final List<String> FILTERED_VANILLA_ADVANCEMENTS = List.of(\n" + items.collect { itemIndent + it }.join(",\n") + "\n" + indent + ");"
+            }
+            .replaceAll(/(?m)^([ \t]*)private static final List<String> FILTERED_VANILLA_RECIPES = List\.of\(([^)]*)\);/) { Object[] args ->
+                def indent = args[1]
+                def itemIndent = indent + "    "
+                def items = args[2].findAll(/"[^"]*"/)
+                return indent + "private static final List<String> FILTERED_VANILLA_RECIPES = List.of(\n" + items.collect { itemIndent + it }.join(",\n") + "\n" + indent + ");"
+            }
+    }
+}
+
+def conditionalDatagenRecipeHelperRule = { spec ->
+    spec.custom 'DatagenRecipeHelperRule', { String text ->
+        if (!text.contains("class DatagenRecipeHelper")) {
             return text
         }
         return text
@@ -197,21 +218,29 @@ def conditionalDatagenRecipeProviderRule = { spec ->
                 def formatted = cleanSingleLine.replaceAll(/\s*\.(group|define|pattern|requires|unlockedBy|save|showNotification)\(/, '\n' + indent + indent1 + '.$1(')
                 return indent + formatted + ";"
             }
+            .replaceAll(/(?s)([ \t]*)(SimpleCookingRecipeBuilder\.generic\(.*?);/) { Object[] args ->
+                def indent = args[1]
+                def statement = args[2]
+                def formatted = statement.replaceAll(
+                    /\s*\.(group|unlockedBy|save)\(/,
+                    '\n' + indent + indent1 + '.$1('
+                )
+                return formatted + ";"
+            }
     }
 }
 
-def conditionalDatagenRecipeBuilderRule = { spec ->
-    spec.custom 'DatagenRecipeBuilderRule', { String text ->
-        if (!text.contains("class DatagenRecipeBuilder")) {
+def conditionalDatagenTrimItemsAtlasProviderRule = { spec ->
+    spec.custom 'DatagenTrimItemsAtlasProviderRule', { String text ->
+        if (!text.contains("class DatagenTrimItemsAtlasProvider")) {
             return text
         }
         return text
-            .replaceAll(/(?s)([ \t]*)(shaped|shapeless)\b(.*?);/) { Object[] args ->
+            .replaceAll(/(?m)^([ \t]*)final List<String> itemTextures = List\.of\(([^)]*)\);/) { Object[] args ->
                 def indent = args[1]
-                def rawBody = args[2] + args[3]
-                def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
-                def formatted = cleanSingleLine.replaceAll(/\s*\.(group|define|pattern|requires|unlockedBy|save|showNotification)\(/, '\n' + indent + indent3 + '.$1(')
-                return indent + formatted + ";"
+                def itemIndent = indent + "    "
+                def items = args[2].findAll(/"[^"]*"/)
+                return indent + "final List<String> itemTextures = List.of(\n" + items.collect { itemIndent + it }.join(",\n") + "\n" + indent + ");"
             }
     }
 }
@@ -329,8 +358,9 @@ spotless {
         conditionalDatagenAdvancementProviderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
         conditionalDatagenItemTagProviderRule(delegate)
-        conditionalDatagenRecipeProviderRule(delegate)
-        conditionalDatagenRecipeBuilderRule(delegate)
+        conditionalDatagenPackMetadataGeneratorRule(delegate)
+        conditionalDatagenRecipeHelperRule(delegate)
+        conditionalDatagenTrimItemsAtlasProviderRule(delegate)
         conditionalBlockDataRule(delegate)
         conditionalRegisterBlocksRule(delegate)
         conditionalRegisterItemsRule(delegate)
