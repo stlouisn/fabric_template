@@ -268,7 +268,8 @@ def conditionalBlockDataRule = { spec ->
 
 def conditionalGenerateSourceCode = { spec ->
     spec.custom 'conditionalGenerateSourceCodeRule', { String text ->
-        if (!text.contains("class GenerateKeyBlockItems")
+        if (
+               !text.contains("class GenerateKeyBlockItems")
             && !text.contains("class GenerateRegisterBlockEntityType")
             && !text.contains("class GenerateRegisterBlockItems")
             && !text.contains("class GenerateRegisterCreativeModeTabs")
@@ -334,7 +335,8 @@ def conditionalRegisterItemsRule = { spec ->
                 def indent = args[1]
                 def rawBody = args[2] + args[3]
                 def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
-                def formatted = cleanSingleLine.replaceAll(/\s*\.(component|delayedComponent|durability|enchantable|fireResistant|food|humanoidArmor|rarity|repairable|stacksTo|tool|trimMaterial|useBlockDescriptionPrefix)\(/, '\n' + indent + indent1 + '.$1(')
+                def spitLines = cleanSingleLine.replaceAll(/(?=\bKeyItems\b|\bKeyBlockItems\b|new Item\.Properties\(\))/, '\n' + indent + indent1)
+                def formatted = spitLines.replaceAll(/\s*\.(component|delayedComponent|durability|enchantable|fireResistant|food|humanoidArmor|rarity|repairable|stacksTo|tool|trimMaterial|useBlockDescriptionPrefix)\(/, '\n' + indent + indent2 + '.$1(')
                 return indent + formatted + ";"
             }
     }
@@ -378,7 +380,10 @@ def conditionalRegisterPlacedFeaturesRule = { spec ->
 
 def conditionalRecipeProviderRule = { spec ->
     spec.custom 'RecipeProviderRule', { String text ->
-        if (!text.contains("class RecipeProvider") && !text.contains("class VanillaRecipeProvider")) {
+        if (
+               !text.contains("class RecipeProvider")
+            && !text.contains("class VanillaRecipeProvider")
+        ) {
             return text
         }
         return text
