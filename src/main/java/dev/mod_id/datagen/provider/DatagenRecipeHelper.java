@@ -1,5 +1,7 @@
 package dev.ores.datagen.provider;
 
+import dev.ores.datagen.builder.SandpaperRecipeBuilder;
+import dev.ores.datagen.utils.ItemUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -17,7 +19,9 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.ItemLike;
 import org.jspecify.annotations.NullMarked;
 
-@SuppressWarnings("SameParameterValue")
+import static dev.ores.util.Constants.resourceLocation;
+
+@SuppressWarnings({"SameParameterValue", "unused"})
 @NullMarked
 public abstract class DatagenRecipeHelper extends RecipeProvider {
 
@@ -150,34 +154,27 @@ public abstract class DatagenRecipeHelper extends RecipeProvider {
     }
 
     protected void createOreProcessingRecipe(ItemLike input, ItemLike result, String recipeGroup, float experience, String recipeSuffix) {
-        final Ingredient ingredient = Ingredient.of(input.asItem());;
+        final Ingredient ingredient = Ingredient.of(input.asItem());
         createOreProcessingRecipe(ingredient, result, recipeGroup, experience, recipeSuffix);
     }
 
     protected void createOreProcessingRecipe(Ingredient ingredient, ItemLike result, String recipeGroup, float experience, String recipeSuffix) {
         final RecipeCategory craftingCategory = RecipeCategory.MISC;
         final CookingBookCategory cookingCategory = CookingBookCategory.MISC;
-        SimpleCookingRecipeBuilder.generic(
-                ingredient,
-                craftingCategory,
-                cookingCategory,
-                result,
-                experience,
-                200,
-                SmeltingRecipe::new)
+        SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, result, experience, 200, SmeltingRecipe::new)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
             .save(output, getItemName(result) + "_from_smelting" + recipeSuffix);
-        SimpleCookingRecipeBuilder.generic(
-                ingredient,
-                craftingCategory,
-                cookingCategory,
-                result,
-                experience,
-                100,
-                BlastingRecipe::new)
+        SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, result, experience, 100, BlastingRecipe::new)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
             .save(output, getItemName(result) + "_from_blasting" + recipeSuffix);
+    }
+
+    protected void createSandpaperPolishing(ItemLike input, ItemLike result) {
+        final String namespace = ItemUtils.getNamespace(result);
+        SandpaperRecipeBuilder.polishing(input, result)
+            .unlockedBy(getHasName(input), has(input))
+            .save(output, ResourceKey.create(Registries.RECIPE, resourceLocation(namespace,"sandpaper_polishing/" + getItemName(result))));
     }
 }
