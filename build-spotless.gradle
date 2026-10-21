@@ -227,6 +227,15 @@ def conditionalDatagenRecipeHelperRule = { spec ->
                 )
                 return indent + formatted + ";"
             }
+            .replaceAll(/(?s)([ \t]*)(SandpaperRecipeBuilder\.polishing\(.*?);/) { Object[] args ->
+                def indent = args[1]
+                def statement = args[2]
+                def formatted = statement.replaceAll(
+                    /\s*\.(unlockedBy|save)\(/,
+                    '\n' + indent + indent1 + '.$1('
+                )
+                return indent + formatted + ";"
+            }
     }
 }
 
