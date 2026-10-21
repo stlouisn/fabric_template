@@ -225,7 +225,7 @@ def conditionalDatagenRecipeHelperRule = { spec ->
                     /\s*\.(group|unlockedBy|save)\(/,
                     '\n' + indent + indent1 + '.$1('
                 )
-                return formatted + ";"
+                return indent + formatted + ";"
             }
     }
 }
