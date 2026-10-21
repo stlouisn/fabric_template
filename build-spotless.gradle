@@ -221,19 +221,13 @@ def conditionalDatagenRecipeHelperRule = { spec ->
             .replaceAll(/(?s)([ \t]*)(SimpleCookingRecipeBuilder\.generic\(.*?);/) { Object[] args ->
                 def indent = args[1]
                 def statement = args[2]
-                def formatted = statement.replaceAll(
-                    /\s*\.(group|unlockedBy|save)\(/,
-                    '\n' + indent + indent1 + '.$1('
-                )
+                def formatted = statement.replaceAll(/\s*\.(group|unlockedBy|save)\(/, '\n' + indent + indent1 + '.$1(')
                 return indent + formatted + ";"
             }
             .replaceAll(/(?s)([ \t]*)(SandpaperRecipeBuilder\.polishing\(.*?);/) { Object[] args ->
                 def indent = args[1]
                 def statement = args[2]
-                def formatted = statement.replaceAll(
-                    /\s*\.(unlockedBy|save)\(/,
-                    '\n' + indent + indent1 + '.$1('
-                )
+                def formatted = statement.replaceAll(/\s*\.(unlockedBy|save)\(/, '\n' + indent + indent1 + '.$1(')
                 return indent + formatted + ";"
             }
     }
@@ -268,6 +262,31 @@ def conditionalBlockDataRule = { spec ->
                 def items = rawBody.split(/(?<=^|\G|\)),\s*(?=new BlockData)/)
                 def formattedItems = items.collect { it.trim() }.findAll { !it.isEmpty() }.join(",\n" + baseIndent + indent1)
                 return baseIndent + prefix + "\n" + baseIndent + indent1 + formattedItems + "\n" + baseIndent + suffix
+            }
+    }
+}
+
+def conditionalGenerateSourceCode = { spec ->
+    spec.custom 'conditionalGenerateSourceCodeRule', { String text ->
+        if (!text.contains("class GenerateKeyBlockItems")
+            && !text.contains("class GenerateRegisterBlockEntityType")
+            && !text.contains("class GenerateRegisterBlockItems")
+            && !text.contains("class GenerateRegisterCreativeModeTabs")
+        ) {
+            return text
+        }
+        return text
+            .replaceAll(/(?m)^([ \t]*)(.*)$/) { Object[] args ->
+                def indent = args[1]
+                def line = args[2]
+                def appendCount = line.findAll(/\.append\(/).size()
+                if (appendCount < 2) {
+                    return args[0]
+                }
+                def formattedLine = line.replaceAll(/[ \t]*\.append\(/) {
+                    "\n${indent}${indent1}.append("
+                }
+                return "${indent}${formattedLine}"
             }
     }
 }
@@ -378,6 +397,10 @@ def conditionalRecipeProviderRule = { spec ->
 spotless {
     java {
         target 'src/main/**/*.java'
+        targetExclude(
+            'src/main/**/datagen/data/BlockType.java',
+            'src/main/**/datagen/data/BlockVariant.java'
+        )
         applyPreConfig(delegate)
         conditionalMixinRule(delegate)
         conditionalContentBlockRule(delegate)
@@ -388,6 +411,7 @@ spotless {
         conditionalDatagenRecipeHelperRule(delegate)
         conditionalDatagenTrimItemsAtlasProviderRule(delegate)
         conditionalBlockDataRule(delegate)
+        conditionalGenerateSourceCode(delegate)
         conditionalRegisterBlocksRule(delegate)
         conditionalRegisterBlockItemsRule(delegate)
         conditionalRegisterItemsRule(delegate)
