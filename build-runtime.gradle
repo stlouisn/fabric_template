@@ -65,6 +65,11 @@ dependencies {
     runtimeOnly("maven.modrinth:guitPqEi:${storage_drawers_version}")
 }
 
+// Trinkets
+dependencies {
+    runtimeOnly("maven.modrinth:XaT8sLP6:${trinkets_version}")
+}
+
 // Vehicle Upgrade
 dependencies {
     runtimeOnly("maven.modrinth:QAGBst4M:${puzzles_version}")

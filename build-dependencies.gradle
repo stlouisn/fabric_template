@@ -55,6 +55,11 @@ dependencies {
     implementation(localRuntime("maven.modrinth:guitPqEi:${storage_drawers_version}"))
 }
 
+// Trinkets
+dependencies {
+    implementation(localRuntime("maven.modrinth:XaT8sLP6:${trinkets_version}"))
+}
+
 // Waystones
 dependencies {
     implementation(localRuntime("maven.modrinth:MBAkmtvl:${balm_version}"))
