@@ -35,6 +35,12 @@ dependencies {
     runtimeOnly("maven.modrinth:TVOgzXyj:${inline_tooltips_version}")
 }
 
+// Iris
+dependencies {
+    runtimeOnly("maven.modrinth:AANobbMI:${sodium_version}")
+    runtimeOnly("maven.modrinth:YL57xq9U:${iris_version}")
+}
+
 // KleeSlabs
 dependencies {
     runtimeOnly("maven.modrinth:MBAkmtvl:${balm_version}")
@@ -57,6 +63,11 @@ dependencies {
     runtimeOnly("maven.modrinth:1eAoo2KR:${yacl_version}")
     runtimeOnly("maven.modrinth:Hl4ARA1z:${reliable_recipes_version}")
     runtimeOnly("maven.modrinth:pLxsKvNt:${reliable_remover_version}")
+}
+
+// Sodium
+dependencies {
+    runtimeOnly("maven.modrinth:AANobbMI:${sodium_version}")
 }
 
 // Storage Drawers
