@@ -17,6 +17,10 @@ loom {
         accessWidenerPath = file("src/main/resources/${archives_base_name}.accesswidener")
     } else if (file("src/main/resources/${mod_id}.accesswidener").exists()) {
         accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
+    } else if (file("src/main/resources/${archives_base_name}.classtweaker").exists()) {
+        accessWidenerPath = file("src/main/resources/${archives_base_name}.classtweaker")
+    } else if (file("src/main/resources/${mod_id}.classtweaker").exists()) {
+        accessWidenerPath = file("src/main/resources/${mod_id}.classtweaker")
     }
     runs {
         client {
