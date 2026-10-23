@@ -38,7 +38,6 @@ try {
     $TreeSha = $CommitInfo.commit.tree.sha
     Write-Host
     Write-Host "Latest Commit: $CommitSha" -ForegroundColor Green
-    Write-Host "Tree SHA: $TreeSha" -ForegroundColor Green
 } catch {
     Write-Host
     Write-Host "Failed to fetch commit SHA, falling back to branch name..." -ForegroundColor Red
@@ -145,39 +144,28 @@ $FolderMappings = @(
     }
 )
 
-# ??
+# List of downloaded files (from mapped folders)
 $DownloadedFiles = [System.Collections.Generic.List[string]]::new()
 
-# Download folders from repository
+# Download folder contents from repository
 $TreeUrl = "https://api.github.com/repos/$Owner/$Repo/git/trees/${TreeSha}?recursive=1"
-Write-Host "Tree URL: $TreeUrl"
 $Tree = Invoke-RestMethod -Uri $TreeUrl -Headers @{ "User-Agent" = "PowerShell" }
-Write-Host "Tree: $Tree"
 foreach ($Mapping in $FolderMappings) {
     $SourcePrefix = "$($Mapping.Source)/"
-    $Paths = $Tree.tree |
-        Where-Object {
-            $_.type -eq "blob" -and $_.path.StartsWith($SourcePrefix)
-        } |
-        ForEach-Object { $_.path }
+    $Paths = $Tree.tree |Where-Object { $_.type -eq "blob" -and $_.path.StartsWith($SourcePrefix) } | ForEach-Object { $_.path }
     foreach ($SourcePath in $Paths) {
         $RelativePath = $SourcePath.Substring($SourcePrefix.Length)
         $DestinationPath = Join-Path $Mapping.Destination $RelativePath
         $DestinationDirectory = Split-Path -Parent $DestinationPath
         New-Item -ItemType Directory -Path $DestinationDirectory -Force | Out-Null
-        $EncodedPath = ($SourcePath -split "/" | ForEach-Object {
-            [Uri]::EscapeDataString($_)
-        }) -join "/"
-        Write-Host "Downloading: $SourcePath -> $DestinationPath" -ForegroundColor Gray
-        Invoke-WebRequest `
-            -Uri "$BaseRawUrl/$EncodedPath" `
-            -OutFile $DestinationPath `
-            -ErrorAction Stop
+        $EncodedPath = ($SourcePath -split "/" | ForEach-Object { [Uri]::EscapeDataString($_) }) -join "/"
+        Write-Host "Downloading: $DestinationPath" -ForegroundColor Gray
+        Invoke-WebRequest -Uri "$BaseRawUrl/$EncodedPath" -OutFile $DestinationPath -ErrorAction Stop
         $DownloadedFiles.Add($DestinationPath)
     }
 }
 
-# ??
+# Substitute maven_group into placeholder
 foreach ($File in $DownloadedFiles) {
     $Content = [System.IO.File]::ReadAllText($File)
     if ($Content.Contains("dev.mod_id")) {
