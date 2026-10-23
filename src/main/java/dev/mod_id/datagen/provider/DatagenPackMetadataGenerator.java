@@ -1,4 +1,4 @@
-package dev.ores.datagen.provider;
+package dev.mod_id.datagen.provider;
 
 import com.google.common.hash.Hashing;
 import com.google.common.hash.HashingOutputStream;
@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
-import dev.ores.util.Constants;
+import dev.mod_id.util.Constants;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;

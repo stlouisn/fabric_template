@@ -1,7 +1,7 @@
-package dev.ores.datagen.provider;
+package dev.mod_id.datagen.provider;
 
-import dev.ores.content.registry.RegisterBlocks;
-import dev.ores.content.registry.RegisterItems;
+import dev.mod_id.content.registry.RegisterBlocks;
+import dev.mod_id.content.registry.RegisterItems;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;

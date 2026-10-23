@@ -1,4 +1,4 @@
-package dev.ores.datagen.provider;
+package dev.mod_id.datagen.provider;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;

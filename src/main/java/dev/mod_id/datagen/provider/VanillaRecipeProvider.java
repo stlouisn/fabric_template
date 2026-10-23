@@ -1,8 +1,8 @@
-package dev.ores.datagen.provider;
+package dev.mod_id.datagen.provider;
 
-import dev.ores.content.registry.RegisterBlocks;
-import dev.ores.content.registry.RegisterItems;
-import dev.ores.content.tag.TagItems;
+import dev.mod_id.content.registry.RegisterBlocks;
+import dev.mod_id.content.registry.RegisterItems;
+import dev.mod_id.content.tag.TagItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.tags.ItemTags;

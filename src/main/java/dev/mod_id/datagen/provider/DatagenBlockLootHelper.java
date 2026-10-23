@@ -1,4 +1,4 @@
-package dev.ores.datagen.provider;
+package dev.mod_id.datagen.provider;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
@@ -21,7 +21,7 @@ import org.jspecify.annotations.NullMarked;
 
 import java.util.concurrent.CompletableFuture;
 
-import static dev.ores.util.Constants.resourceLocation;
+import static dev.mod_id.util.Constants.resourceLocation;
 
 @SuppressWarnings("SameParameterValue")
 @NullMarked

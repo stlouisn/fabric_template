@@ -1,7 +1,7 @@
-package dev.ores.datagen.provider;
+package dev.mod_id.datagen.provider;
 
-import dev.ores.datagen.builder.SandpaperRecipeBuilder;
-import dev.ores.datagen.utils.ItemUtils;
+import dev.mod_id.datagen.builder.SandpaperRecipeBuilder;
+import dev.mod_id.datagen.utils.ItemUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -19,7 +19,7 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.ItemLike;
 import org.jspecify.annotations.NullMarked;
 
-import static dev.ores.util.Constants.resourceLocation;
+import static dev.mod_id.util.Constants.resourceLocation;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
 @NullMarked

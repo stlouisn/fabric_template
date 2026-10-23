@@ -1,7 +1,7 @@
-package dev.ores.datagen.provider;
+package dev.mod_id.datagen.provider;
 
-import dev.ores.content.key.KeyBlockItems;
-import dev.ores.content.tag.TagBlocks;
+import dev.mod_id.content.key.KeyBlockItems;
+import dev.mod_id.content.tag.TagBlocks;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;

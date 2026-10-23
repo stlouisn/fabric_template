@@ -1,6 +1,6 @@
-package dev.ores.datagen.utils;
+package dev.mod_id.datagen.utils;
 
-import static dev.ores.util.Constants.MOD_ID;
+import static dev.mod_id.util.Constants.MOD_ID;
 
 import java.util.ArrayList;
 import java.util.List;

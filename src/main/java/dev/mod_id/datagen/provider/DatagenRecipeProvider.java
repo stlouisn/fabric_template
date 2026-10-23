@@ -1,7 +1,7 @@
-package dev.ores.datagen.provider;
+package dev.mod_id.datagen.provider;
 
-import dev.ores.content.registry.RegisterBlocks;
-import dev.ores.content.registry.RegisterItems;
+import dev.mod_id.content.registry.RegisterBlocks;
+import dev.mod_id.content.registry.RegisterItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;

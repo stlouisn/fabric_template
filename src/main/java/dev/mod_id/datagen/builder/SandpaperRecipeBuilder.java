@@ -1,4 +1,4 @@
-package dev.ores.datagen.builder;
+package dev.mod_id.datagen.builder;
 
 import com.zurrtum.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import net.minecraft.advancements.triggers.Criterion;
