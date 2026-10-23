@@ -147,7 +147,9 @@ $FolderMappings = @(
 
 # Download folders from repository
 $TreeUrl = "https://api.github.com/repos/$Owner/$Repo/git/trees/$TreeSha?recursive=1"
+Write-Host "Tree URL: $TreeUrl"
 $Tree = Invoke-RestMethod -Uri $TreeUrl -Headers @{ "User-Agent" = "PowerShell" }
+Write-Host "Tree: $Tree"
 foreach ($Mapping in $FolderMappings) {
     $SourcePrefix = "$($Mapping.Source)/"
     $Paths = $Tree.tree |
