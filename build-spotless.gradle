@@ -205,9 +205,9 @@ def conditionalDatagenPackMetadataGeneratorRule = { spec ->
     }
 }
 
-def conditionalDatagenRecipeHelperRule = { spec ->
-    spec.custom 'DatagenRecipeHelperRule', { String text ->
-        if (!text.contains("class DatagenRecipeHelper")) {
+def conditionalDatagenRecipeBuilderRule = { spec ->
+    spec.custom 'DatagenRecipeBuilderRule', { String text ->
+        if (!text.contains("class DatagenRecipeBuilder")) {
             return text
         }
         return text
@@ -413,7 +413,7 @@ spotless {
         conditionalDatagenBlockTagProviderRule(delegate)
         conditionalDatagenItemTagProviderRule(delegate)
         conditionalDatagenPackMetadataGeneratorRule(delegate)
-        conditionalDatagenRecipeHelperRule(delegate)
+        conditionalDatagenRecipeBuilderRule(delegate)
         conditionalDatagenTrimItemsAtlasProviderRule(delegate)
         conditionalBlockDataRule(delegate)
         conditionalGenerateSourceCode(delegate)
