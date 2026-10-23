@@ -127,10 +127,10 @@ if ($MavenParts.Length -lt 2) {
 $MavenDomain = $MavenParts[0..($MavenParts.Length - 2)] -join [IO.Path]::DirectorySeparatorChar
 $MavenArtifact = $MavenParts[-1]
 
+# Ensure datagen path exists
 $DatagenDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen"
 if (-not (Test-Path $DatagenDirectory)) {
-    throw "Required datagen directory not found: $DatagenDirectory"
-    #New-Item -ItemType Directory -Path $DatagenDirectory -Force | Out-Null
+    New-Item -ItemType Directory -Path $DatagenDirectory -Force | Out-Null
 }
 
 # List of mapped folders to download
@@ -144,6 +144,9 @@ $FolderMappings = @(
         Destination = "$DatagenDirectory/utils"
     }
 )
+
+# ??
+$DownloadedFiles = [System.Collections.Generic.List[string]]::new()
 
 # Download folders from repository
 $TreeUrl = "https://api.github.com/repos/$Owner/$Repo/git/trees/${TreeSha}?recursive=1"
@@ -170,6 +173,20 @@ foreach ($Mapping in $FolderMappings) {
             -Uri "$BaseRawUrl/$EncodedPath" `
             -OutFile $DestinationPath `
             -ErrorAction Stop
+        $DownloadedFiles.Add($DestinationPath)
+    }
+}
+
+# ??
+foreach ($File in $DownloadedFiles) {
+    $Content = [System.IO.File]::ReadAllText($File)
+    if ($Content.Contains("dev.mod_id")) {
+        $Content = $Content.Replace("dev.mod_id", $MavenGroup)
+        [System.IO.File]::WriteAllText(
+            $File,
+            $Content,
+            [System.Text.UTF8Encoding]::new($false)
+        )
     }
 }
 
