@@ -1,4 +1,4 @@
 @NullMarked
-package dev.mod_id.datagen.compat.create;
+package dev.ores.datagen.compat.create;
 
 import org.jspecify.annotations.NullMarked;

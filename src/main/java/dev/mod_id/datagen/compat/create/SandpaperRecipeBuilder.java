@@ -1,4 +1,4 @@
-package dev.mod_id.datagen.compat.create;
+package dev.ores.datagen.compat.create;
 
 import com.zurrtum.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import net.minecraft.advancements.triggers.Criterion;
@@ -17,7 +17,6 @@ public final class SandpaperRecipeBuilder implements RecipeBuilder {
 
     private final ItemStackTemplate result;
     private final Ingredient ingredient;
-
     private final RecipeUnlockAdvancementBuilder advancementBuilder;
 
     private SandpaperRecipeBuilder(ItemLike input, ItemLike result) {
