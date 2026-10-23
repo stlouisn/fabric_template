@@ -28,6 +28,16 @@ $Owner  = "stlouisn"
 $Repo   = "fabric_template"
 $Branch = "fabric-26.2"
 
+# Determine maven artifact
+$MavenGroupLine = Get-Content "gradle.properties" |
+    Where-Object { $_ -match '^\s*maven_group\s*=' } |
+    Select-Object -First 1
+if (-not $MavenGroupLine) {
+    throw "Could not find 'maven_group' in gradle.properties."
+}
+$MavenGroup = ($MavenGroupLine -replace '^\s*maven_group\s*=\s*', '').Trim()
+$MavenArtifact = $MavenGroup.Split('.')[-1]
+
 # Fetch the latest Commit SHA
 Write-Host
 Write-Host "Fetching latest Commit SHA for '$Branch'..." -ForegroundColor Yellow
@@ -109,6 +119,44 @@ foreach ($FileName in $FilesToDownload) {
         Write-Host
         Write-Host "Failed to download file: $FileName" -ForegroundColor Red
         throw "Script execution stopped due to missing download file."
+    }
+}
+
+# List of mapped folders to download
+$FolderMappings = @(
+    @{
+        Source      = "src/main/java/dev/mod_id/datagen/builder"
+        Destination = "src/main/java/$MavenArtifact/datagen/builder"
+    },
+    @{
+        Source      = "src/main/java/dev/mod_id/datagen/utils"
+        Destination = "src/main/java/$MavenArtifact/datagen/utils"
+    }
+)
+
+# Download folders from repository
+$TreeUrl = "https://api.github.com/repos/$Owner/$Repo/git/trees/$CommitSha?recursive=1"
+$Tree = Invoke-RestMethod -Uri $TreeUrl -Headers @{ "User-Agent" = "PowerShell" }
+foreach ($Mapping in $FolderMappings) {
+    $SourcePrefix = "$($Mapping.Source)/"
+    $Paths = $Tree.tree |
+        Where-Object {
+            $_.type -eq "blob" -and $_.path.StartsWith($SourcePrefix)
+        } |
+        ForEach-Object { $_.path }
+    foreach ($SourcePath in $Paths) {
+        $RelativePath = $SourcePath.Substring($SourcePrefix.Length)
+        $DestinationPath = Join-Path $Mapping.Destination $RelativePath
+        $DestinationDirectory = Split-Path -Parent $DestinationPath
+        New-Item -ItemType Directory -Path $DestinationDirectory -Force | Out-Null
+        $EncodedPath = ($SourcePath -split "/" | ForEach-Object {
+            [Uri]::EscapeDataString($_)
+        }) -join "/"
+        Write-Host "Downloading: $SourcePath -> $DestinationPath" -ForegroundColor Gray
+        Invoke-WebRequest `
+            -Uri "$BaseRawUrl/$EncodedPath" `
+            -OutFile $DestinationPath `
+            -ErrorAction Stop
     }
 }
 
