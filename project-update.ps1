@@ -28,16 +28,6 @@ $Owner  = "stlouisn"
 $Repo   = "fabric_template"
 $Branch = "fabric-26.2"
 
-# Determine maven artifact
-$MavenGroupLine = Get-Content "gradle.properties" |
-    Where-Object { $_ -match '^\s*maven_group\s*=' } |
-    Select-Object -First 1
-if (-not $MavenGroupLine) {
-    throw "Could not find 'maven_group' in gradle.properties."
-}
-$MavenGroup = ($MavenGroupLine -replace '^\s*maven_group\s*=\s*', '').Trim()
-$MavenArtifact = $MavenGroup.Split('.')[-1]
-
 # Fetch the latest Commit SHA
 Write-Host
 Write-Host "Fetching latest Commit SHA for '$Branch'..." -ForegroundColor Yellow
@@ -122,15 +112,34 @@ foreach ($FileName in $FilesToDownload) {
     }
 }
 
+# Extract maven group
+$MavenGroupLine = Get-Content "gradle.properties" |Where-Object { $_ -match '^\s*maven_group\s*=' } |Select-Object -First 1
+if (-not $MavenGroupLine) {
+    throw "Could not find 'maven_group' in gradle.properties."
+}
+$MavenGroup = ($MavenGroupLine -replace '^\s*maven_group\s*=\s*', '').Trim()
+$MavenParts = $MavenGroup.Split('.')
+if ($MavenParts.Length -lt 2) {
+    throw "Invalid maven_group value '$MavenGroup'; expected at least two dot-separated segments."
+}
+$MavenDomain = $MavenParts[0..($MavenParts.Length - 2)] -join [IO.Path]::DirectorySeparatorChar
+$MavenArtifact = $MavenParts[-1]
+
+$DatagenDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen"
+if (-not (Test-Path $DatagenDirectory)) {
+    throw "Required datagen directory not found: $DatagenDirectory"
+    #New-Item -ItemType Directory -Path $DatagenDirectory -Force | Out-Null
+}
+
 # List of mapped folders to download
 $FolderMappings = @(
     @{
         Source      = "src/main/java/dev/mod_id/datagen/builder"
-        Destination = "src/main/java/$MavenArtifact/datagen/builder"
+        Destination = "$DatagenDirectory/builder"
     },
     @{
         Source      = "src/main/java/dev/mod_id/datagen/utils"
-        Destination = "src/main/java/$MavenArtifact/datagen/utils"
+        Destination = "$DatagenDirectory/utils"
     }
 )
 
