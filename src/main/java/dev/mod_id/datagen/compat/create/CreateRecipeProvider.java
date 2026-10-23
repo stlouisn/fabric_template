@@ -1,5 +1,7 @@
 package dev.mod_id.datagen.compat.create;
 
+import static dev.mod_id.util.Constants.resourceLocation;
+
 import dev.mod_id.content.registry.RegisterBlockItems;
 import dev.mod_id.datagen.utils.ItemUtils;
 import net.minecraft.core.HolderLookup;
@@ -8,8 +10,6 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ItemLike;
-
-import static dev.mod_id.util.Constants.resourceLocation;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
 public final class CreateRecipeProvider extends RecipeProvider {

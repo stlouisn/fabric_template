@@ -14,6 +14,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
@@ -34,6 +35,14 @@ public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider
         final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
         final LootTable.Builder builder = this.createSingleItemTable(block).setRandomSequence(identifier);
         this.add(block, builder);
+    }
+
+    protected void createPottedContentsDrop(Block potted) {
+        final String namespace = BuiltInRegistries.BLOCK.getKey(potted).getNamespace();
+        final String path = BuiltInRegistries.BLOCK.getKey(potted).getPath();
+        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
+        final LootTable.Builder builder = this.createPotFlowerItemTable(((FlowerPotBlock) potted).getPotted()).setRandomSequence(identifier);
+        this.add(potted, builder);
     }
 
     protected void createSilkTouchDrop(Block block) {
