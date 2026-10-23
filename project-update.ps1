@@ -36,11 +36,9 @@ try {
     $CommitInfo = Invoke-RestMethod -Uri $ApiUrl -Headers @{ "User-Agent" = "PowerShell" }
     $CommitSha = $CommitInfo.sha
     $TreeSha = $CommitInfo.commit.tree.sha
-    if (-not $TreeSha) {
-        throw "GitHub's commit response did not contain a tree SHA."
-    }
     Write-Host
     Write-Host "Latest Commit: $CommitSha" -ForegroundColor Green
+    Write-Host "Tree SHA: $TreeSha" -ForegroundColor Green
 } catch {
     Write-Host
     Write-Host "Failed to fetch commit SHA, falling back to branch name..." -ForegroundColor Red
