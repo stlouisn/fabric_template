@@ -1,6 +1,6 @@
-package dev.ores.datagen.provider;
+package dev.mod_id.datagen.provider;
 
-import dev.ores.datagen.builder.DatagenPackMetadataBuilder;
+import dev.mod_id.datagen.builder.DatagenPackMetadataBuilder;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 
 import java.util.List;

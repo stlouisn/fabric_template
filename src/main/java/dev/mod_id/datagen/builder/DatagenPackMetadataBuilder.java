@@ -1,4 +1,4 @@
-package dev.ores.datagen.builder;
+package dev.mod_id.datagen.builder;
 
 import com.google.common.hash.Hashing;
 import com.google.common.hash.HashingOutputStream;
@@ -27,7 +27,7 @@ import net.minecraft.server.packs.resources.ResourceFilterSection;
 import net.minecraft.util.IdentifierPattern;
 import net.minecraft.util.Util;
 
-import static dev.ores.util.Constants.MOD_NAME;
+import static dev.mod_id.util.Constants.MOD_NAME;
 
 public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
 
