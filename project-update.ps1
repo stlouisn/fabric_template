@@ -35,6 +35,7 @@ try {
     $ApiUrl = "https://api.github.com/repos/$Owner/$Repo/commits/$Branch"
     $CommitInfo = Invoke-RestMethod -Uri $ApiUrl -Headers @{ "User-Agent" = "PowerShell" }
     $CommitSha = $CommitInfo.sha
+    $TreeSha = $CommitInfo.commit.tree.sha
     Write-Host
     Write-Host "Latest Commit: $CommitSha" -ForegroundColor Green
 } catch {
@@ -144,7 +145,7 @@ $FolderMappings = @(
 )
 
 # Download folders from repository
-$TreeUrl = "https://api.github.com/repos/$Owner/$Repo/git/trees/$CommitSha?recursive=1"
+$TreeUrl = "https://api.github.com/repos/$Owner/$Repo/git/trees/$TreeSha?recursive=1"
 $Tree = Invoke-RestMethod -Uri $TreeUrl -Headers @{ "User-Agent" = "PowerShell" }
 foreach ($Mapping in $FolderMappings) {
     $SourcePrefix = "$($Mapping.Source)/"
