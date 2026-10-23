@@ -1,6 +1,5 @@
 package dev.mod_id.datagen.compat.create;
 
-import dev.mod_id.datagen.builder.SandpaperRecipeBuilder;
 import dev.mod_id.datagen.utils.ItemUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
