@@ -26,7 +26,7 @@ public final class ModNameDataGenerator implements DataGeneratorEntrypoint {
         final DatagenBlockTagProvider blockTagProvider = pack.addProvider(DatagenBlockTagProvider::new);
         pack.addProvider((output, registries) -> new DatagenItemTagProvider(output, registries, blockTagProvider));
 
-        pack.addProvider(DatagenBlockLootSubProvider::new);
+        pack.addProvider(DatagenBlockLootProvider::new);
         pack.addProvider(DatagenRecipeProvider::new);
 
         pack.addProvider(DatagenDynamicRegistryProvider::new);
