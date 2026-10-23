@@ -6,13 +6,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.Identifier;
-import org.jspecify.annotations.NullMarked;
 
 import java.util.concurrent.CompletableFuture;
 
 import static dev.mod_id.util.Constants.resourceLocation;
 
-@NullMarked
 public final class VanillaRecipeAdapter extends FabricRecipeProvider {
 
     private static final String PROVIDER_NAME = "Vanilla Recipe Provider";

@@ -7,16 +7,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import org.jspecify.annotations.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"SameParameterValue", "unused"})
 public final class CreateJavaFile {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    public static void createJavaFile(@NonNull StringBuilder sourceCode, @NonNull String filePath, @NonNull String fileName) {
+    public static void createJavaFile(StringBuilder sourceCode, String filePath, String fileName) {
         Path path = Path.of("../../" + filePath);
         if (!Files.exists(path)) {
             try {

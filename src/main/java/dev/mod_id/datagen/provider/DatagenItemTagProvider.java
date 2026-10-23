@@ -1,14 +1,13 @@
-package dev.turtle_armour.datagen.provider;
+package dev.mod_id.datagen.provider;
 
-import dev.turtle_armour.content.key.KeyItems;
+import dev.mod_id.content.key.KeyItems;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
     private static final String PROVIDER_NAME = "Item Tags Provider";
@@ -20,11 +19,9 @@ public final class DatagenItemTagProvider extends FabricTagsProvider.ItemTagsPro
     @Override
     protected void addTags(HolderLookup.Provider provider) {
 
-        builder(ItemTags.FOOT_ARMOR).add(KeyItems.TURTLE_BOOTS);
+        copy(BlockTags.RAILS, ItemTags.RAILS);
 
         builder(ItemTags.CHEST_ARMOR).add(KeyItems.TURTLE_CHESTPLATE);
-
-        builder(ItemTags.LEG_ARMOR).add(KeyItems.TURTLE_LEGGINGS);
     }
 
     @Override

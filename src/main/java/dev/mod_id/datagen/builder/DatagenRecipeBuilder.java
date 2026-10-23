@@ -1,4 +1,4 @@
-package dev.mod_id.datagen.provider;
+package dev.mod_id.datagen.builder;
 
 import dev.mod_id.datagen.builder.SandpaperRecipeBuilder;
 import dev.mod_id.datagen.utils.ItemUtils;
@@ -17,15 +17,13 @@ import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.ItemLike;
-import org.jspecify.annotations.NullMarked;
 
 import static dev.mod_id.util.Constants.resourceLocation;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
-@NullMarked
-public abstract class DatagenRecipeHelper extends RecipeProvider {
+public abstract class DatagenRecipeBuilder extends RecipeProvider {
 
-    protected DatagenRecipeHelper(HolderLookup.Provider registries, RecipeOutput output) {
+    protected DatagenRecipeBuilder(HolderLookup.Provider registries, RecipeOutput output) {
         super(registries, output);
     }
 

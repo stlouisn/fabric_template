@@ -1,4 +1,4 @@
-package dev.mod_id.datagen.builder;
+package dev.mod_id.datagen.compat.create;
 
 import com.zurrtum.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import net.minecraft.advancements.triggers.Criterion;
@@ -11,10 +11,8 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
-import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-@NullMarked
 public final class SandpaperRecipeBuilder implements RecipeBuilder {
 
     private final ItemStackTemplate result;

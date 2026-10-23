@@ -9,37 +9,36 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"SameParameterValue", "unused"})
 public final class ItemUtils {
 
     /**
      * Returns the identifier of the given item.
      */
-    public static Identifier getKey(@NonNull ItemLike item) {
+    public static Identifier getKey(ItemLike item) {
         return getKey(item.asItem());
     }
 
     /**
      * Returns the identifier of the given item.
      */
-    public static Identifier getKey(@NonNull Item item) {
+    public static Identifier getKey(Item item) {
         return BuiltInRegistries.ITEM.getKey(item);
     }
 
     /**
      * Returns the namespace of the given item.
      */
-    public static String getNamespace(@NonNull ItemLike item) {
+    public static String getNamespace(ItemLike item) {
         return getNamespace(item.asItem());
     }
 
     /**
      * Returns the namespace of the given item.
      */
-    public static String getNamespace(@NonNull Item item) {
+    public static String getNamespace(Item item) {
         return BuiltInRegistries.ITEM.getKey(item).getNamespace();
     }
 
@@ -47,7 +46,7 @@ public final class ItemUtils {
      * Returns the resource key of the given item.
      */
     @Nullable
-    public static ResourceKey<Item> getResourceKey(@NonNull ItemLike item) {
+    public static ResourceKey<Item> getResourceKey(ItemLike item) {
         return getResourceKey(item.asItem());
     }
 
@@ -55,21 +54,21 @@ public final class ItemUtils {
      * Returns the resource key of the given item.
      */
     @Nullable
-    public static ResourceKey<Item> getResourceKey(@NonNull Item item) {
+    public static ResourceKey<Item> getResourceKey(Item item) {
         return BuiltInRegistries.ITEM.getResourceKey(item).orElse(null);
     }
 
     /**
      * Returns the path of the given item.
      */
-    public static String getPath(@NonNull ItemLike item) {
+    public static String getPath(ItemLike item) {
         return getPath(item.asItem());
     }
 
     /**
      * Returns the path of the given item.
      */
-    public static String getPath(@NonNull Item item) {
+    public static String getPath(Item item) {
         return BuiltInRegistries.ITEM.getKey(item).getPath();
     }
 
@@ -77,7 +76,7 @@ public final class ItemUtils {
      * Returns the item using the default mod ID and the specified path.
      */
     @Nullable
-    public static Item getItem(@NonNull String path) {
+    public static Item getItem(String path) {
         return getItem(MOD_ID, path);
     }
 
@@ -85,7 +84,7 @@ public final class ItemUtils {
      * Returns the item using the specified namespace and path.
      */
     @Nullable
-    public static Item getItem(@NonNull String namespace, @NonNull String path) {
+    public static Item getItem(String namespace, String path) {
         return getItem(resourceLocation(namespace, path));
     }
 
@@ -100,21 +99,21 @@ public final class ItemUtils {
     /**
      * Checks whether an item exists in the registry using the default mod ID and the specified path.
      */
-    public static boolean doesExist(@NonNull String path) {
+    public static boolean doesExist(String path) {
         return doesExist(resourceLocation(MOD_ID, path));
     }
 
     /**
      * Checks whether an item exists in the registry using the specified namespace and path.
      */
-    public static boolean doesExist(@NonNull String namespace, @NonNull String path) {
+    public static boolean doesExist(String namespace, String path) {
         return doesExist(resourceLocation(namespace, path));
     }
 
     /**
      * Checks whether an item exists in the registry using the specified identifier.
      */
-    public static boolean doesExist(@NonNull Identifier key) {
+    public static boolean doesExist(Identifier key) {
         return BuiltInRegistries.ITEM.containsKey(key);
     }
 }

@@ -13,9 +13,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenEquipmentAssetsProvider implements DataProvider {
 
     private static final String PROVIDER_NAME = "Equipment Assets Provider";

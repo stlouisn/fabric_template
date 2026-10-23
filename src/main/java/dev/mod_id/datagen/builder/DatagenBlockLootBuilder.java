@@ -1,4 +1,4 @@
-package dev.mod_id.datagen.provider;
+package dev.mod_id.datagen.builder;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
@@ -17,18 +17,17 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import org.jspecify.annotations.NullMarked;
 
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import static dev.mod_id.util.Constants.resourceLocation;
 
-@SuppressWarnings("SameParameterValue")
-@NullMarked
-public abstract class DatagenBlockLootHelper extends FabricBlockLootSubProvider {
+@SuppressWarnings({"SameParameterValue", "unused"})
+public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider {
 
-    protected DatagenBlockLootHelper(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
+    protected DatagenBlockLootBuilder(FabricPackOutput packOutput, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        super(packOutput, registriesFuture);
     }
 
     protected void createSelfDrop(Block block) {

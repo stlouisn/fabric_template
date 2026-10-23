@@ -9,12 +9,11 @@ import java.util.function.Predicate;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"SameParameterValue", "unused"})
 public final class RegistryUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -22,14 +21,14 @@ public final class RegistryUtils {
     /**
      * Checks whether a block exists in the block registry with the specified path.
      */
-    public static boolean doesBlockExist(@NonNull String path) {
+    public static boolean doesBlockExist(String path) {
         return getIdentifier(BuiltInRegistries.BLOCK, path, null, null) != null;
     }
 
     /**
      * Checks whether a block exists in the block registry matching the specified path and filter predicate.
      */
-    public static boolean doesBlockExist(@NonNull String path, @Nullable Predicate<Identifier> filter) {
+    public static boolean doesBlockExist(String path, @Nullable Predicate<Identifier> filter) {
         return getIdentifier(BuiltInRegistries.BLOCK, path, filter, null) != null;
     }
 
@@ -37,21 +36,21 @@ public final class RegistryUtils {
      * Checks whether a block exists in the block registry matching the specified path, filter predicate, and collision
      * rules.
      */
-    public static boolean doesBlockExist(@NonNull String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
+    public static boolean doesBlockExist(String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
         return getIdentifier(BuiltInRegistries.BLOCK, path, filter, collisionRules) != null;
     }
 
     /**
      * Checks whether an item exists in the item registry with the specified path.
      */
-    public static boolean doesItemExist(@NonNull String path) {
+    public static boolean doesItemExist(String path) {
         return getIdentifier(BuiltInRegistries.ITEM, path, null, null) != null;
     }
 
     /**
      * Checks whether an item exists in the item registry matching the specified path and filter predicate.
      */
-    public static boolean doesItemExist(@NonNull String path, @Nullable Predicate<Identifier> filter) {
+    public static boolean doesItemExist(String path, @Nullable Predicate<Identifier> filter) {
         return getIdentifier(BuiltInRegistries.ITEM, path, filter, null) != null;
     }
 
@@ -59,7 +58,7 @@ public final class RegistryUtils {
      * Checks whether an item exists in the item registry matching the specified path, filter predicate, and collision
      * rules.
      */
-    public static boolean doesItemExist(@NonNull String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
+    public static boolean doesItemExist(String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
         return getIdentifier(BuiltInRegistries.ITEM, path, filter, collisionRules) != null;
     }
 
@@ -67,7 +66,7 @@ public final class RegistryUtils {
      * Retrieves the identifier of a block from the block registry using the specified path.
      */
     @Nullable
-    public static Identifier getBlockIdentifier(@NonNull String path) {
+    public static Identifier getBlockIdentifier(String path) {
         return getIdentifier(BuiltInRegistries.BLOCK, path, null, null);
     }
 
@@ -75,7 +74,7 @@ public final class RegistryUtils {
      * Retrieves the identifier of a block from the block registry using the specified path and filter predicate.
      */
     @Nullable
-    public static Identifier getBlockIdentifier(@NonNull String path, @Nullable Predicate<Identifier> filter) {
+    public static Identifier getBlockIdentifier(String path, @Nullable Predicate<Identifier> filter) {
         return getIdentifier(BuiltInRegistries.BLOCK, path, filter, null);
     }
 
@@ -84,7 +83,7 @@ public final class RegistryUtils {
      * rules.
      */
     @Nullable
-    public static Identifier getBlockIdentifier(@NonNull String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
+    public static Identifier getBlockIdentifier(String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
         return getIdentifier(BuiltInRegistries.BLOCK, path, filter, collisionRules);
     }
 
@@ -92,7 +91,7 @@ public final class RegistryUtils {
      * Retrieves the identifier of an item from the item registry using the specified path.
      */
     @Nullable
-    public static Identifier getItemIdentifier(@NonNull String path) {
+    public static Identifier getItemIdentifier(String path) {
         return getIdentifier(BuiltInRegistries.ITEM, path, null, null);
     }
 
@@ -100,7 +99,7 @@ public final class RegistryUtils {
      * Retrieves the identifier of an item from the item registry using the specified path and filter predicate.
      */
     @Nullable
-    public static Identifier getItemIdentifier(@NonNull String path, @Nullable Predicate<Identifier> filter) {
+    public static Identifier getItemIdentifier(String path, @Nullable Predicate<Identifier> filter) {
         return getIdentifier(BuiltInRegistries.ITEM, path, filter, null);
     }
 
@@ -109,7 +108,7 @@ public final class RegistryUtils {
      * rules.
      */
     @Nullable
-    public static Identifier getItemIdentifier(@NonNull String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
+    public static Identifier getItemIdentifier(String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
         return getIdentifier(BuiltInRegistries.ITEM, path, filter, collisionRules);
     }
 
@@ -118,7 +117,7 @@ public final class RegistryUtils {
      * rules.
      */
     @Nullable
-    public static <T> Identifier getIdentifier(@NonNull Registry<T> registry, @NonNull String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
+    public static <T> Identifier getIdentifier(Registry<T> registry, String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
         List<Identifier> matches = new ArrayList<>();
         for (Identifier id : registry.keySet()) {
             if (filter != null && !filter.test(id)) {

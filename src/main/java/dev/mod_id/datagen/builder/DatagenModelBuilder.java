@@ -1,4 +1,4 @@
-package dev.rails.datagen.provider;
+package dev.mod_id.datagen.builder;
 
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.MultiVariant;
@@ -10,11 +10,9 @@ import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
-import org.jspecify.annotations.NullMarked;
 
-@SuppressWarnings("SameParameterValue")
-@NullMarked
-public final class DatagenModelHelper {
+@SuppressWarnings({"SameParameterValue", "unused"})
+public final class DatagenModelBuilder {
 
     /**
      * Generate flat rail model with no rotation, no elevation, no powered state.

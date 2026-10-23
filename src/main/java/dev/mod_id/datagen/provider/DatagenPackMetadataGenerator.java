@@ -28,9 +28,7 @@ import net.minecraft.server.packs.metadata.pack.PackMetadataSection;
 import net.minecraft.server.packs.resources.ResourceFilterSection;
 import net.minecraft.util.IdentifierPattern;
 import net.minecraft.util.Util;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenPackMetadataGenerator extends PackMetadataGenerator {
 
     private static final Gson ORDERED_GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();

@@ -3,7 +3,7 @@ package dev.mod_id.datagen.utils;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"SameParameterValue", "unused"})
 public class StringUtils {
 
     public static String formatName(String name) {
