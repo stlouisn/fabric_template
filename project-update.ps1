@@ -126,10 +126,16 @@ if ($MavenParts.Length -lt 2) {
 $MavenDomain = $MavenParts[0..($MavenParts.Length - 2)] -join [IO.Path]::DirectorySeparatorChar
 $MavenArtifact = $MavenParts[-1]
 
-# Ensure datagen path exists
+# Ensure datagen paths exists
 $DatagenDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen"
 if (-not (Test-Path $DatagenDirectory)) {
     New-Item -ItemType Directory -Path $DatagenDirectory -Force | Out-Null
+}
+if (-not (Test-Path $DatagenDirectory/adapter)) {
+    New-Item -ItemType Directory -Path $DatagenDirectory/adapter -Force | Out-Null
+}
+if (-not (Test-Path $DatagenDirectory/provider)) {
+    New-Item -ItemType Directory -Path $DatagenDirectory/provider -Force | Out-Null
 }
 
 # List of mapped folders to download
