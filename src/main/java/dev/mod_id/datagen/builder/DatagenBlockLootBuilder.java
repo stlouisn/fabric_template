@@ -1,5 +1,8 @@
 package dev.mod_id.datagen.builder;
 
+import static dev.mod_id.util.Constants.resourceLocation;
+
+import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.minecraft.advancements.predicates.ItemPredicate;
@@ -17,11 +20,6 @@ import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-
-import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-
-import static dev.mod_id.util.Constants.resourceLocation;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider {

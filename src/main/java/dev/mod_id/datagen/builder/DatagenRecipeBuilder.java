@@ -1,7 +1,5 @@
 package dev.mod_id.datagen.builder;
 
-import dev.mod_id.datagen.builder.SandpaperRecipeBuilder;
-import dev.mod_id.datagen.utils.ItemUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -17,8 +15,6 @@ import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.ItemLike;
-
-import static dev.mod_id.util.Constants.resourceLocation;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenRecipeBuilder extends RecipeProvider {
@@ -192,12 +188,5 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
             .save(output, getItemName(result) + "_from_blasting" + recipeSuffix);
-    }
-
-    protected void createSandpaperPolishing(ItemLike input, ItemLike result) {
-        final String namespace = ItemUtils.getNamespace(result);
-        SandpaperRecipeBuilder.polishing(input, result)
-            .unlockedBy(getHasName(input), has(input))
-            .save(output, ResourceKey.create(Registries.RECIPE, resourceLocation(namespace,"sandpaper_polishing/" + getItemName(result))));
     }
 }

@@ -1,7 +1,7 @@
-package dev.rails.datagen.compat.create;
+package dev.mod_id.datagen.compat.create;
 
-import dev.rails.datagen.builder.SandpaperRecipeBuilder;
-import dev.rails.datagen.utils.ItemUtils;
+import dev.mod_id.datagen.builder.SandpaperRecipeBuilder;
+import dev.mod_id.datagen.utils.ItemUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -9,7 +9,7 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ItemLike;
 
-import static dev.rails.util.Constants.resourceLocation;
+import static dev.mod_id.util.Constants.resourceLocation;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class CreateRecipeBuilder extends RecipeProvider {
