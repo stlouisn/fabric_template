@@ -80,6 +80,7 @@ function DownloadTemplateFiles {
             throw "Script execution stopped due to missing download file."
         }
     }
+    Write-Host
 }
 
 function DownloadDatagenFiles {
@@ -154,6 +155,7 @@ function DownloadDatagenFiles {
             $DownloadedFiles.Add($DestinationPath)
         }
     }
+    Write-Host
 
     # Substitute maven_group into placeholder
     foreach ($File in $DownloadedFiles) {
@@ -253,7 +255,6 @@ DownloadTemplateFiles
 # Download datagen files
 DownloadDatagenFiles
 
-Write-Host
 Write-Host "Downloads complete." -ForegroundColor Green
 Write-Host
 
