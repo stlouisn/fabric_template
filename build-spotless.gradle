@@ -207,7 +207,7 @@ def conditionalDatagenPackMetadataGeneratorRule = { spec ->
 
 def conditionalDatagenRecipeBuilderRule = { spec ->
     spec.custom 'DatagenRecipeBuilderRule', { String text ->
-        if (!text.contains("class DatagenRecipeBuilder")) {
+        if (!text.contains("class DatagenRecipeBuilder") && !text.contains("class CreateRecipeBuilder")) {
             return text
         }
         return text
@@ -268,12 +268,7 @@ def conditionalBlockDataRule = { spec ->
 
 def conditionalGenerateSourceCode = { spec ->
     spec.custom 'conditionalGenerateSourceCodeRule', { String text ->
-        if (
-               !text.contains("class GenerateKeyBlockItems")
-            && !text.contains("class GenerateRegisterBlockEntityType")
-            && !text.contains("class GenerateRegisterBlockItems")
-            && !text.contains("class GenerateRegisterCreativeModeTabs")
-        ) {
+        if (!text.contains("class GenerateKeyBlockItems") && !text.contains("class GenerateRegisterBlockEntityType") && !text.contains("class GenerateRegisterBlockItems") && !text.contains("class GenerateRegisterCreativeModeTabs")) {
             return text
         }
         return text
@@ -380,10 +375,7 @@ def conditionalRegisterPlacedFeaturesRule = { spec ->
 
 def conditionalRecipeProviderRule = { spec ->
     spec.custom 'RecipeProviderRule', { String text ->
-        if (
-               !text.contains("class RecipeProvider")
-            && !text.contains("class VanillaRecipeProvider")
-        ) {
+        if (!text.contains("class RecipeProvider") && !text.contains("class VanillaRecipeProvider")) {
             return text
         }
         return text
