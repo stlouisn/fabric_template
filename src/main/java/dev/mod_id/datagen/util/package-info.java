@@ -1,4 +1,4 @@
 @NullMarked
-package dev.mod_id.datagen.utils;
+package dev.mod_id.datagen.util;
 
 import org.jspecify.annotations.NullMarked;

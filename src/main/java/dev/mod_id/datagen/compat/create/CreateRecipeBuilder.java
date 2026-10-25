@@ -1,8 +1,13 @@
 package dev.mod_id.datagen.compat.create;
 
+import static dev.mod_id.util.Constants.MOD_ID;
 import static dev.mod_id.util.Constants.resourceLocation;
 
 import dev.mod_id.datagen.utils.ItemUtils;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Function;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -13,14 +18,30 @@ import net.minecraft.world.level.ItemLike;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class CreateRecipeBuilder extends RecipeProvider {
 
-    protected CreateRecipeBuilder(HolderLookup.Provider registries, RecipeOutput output) {
+    protected final RecipeOutput output;
+    private final Function<Set<String>, RecipeOutput> conditionedOutput;
+
+    protected CreateRecipeBuilder(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {
         super(registries, output);
+        this.output = output;
+        this.conditionedOutput = conditionedOutput;
     }
 
     protected void createSandpaperPolishing(ItemLike input, ItemLike result) {
-        final String namespace = ItemUtils.getNamespace(result);
+        final RecipeOutput recipeOutput = getModLoadConditions(input, result);
+        final String recipePrefix = getItemName(result);
+        final String recipeSuffix = getItemName(input);
         SandpaperRecipeBuilder.polishing(input, result)
             .unlockedBy(getHasName(input), has(input))
-            .save(output, ResourceKey.create(Registries.RECIPE, resourceLocation(namespace, "sandpaper_polishing/" + getItemName(result))));
+            .save(recipeOutput, ResourceKey.create(Registries.RECIPE, resourceLocation("create", "sandpaper_polishing/" + recipePrefix + "_from_" + recipeSuffix)));
+    }
+
+    private RecipeOutput getModLoadConditions(ItemLike... items) {
+        Set<String> requiredMods = new HashSet<>();
+        Arrays.stream(items).map(ItemUtils::getNamespace).forEach(requiredMods::add);
+        requiredMods.remove("minecraft");
+        requiredMods.remove(MOD_ID);
+        requiredMods.add("create");
+        return conditionedOutput.apply(requiredMods);
     }
 }

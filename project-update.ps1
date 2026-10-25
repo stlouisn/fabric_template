@@ -145,8 +145,8 @@ function DownloadDatagenFiles {
             Destination = "$DatagenDirectory/builder"
         },
         @{
-            Source      = "src/main/java/dev/mod_id/datagen/utils"
-            Destination = "$DatagenDirectory/utils"
+            Source      = "src/main/java/dev/mod_id/datagen/util"
+            Destination = "$DatagenDirectory/util"
         }
     )
 

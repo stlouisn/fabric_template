@@ -1,18 +1,23 @@
 package dev.mod_id.datagen.provider;
 
-import dev.mod_id.content.registry.RegisterBlocks;
+import dev.mod_id.content.registry.RegisterBlockItems;
 import dev.mod_id.content.registry.RegisterItems;
 import dev.mod_id.content.tag.TagItems;
+import dev.mod_id.datagen.builder.DatagenRecipeBuilder;
+import java.util.Set;
+import java.util.function.Function;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import org.jspecify.annotations.NullMarked;
 
-public final class VanillaRecipeProvider extends DatagenRecipeHelper {
+@NullMarked
+public final class VanillaRecipeProvider extends DatagenRecipeBuilder {
 
-    public VanillaRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
-        super(registries, output);
+    public VanillaRecipeProvider(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {
+        super(registries, output, conditionedOutput);
     }
 
     @Override
@@ -21,7 +26,7 @@ public final class VanillaRecipeProvider extends DatagenRecipeHelper {
         createOreProcessingRecipe(Items.RAW_COPPER_BLOCK, Items.COPPER_BLOCK.weathering().unaffected(), 0.7F);
         createOreProcessingRecipe(Items.RAW_GOLD_BLOCK, Items.GOLD_BLOCK, 1.0F);
         createOreProcessingRecipe(Items.RAW_IRON_BLOCK, Items.IRON_BLOCK, 0.7F);
-        createOreProcessingRecipe(RegisterBlocks.RAW_NETHERITE_BLOCK, Items.NETHERITE_BLOCK, 2.0F);
+        createOreProcessingRecipe(RegisterBlockItems.RAW_NETHERITE_BLOCK, Items.NETHERITE_BLOCK, 2.0F);
         createOreProcessingRecipe(Blocks.ANCIENT_DEBRIS, Items.NETHERITE_INGOT, 2.0F);
         createOreProcessingRecipe(RegisterItems.RAW_NETHERITE, Items.NETHERITE_INGOT, 2.0F);
 

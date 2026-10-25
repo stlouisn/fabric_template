@@ -1,5 +1,12 @@
 package dev.mod_id.datagen.builder;
 
+import static dev.mod_id.util.Constants.MOD_ID;
+
+import dev.mod_id.datagen.utils.ItemUtils;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Function;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -15,12 +22,18 @@ import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.ItemLike;
+import org.jspecify.annotations.Nullable;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenRecipeBuilder extends RecipeProvider {
 
-    protected DatagenRecipeBuilder(HolderLookup.Provider registries, RecipeOutput output) {
+    protected RecipeOutput output;
+    private final Function<Set<String>, RecipeOutput> conditionedOutput;
+
+    protected DatagenRecipeBuilder(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {
         super(registries, output);
+        this.output = output;
+        this.conditionedOutput = conditionedOutput;
     }
 
     protected void createNineBlockStorage(ItemLike unpackedForm, ItemLike packedForm) {
@@ -41,11 +54,12 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     protected void createNineBlockStorage(ItemLike unpackedForm, String unpackedRecipeGroup, ItemLike packedForm, String packedRecipeGroup, RecipeCategory recipeCategory) {
+        final RecipeOutput recipeOutput = getModLoadConditions(unpackedForm, packedForm);
         shapeless(recipeCategory, unpackedForm, 9)
             .requires(packedForm)
             .group(unpackedRecipeGroup)
             .unlockedBy(getHasName(packedForm), has(packedForm))
-            .save(output, ResourceKey.create(Registries.RECIPE, Identifier.parse(getConversionRecipeName(unpackedForm, packedForm))));
+            .save(recipeOutput, ResourceKey.create(Registries.RECIPE, Identifier.parse(getConversionRecipeName(unpackedForm, packedForm))));
         shaped(recipeCategory, packedForm)
             .define('#', unpackedForm)
             .pattern("###")
@@ -53,7 +67,7 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             .pattern("###")
             .group(packedRecipeGroup)
             .unlockedBy(getHasName(unpackedForm), has(unpackedForm))
-            .save(output, ResourceKey.create(Registries.RECIPE, Identifier.parse(getConversionRecipeName(packedForm, unpackedForm))));
+            .save(recipeOutput, ResourceKey.create(Registries.RECIPE, Identifier.parse(getConversionRecipeName(packedForm, unpackedForm))));
     }
 
     protected void createTwoByTwoPacker(ItemLike unpackedForm, ItemLike packedForm) {
@@ -72,13 +86,14 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     protected void createTwoByTwoPacker(ItemLike unpackedForm, ItemLike packedForm, String recipeGroup, RecipeCategory recipeCategory) {
+        final RecipeOutput recipeOutput = getModLoadConditions(unpackedForm, packedForm);
         shaped(recipeCategory, packedForm, 1)
             .define('#', unpackedForm)
             .pattern("##")
             .pattern("##")
             .group(recipeGroup)
             .unlockedBy(getHasName(unpackedForm), has(unpackedForm))
-            .save(output);
+            .save(recipeOutput);
     }
 
     protected void createOneToOneConversion(ItemLike input, ItemLike result) {
@@ -92,11 +107,12 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     protected void createOneToOneConversion(ItemLike input, ItemLike result, String recipeGroup, RecipeCategory recipeCategory) {
+        final RecipeOutput recipeOutput = getModLoadConditions(input, result);
         shapeless(recipeCategory, result, 1)
             .requires(input, 1)
             .group(recipeGroup)
             .unlockedBy(getHasName(input), has(input))
-            .save(output, getItemName(result) + "_from" + getItemName(input));
+            .save(recipeOutput, getItemName(result) + "_from" + getItemName(input));
     }
 
     protected void createCrossPatternRecipe(ItemLike ingredient, ItemLike center, ItemLike result, RecipeCategory recipeCategory) {
@@ -113,6 +129,7 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     protected void createCrossPatternRecipe(ItemLike ingredient, ItemLike center, ItemLike result, int count, String recipeGroup, RecipeCategory recipeCategory) {
+        final RecipeOutput recipeOutput = getModLoadConditions(ingredient, center, result);
         shaped(recipeCategory, result, count)
             .define('X', ingredient)
             .define('#', center)
@@ -121,36 +138,49 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             .pattern(" X ")
             .group(recipeGroup)
             .unlockedBy(getHasName(ingredient), has(ingredient))
-            .save(output);
+            .save(recipeOutput);
     }
 
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience) {
-        final String recipeGroup = getItemName(result);
-        createOreProcessingRecipe(input, result, recipeGroup, experience);
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, String recipeGroup, float experience, boolean useRecipeSuffix) {
+        createOreProcessingRecipe(input, result, recipeGroup, experience, useRecipeSuffix, null);
     }
 
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, String recipeGroup, float experience) {
-        createOreProcessingRecipe(input, result, recipeGroup, experience, true);
-    }
-
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, String recipeGroup, float experience, Boolean useRecipeSuffix) {
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, String recipeGroup, float experience, boolean useRecipeSuffix, @Nullable Set<String> requiredMods) {
         final String recipeSuffix;
         if (useRecipeSuffix) {
             recipeSuffix = "_" + input.location().getPath();
         } else {
             recipeSuffix = "";
         }
-        createOreProcessingRecipe(input, result, recipeGroup, experience, recipeSuffix);
+        createOreProcessingRecipe(input, result, recipeGroup, experience, recipeSuffix, requiredMods);
     }
 
     protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, String recipeSuffix) {
+        createOreProcessingRecipe(input, result, experience, recipeSuffix, null);
+    }
+
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, String recipeSuffix, @Nullable Set<String> requiredMods) {
         final String recipeGroup = getItemName(result);
-        createOreProcessingRecipe(input, result, recipeGroup, experience, recipeSuffix);
+        createOreProcessingRecipe(input, result, recipeGroup, experience, recipeSuffix, requiredMods);
     }
 
     protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, String recipeGroup, float experience, String recipeSuffix) {
+        createOreProcessingRecipe(input, result, recipeGroup, experience, recipeSuffix, null);
+    }
+
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, String recipeGroup, float experience, String recipeSuffix, @Nullable Set<String> requiredMods) {
+        final RecipeOutput recipeOutput = getModLoadConditions(requiredMods, result);
+        final RecipeCategory craftingCategory = RecipeCategory.MISC;
+        final CookingBookCategory cookingCategory = CookingBookCategory.MISC;
         final Ingredient ingredient = Ingredient.of(registries.lookupOrThrow(Registries.ITEM).getOrThrow(input));
-        createOreProcessingRecipe(ingredient, result, recipeGroup, experience, recipeSuffix);
+        SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, result, experience, 200, SmeltingRecipe::new)
+            .group(recipeGroup)
+            .unlockedBy(getHasName(result), has(result))
+            .save(recipeOutput, getItemName(result) + "_from_smelting" + recipeSuffix);
+        SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, result, experience, 100, BlastingRecipe::new)
+            .group(recipeGroup)
+            .unlockedBy(getHasName(result), has(result))
+            .save(recipeOutput, getItemName(result) + "_from_blasting" + recipeSuffix);
     }
 
     protected void createOreProcessingRecipe(ItemLike input, ItemLike result, float experience) {
@@ -162,7 +192,7 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
         createOreProcessingRecipe(input, result, recipeGroup, experience, true);
     }
 
-    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, String recipeGroup, float experience, Boolean useRecipeSuffix) {
+    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, String recipeGroup, float experience, boolean useRecipeSuffix) {
         final String recipeSuffix;
         if (useRecipeSuffix) {
             recipeSuffix = "_" + getItemName(input);
@@ -173,20 +203,45 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     protected void createOreProcessingRecipe(ItemLike input, ItemLike result, String recipeGroup, float experience, String recipeSuffix) {
-        final Ingredient ingredient = Ingredient.of(input.asItem());
-        createOreProcessingRecipe(ingredient, result, recipeGroup, experience, recipeSuffix);
-    }
-
-    protected void createOreProcessingRecipe(Ingredient ingredient, ItemLike result, String recipeGroup, float experience, String recipeSuffix) {
+        final RecipeOutput recipeOutput = getModLoadConditions(input, result);
         final RecipeCategory craftingCategory = RecipeCategory.MISC;
         final CookingBookCategory cookingCategory = CookingBookCategory.MISC;
+        final Ingredient ingredient = Ingredient.of(input);
+        final String recipePrefix = getItemName(result);
         SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, result, experience, 200, SmeltingRecipe::new)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
-            .save(output, getItemName(result) + "_from_smelting" + recipeSuffix);
+            .save(recipeOutput, recipePrefix + "_from_smelting" + recipeSuffix);
         SimpleCookingRecipeBuilder.generic(ingredient, craftingCategory, cookingCategory, result, experience, 100, BlastingRecipe::new)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
-            .save(output, getItemName(result) + "_from_blasting" + recipeSuffix);
+            .save(recipeOutput, recipePrefix + "_from_blasting" + recipeSuffix);
+    }
+
+    private RecipeOutput getModLoadConditions(ItemLike... items) {
+        Set<String> requiredMods = new HashSet<>();
+        Arrays.stream(items).map(ItemUtils::getNamespace).forEach(requiredMods::add);
+        requiredMods.remove("minecraft");
+        requiredMods.remove(MOD_ID);
+        if (requiredMods.isEmpty()) {
+            return output;
+        }
+        return conditionedOutput.apply(requiredMods);
+    }
+
+    private RecipeOutput getModLoadConditions(@Nullable Set<String> additionalRequiredMods, ItemLike... items) {
+        Set<String> requiredMods;
+        if (additionalRequiredMods == null) {
+            requiredMods = new HashSet<>();
+        } else {
+            requiredMods = new HashSet<>(additionalRequiredMods);
+        }
+        Arrays.stream(items).map(ItemUtils::getNamespace).forEach(requiredMods::add);
+        requiredMods.remove("minecraft");
+        requiredMods.remove(MOD_ID);
+        if (requiredMods.isEmpty()) {
+            return output;
+        }
+        return conditionedOutput.apply(requiredMods);
     }
 }

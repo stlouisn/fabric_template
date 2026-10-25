@@ -1,16 +1,19 @@
-package dev.mod_id.datagen.provider;
+package dev.mod_id.datagen.adapter;
 
+import static dev.mod_id.util.Constants.resourceLocation;
+
+import dev.mod_id.datagen.provider.VanillaRecipeProvider;
+import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NullMarked;
 
-import java.util.concurrent.CompletableFuture;
-
-import static dev.mod_id.util.Constants.resourceLocation;
-
+@NullMarked
 public final class VanillaRecipeAdapter extends FabricRecipeProvider {
 
     private static final String PROVIDER_NAME = "Vanilla Recipe Provider";
@@ -21,7 +24,7 @@ public final class VanillaRecipeAdapter extends FabricRecipeProvider {
 
     @Override
     protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
-        return new VanillaRecipeProvider(registries, output);
+        return new VanillaRecipeProvider(registries, output, mods -> withConditions(output, ResourceConditions.allModsLoaded(mods.toArray(String[]::new))));
     }
 
     @Override
