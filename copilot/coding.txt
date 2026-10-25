@@ -9,10 +9,10 @@ My Fabric API version is:
 fabric_api_version = 0.161.0+26.2
 
 My loader version is:
-fabric_loader_version = 0.19.5
+fabric_loader_version = 0.20.1
 
 My Loom version is:
-fabric_loom_version = 1.18-SNAPSHOT
+fabric_loom_version = 1.19-SNAPSHOT
 
 MixinExtras version is:
 mixinextras_version=0.5.5
