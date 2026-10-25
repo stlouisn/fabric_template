@@ -86,9 +86,9 @@ function DownloadTemplateFiles {
 function DownloadDatagenFiles {
 
     # Extract datagen boolean
-    $DownloadDatagenLine = Get-Content "gradle.properties" | Where-Object { $_ -match '^\s*download_datagen\s*=' } | Select-Object -First 1
+    $DownloadDatagenLine = Get-Content $GradleTemplate | Where-Object { $_ -match '^\s*download_datagen\s*=' } | Select-Object -First 1
     if (-not $DownloadDatagenLine) {
-        throw "Could not find 'download_datagen' in gradle.properties."
+        throw "Could not find 'download_datagen' in $GradleTemplate."
     }
     $DownloadDatagen = ($DownloadDatagenLine -replace '^\s*download_datagen\s*=\s*', '').Trim()
 
@@ -99,9 +99,9 @@ function DownloadDatagenFiles {
     }
 
     # Extract maven group
-    $MavenGroupLine = Get-Content "gradle.properties" |Where-Object { $_ -match '^\s*maven_group\s*=' } |Select-Object -First 1
+    $MavenGroupLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*maven_group\s*=' } |Select-Object -First 1
     if (-not $MavenGroupLine) {
-        throw "Could not find 'maven_group' in gradle.properties."
+        throw "Could not find 'maven_group' in $GradleTemplate."
     }
     $MavenGroup = ($MavenGroupLine -replace '^\s*maven_group\s*=\s*', '').Trim()
     $MavenParts = $MavenGroup.Split('.')
@@ -173,7 +173,7 @@ function DownloadDatagenFiles {
 
 function UpdateGradleProperties {
 
-    # Build gradle.properties
+    # Build gradle properties
     $GradleTemplate     = "gradle-template.properties"
     $ProjectVersions    = "project-versions.properties"
     $GradleProperties   = "gradle.properties"
@@ -258,7 +258,7 @@ DownloadDatagenFiles
 Write-Host "Downloads complete." -ForegroundColor Green
 Write-Host
 
-# Update gradle.properties file
+# Update gradle properties file
 UpdateGradleProperties
 
 # Update gradle wrapper
