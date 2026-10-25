@@ -174,9 +174,6 @@ function DownloadDatagenFiles {
 function UpdateGradleProperties {
 
     # Build gradle properties
-    $GradleTemplate     = "gradle-template.properties"
-    $ProjectVersions    = "project-versions.properties"
-    $GradleProperties   = "gradle.properties"
     try {
         Write-Host "Combining '$GradleTemplate' and '$ProjectVersions' into '$GradleProperties'" -ForegroundColor Yellow
         Get-Content -Path $GradleTemplate -ErrorAction Stop | Set-Content -Path $GradleProperties -Force -ErrorAction Stop
@@ -210,16 +207,8 @@ function UpdateGradleWrapper {
 # Forcefully terminate all java.exe processes silently
 Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
-# Filename of this script
-$ScriptFilename = "project-update.ps1"
-
 # Path to this script
 $Self = Join-Path $PSScriptRoot $ScriptFilename
-
-# Define repository details
-$Owner  = "stlouisn"
-$Repo   = "fabric_template"
-$Branch = "fabric-26.2"
 
 # Fetch the latest Commit SHA
 Write-Host
@@ -236,6 +225,19 @@ try {
     Write-Host "Failed to fetch commit SHA, falling back to branch name..." -ForegroundColor Red
     $CommitSha = $Branch
 }
+
+# Filename of this script
+$ScriptFilename = "project-update.ps1"
+
+# Define repository details
+$Owner  = "stlouisn"
+$Repo   = "fabric_template"
+$Branch = "fabric-26.2"
+
+# Define gradle properties filenames
+$GradleTemplate     = "gradle-template.properties"
+$ProjectVersions    = "project-versions.properties"
+$GradleProperties   = "gradle.properties"
 
 # Base URL for GitHub raw content
 $BaseRawUrl = "https://raw.githubusercontent.com/$Owner/$Repo/$CommitSha"
