@@ -26,12 +26,12 @@ def applyPreConfig = { spec ->
 def applyPostConfig = { spec ->
     spec.custom 'linebreakNullabilityAnnotations', { text ->
         text
-            .replaceAll(/(?m)^(\s*)(@(?>Nullable|NonNull))\s+(public|protected|private)\b/, '$1$2\n$1$3')
-            .replaceAll(/(?m)^(\s*)(@(?>Nullable|NonNull))\s*\n\s*\n(\s*(?:public|protected|private)\b)/, '$1$2\n$3')
+            .replaceAll(/(?m)^(\s*)(@(?>Nullable|NonNull))\s+(default|private|protected|public)\b/, '$1$2\n$1$3')
+            .replaceAll(/(?m)^(\s*)(@(?>Nullable|NonNull))\s*\n\s*\n(\s*(?:default|private|protected|public)\b)/, '$1$2\n$3')
     }
     spec.custom 'formatClassArrayDeclarations', { String text ->
         text
-            .replaceAll(/(?s)(?m)^([ \t]*)(((?:(?:public|protected|private)\s+)?static\s+final\s+Class<\?>\[\]\s+\w+\s*=\s*\{)(.*?)(\}\s*;))/) { Object[] args ->
+            .replaceAll(/(?s)(?m)^([ \t]*)(((?:(?:private|protected|public)\s+)?static\s+final\s+Class<\?>\[\]\s+\w+\s*=\s*\{)(.*?)(\}\s*;))/) { Object[] args ->
                 def baseIndent = args[1]
                 def declaration = args[2]
                 def prefix = args[3]
@@ -63,7 +63,9 @@ def conditionalMixinRule = { spec ->
             .replaceAll(/(?m)(?<!@IfModLoaded\(|@Local\(|@Mixin\()(args|argsOnly|at|cancellable|index|method|name|ordinal|shift|slice|target|value)\s*=\s{1,}(?!\=)/, '\n' + indent2 + '$1 = ')
             .replaceAll(/(?m)    (at = @At\()/, indent1 + '$1')
             .replaceAll(/(?m)    (args|argsOnly|name|opcode|ordinal|shift|target|value) = /, indent2 + '$1 = ')
-            .replaceAll(/@Unique\s+(private|protected|public)/, '@Unique\n' + indent1 + '$1')
+            .replaceAll(/(?m)^([ \t]*)@Nullable[ \t]+(@Shadow(?:\([^)]*\))?)/, '$1@Nullable\n$1$2')
+            .replaceAll(/(?m)^([ \t]*)@Unique[ \t]+(@(?:Nullable|NonNull))[ \t]+(default|private|protected|public)\b/, '$1@Unique\n$1$2\n$1$3')
+            .replaceAll(/@Unique\s+(default|private|protected|public)/, '@Unique\n' + indent1 + '$1')
     }
 }
 
