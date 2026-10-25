@@ -4,6 +4,6 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 Write-Host
 
 # Build JAR
-./gradlew --console=colored clean build
+./gradlew --console=colored clean build -x spotlessCheck -x spotlessApply
 
 Write-Host
