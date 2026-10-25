@@ -1,3 +1,16 @@
+# Filename of this script
+$ScriptFilename = "project-update.ps1"
+
+# Define repository details
+$Owner  = "stlouisn"
+$Repo   = "fabric_template"
+$Branch = "fabric-26.2"
+
+# Define gradle properties filenames
+$GradleTemplate     = "gradle-template.properties"
+$ProjectVersions    = "project-versions.properties"
+$GradleProperties   = "gradle.properties"
+
 function DownloadUpdateScript {
 
     # Compute hash before update
@@ -225,19 +238,6 @@ try {
     Write-Host "Failed to fetch commit SHA, falling back to branch name..." -ForegroundColor Red
     $CommitSha = $Branch
 }
-
-# Filename of this script
-$ScriptFilename = "project-update.ps1"
-
-# Define repository details
-$Owner  = "stlouisn"
-$Repo   = "fabric_template"
-$Branch = "fabric-26.2"
-
-# Define gradle properties filenames
-$GradleTemplate     = "gradle-template.properties"
-$ProjectVersions    = "project-versions.properties"
-$GradleProperties   = "gradle.properties"
 
 # Base URL for GitHub raw content
 $BaseRawUrl = "https://raw.githubusercontent.com/$Owner/$Repo/$CommitSha"
