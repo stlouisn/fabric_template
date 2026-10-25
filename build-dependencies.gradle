@@ -19,14 +19,16 @@ dependencies {
 
 // ------------------------------------------------------------------------------------------
 
+// Create
+dependencies {
+    implementation(localRuntime(files(rootProject.file("../minecraft_create/build/libs/_custom_create-26.2-fabric-6.0.9.jar"))))
+}
+
+// ------------------------------------------------------------------------------------------
+
 // Beautify
 dependencies {
     implementation(localRuntime("maven.modrinth:DhSSvaxs:${beautify_version}"))
-}
-
-// Create
-dependencies {
-    implementation(localRuntime("maven.modrinth:dKvj0eNn:${create_version}"))
 }
 
 // Ecologics
