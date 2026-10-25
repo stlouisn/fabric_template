@@ -108,7 +108,7 @@ function DownloadDatagenFiles {
 
     # Return unless download_datagen is true
     if ($DownloadDatagen -ine "true") {
-        Write-Host "Download datagen is not enabled ... skipping" -ForegroundColor Gray
+        Write-Host "Datagen is not enabled ... skipping" -ForegroundColor Gray
         Write-Host
         return
     }
