@@ -89,8 +89,8 @@ dependencies {
 if (recipe_viewer == "jei") {
     dependencies {
         localRuntime( "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}" )
-        runtimeOnly("maven.modrinth:7tEfOcA7:${jei_config}")
-        runtimeOnly("maven.modrinth:BOHUKqOz::${jei_config_gui}")
+        localRuntime( "maven.modrinth:7tEfOcA7:${jei_config}" )
+        localRuntime( "maven.modrinth:BOHUKqOz:${jei_config_gui}" )
     }
 }
 
