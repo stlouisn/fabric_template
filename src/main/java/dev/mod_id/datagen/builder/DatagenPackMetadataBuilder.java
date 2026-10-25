@@ -1,5 +1,7 @@
 package dev.mod_id.datagen.builder;
 
+import static dev.mod_id.util.Constants.MOD_NAME;
+
 import com.google.common.hash.Hashing;
 import com.google.common.hash.HashingOutputStream;
 import com.google.gson.Gson;
@@ -27,8 +29,6 @@ import net.minecraft.server.packs.resources.ResourceFilterSection;
 import net.minecraft.util.IdentifierPattern;
 import net.minecraft.util.Util;
 
-import static dev.mod_id.util.Constants.MOD_NAME;
-
 public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
 
     private static final Gson ORDERED_GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
@@ -40,10 +40,7 @@ public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
     public DatagenPackMetadataBuilder(FabricPackOutput output) {
         super(output);
         this.output = output;
-        this.packMetadataSection = new PackMetadataSection(
-            Component.literal(MOD_NAME + " Resource Pack"),
-            DetectedVersion.BUILT_IN.packVersion(PackType.SERVER_DATA).minorRange()
-        );
+        this.packMetadataSection = new PackMetadataSection(Component.literal(MOD_NAME + " Resource Pack"), DetectedVersion.BUILT_IN.packVersion(PackType.SERVER_DATA).minorRange());
 
         // Populate filter blocks if overridden by subclass
         List<FilterEntry> customFilters = new ArrayList<>();
@@ -56,8 +53,7 @@ public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
     }
 
     /**
-     * Optional override: Pass filter entries into the list.
-     * If not overridden, the list remains empty and no filter section is added.
+     * Pass filter entries into the list. If not overridden, the list remains empty and no filter section is added.
      */
     public void generateFilterBlocks(List<FilterEntry> filters) {
     }
@@ -77,10 +73,7 @@ public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
 
     protected void addFilterBlock(Pattern namespace, String path, List<String> filenames) {
         for (String filename : filenames) {
-            filterPatterns.add(new IdentifierPattern(
-                Optional.of(namespace),
-                Optional.of(Pattern.compile(path + filename))
-            ));
+            filterPatterns.add(new IdentifierPattern(Optional.of(namespace), Optional.of(Pattern.compile(path + filename))));
         }
     }
 

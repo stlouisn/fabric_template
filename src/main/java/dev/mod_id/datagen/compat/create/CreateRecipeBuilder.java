@@ -21,6 +21,6 @@ public abstract class CreateRecipeBuilder extends RecipeProvider {
         final String namespace = ItemUtils.getNamespace(result);
         SandpaperRecipeBuilder.polishing(input, result)
             .unlockedBy(getHasName(input), has(input))
-            .save(output, ResourceKey.create(Registries.RECIPE, resourceLocation(namespace,"sandpaper_polishing/" + getItemName(result))));
+            .save(output, ResourceKey.create(Registries.RECIPE, resourceLocation(namespace, "sandpaper_polishing/" + getItemName(result))));
     }
 }
