@@ -34,8 +34,9 @@ function DownloadUpdateScript {
         Write-Host
         Write-Host "Script updated. You will need to restart it." -ForegroundColor Red
         Write-Host
-        exit 1
+        return $true
     }
+    return $false
 }
 
 function DownloadTemplateFiles {
@@ -249,8 +250,10 @@ $ProgressPreference = 'SilentlyContinue'
 Write-Host
 Write-Host "Downloading files..." -ForegroundColor Yellow
 
-# Download this script
-DownloadUpdateScript
+# Download this script and exit if it changed
+if (DownloadUpdateScript) {
+    exit 1
+}
 
 # Download template files
 DownloadTemplateFiles
