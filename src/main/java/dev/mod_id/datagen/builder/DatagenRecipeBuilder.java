@@ -2,7 +2,7 @@ package dev.mod_id.datagen.builder;
 
 import static dev.mod_id.util.Constants.MOD_ID;
 
-import dev.mod_id.datagen.utils.ItemUtils;
+import dev.mod_id.datagen.util.ItemUtils;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

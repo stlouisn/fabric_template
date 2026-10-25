@@ -3,7 +3,7 @@ package dev.mod_id.datagen.compat.create;
 import static dev.mod_id.util.Constants.MOD_ID;
 import static dev.mod_id.util.Constants.resourceLocation;
 
-import dev.mod_id.datagen.utils.ItemUtils;
+import dev.mod_id.datagen.util.ItemUtils;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
