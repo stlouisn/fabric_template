@@ -195,6 +195,9 @@ function DownloadDatagenFiles {
     if (-not (Test-Path $DatagenDirectory/adapter)) {
         New-Item -ItemType Directory -Path $DatagenDirectory/adapter -Force | Out-Null
     }
+    if (-not (Test-Path $DatagenDirectory/compat)) {
+        New-Item -ItemType Directory -Path $DatagenDirectory/compat -Force | Out-Null
+    }
     if (-not (Test-Path $DatagenDirectory/provider)) {
         New-Item -ItemType Directory -Path $DatagenDirectory/provider -Force | Out-Null
     }
