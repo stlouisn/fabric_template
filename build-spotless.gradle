@@ -186,9 +186,9 @@ def conditionalDatagenItemTagProviderRule = { spec ->
     }
 }
 
-def conditionalDatagenPackMetadataGeneratorRule = { spec ->
-    spec.custom 'DatagenPackMetadataGeneratorRule', { String text ->
-        if (!text.contains("class DatagenPackMetadataGenerator")) {
+def conditionalDatagenPackMetadataProviderRule = { spec ->
+    spec.custom 'DatagenPackMetadataProviderRule', { String text ->
+        if (!text.contains("class DatagenPackMetadataProvider")) {
             return text
         }
         return text
@@ -270,7 +270,7 @@ def conditionalBlockDataRule = { spec ->
 
 def conditionalGenerateSourceCode = { spec ->
     spec.custom 'conditionalGenerateSourceCodeRule', { String text ->
-        if (!text.contains("class GenerateKeyBlockItems") && !text.contains("class GenerateRegisterBlockEntityType") && !text.contains("class GenerateRegisterBlockItems") && !text.contains("class GenerateRegisterCreativeModeTabs")) {
+        if (!text.contains("class GenerateKeyBlockItems") && !text.contains("class GenerateRegisterBlockEntityType") && !text.contains("class GenerateRegisterBlocks") && !text.contains("class GenerateRegisterCreativeModeTabs")) {
             return text
         }
         return text
@@ -292,22 +292,6 @@ def conditionalGenerateSourceCode = { spec ->
 def conditionalRegisterBlocksRule = { spec ->
     spec.custom 'RegisterBlocksRule', { String text ->
         if (!text.contains("class RegisterBlocks")) {
-            return text
-        }
-        return text
-            .replaceAll(/(?s)([ \t]*)(public static final Block)\b(.*?);/) { Object[] args ->
-                def indent = args[1]
-                def rawBody = args[2] + args[3]
-                def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
-                def formatted = cleanSingleLine.replaceAll(/\s*\.(emissiveRendering|forceSolidOff|friction|ignitedByLava|instabreak|instrument|isRedstoneConductor|isValidSpawn|lightLevel|mapColor|noCollision|noLootTable|noOcclusion|overrideDescription|overrideLootTable|pushReaction|randomTicks|requiresCorrectToolForDrops|sound|strength)\(/, '\n' + indent + indent1 + '.$1(')
-                return indent + formatted + ";"
-            }
-    }
-}
-
-def conditionalRegisterBlockItemsRule = { spec ->
-    spec.custom 'RegisterBlockItemsRule', { String text ->
-        if (!text.contains("class RegisterBlockItems")) {
             return text
         }
         return text
@@ -406,13 +390,12 @@ spotless {
         conditionalDatagenAdvancementProviderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
         conditionalDatagenItemTagProviderRule(delegate)
-        conditionalDatagenPackMetadataGeneratorRule(delegate)
+        conditionalDatagenPackMetadataProviderRule(delegate)
         conditionalDatagenRecipeBuilderRule(delegate)
         conditionalDatagenTrimItemsAtlasProviderRule(delegate)
         conditionalBlockDataRule(delegate)
         conditionalGenerateSourceCode(delegate)
         conditionalRegisterBlocksRule(delegate)
-        conditionalRegisterBlockItemsRule(delegate)
         conditionalRegisterItemsRule(delegate)
         conditionalRegisterConfiguredFeaturesRule(delegate)
         conditionalRegisterPlacedFeaturesRule(delegate)
