@@ -106,7 +106,11 @@ function DownloadTemplateFiles {
 function DownloadAPIFiles {
 
     # Mod Exemptions
-    if ($ModId -eq "flourish") {
+    $ExemptMods = @(
+        "flourish"
+        "armordamagescale"
+    )
+    if ($ModId -in $ExemptMods) {
         return
     }
 
