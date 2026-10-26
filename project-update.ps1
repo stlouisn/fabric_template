@@ -105,6 +105,10 @@ function DownloadTemplateFiles {
 
 function DownloadAPIFiles {
 
+    if ($ModId -eq "flourish") {
+        return
+    }
+
     # Ensure util path exists
     $RootDirectory = "src/main/java/$MavenDomain/$MavenArtifact/util"
     if (-not (Test-Path $RootDirectory)) {
