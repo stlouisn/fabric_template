@@ -15,11 +15,14 @@ base {
 loom {
     if (file("src/main/resources/${archives_base_name}.accesswidener").exists()) {
         accessWidenerPath = file("src/main/resources/${archives_base_name}.accesswidener")
-    } else if (file("src/main/resources/${mod_id}.accesswidener").exists()) {
+    }
+    else if (file("src/main/resources/${mod_id}.accesswidener").exists()) {
         accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
-    } else if (file("src/main/resources/${archives_base_name}.classtweaker").exists()) {
+    }
+    else if (file("src/main/resources/${archives_base_name}.classtweaker").exists()) {
         accessWidenerPath = file("src/main/resources/${archives_base_name}.classtweaker")
-    } else if (file("src/main/resources/${mod_id}.classtweaker").exists()) {
+    }
+    else if (file("src/main/resources/${mod_id}.classtweaker").exists()) {
         accessWidenerPath = file("src/main/resources/${mod_id}.classtweaker")
     }
     runs {
@@ -151,9 +154,10 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 tasks.withType(Javadoc).configureEach {
-    options.addStringOption('tag', 'reason:a:Reason for Override:')
-    options.addStringOption('tag', 'desc:a:Description:')
-    options.addStringOption('tag', 'spec:a:Specification:')
+    StandardJavadocDocletOptions javadocOptions = options as StandardJavadocDocletOptions
+    javadocOptions.addStringOption('tag', 'reason:a:Reason for Override:')
+    javadocOptions.addStringOption('tag', 'desc:a:Description:')
+    javadocOptions.addStringOption('tag', 'spec:a:Specification:')
 }
 
 def mod_name_final = mod_name_custom.toBoolean() ? "${mod_name} [C]" : mod_name

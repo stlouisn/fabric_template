@@ -27,7 +27,7 @@ import static dev.mod_id.util.Constants.MOD_ID;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenRecipeBuilder extends RecipeProvider {
 
-    protected RecipeOutput output;
+    protected final RecipeOutput output;
     private final Function<Set<String>, RecipeOutput> conditionedOutput;
 
     protected DatagenRecipeBuilder(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {

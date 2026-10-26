@@ -1,7 +1,6 @@
 package dev.mod_id.datagen.builder;
 
 import static dev.mod_id.util.Constants.MOD_NAME;
-import static dev.mod_id.util.IdentifierUtils.resourceLocation;
 import static dev.mod_id.util.IdentifierUtils.resourcePattern;
 
 import com.google.common.hash.Hashing;
