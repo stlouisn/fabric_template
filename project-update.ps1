@@ -320,7 +320,7 @@ ExtractGradleProperties
 DownloadTemplateFiles
 
 # Download datagen files
-DownloadDatagenFiles
+#DownloadDatagenFiles
 
 Write-Host "Downloads complete." -ForegroundColor Green
 Write-Host
