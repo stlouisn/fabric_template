@@ -1,7 +1,5 @@
 package dev.mod_id.datagen.builder;
 
-import static dev.mod_id.util.Constants.MOD_ID;
-
 import dev.mod_id.datagen.util.ItemUtils;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -23,6 +21,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.ItemLike;
 import org.jspecify.annotations.Nullable;
+
+import static dev.mod_id.util.Constants.MOD_ID;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenRecipeBuilder extends RecipeProvider {

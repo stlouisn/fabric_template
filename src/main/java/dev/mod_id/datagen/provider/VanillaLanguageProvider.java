@@ -1,15 +1,16 @@
-package dev.turtle_armour.datagen.provider;
+package dev.mod_id.datagen.provider;
 
-import dev.turtle_armour.content.registry.RegisterItems;
-import dev.turtle_armour.util.Constants;
+import static dev.mod_id.util.IdentifierUtils.resourceLocation;
+
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.world.item.Items;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public final class VanillaLanguageProvider extends FabricLanguageProvider {
 
     private static final String PROVIDER_NAME = "Vanilla Language Provider";
@@ -21,13 +22,8 @@ public final class VanillaLanguageProvider extends FabricLanguageProvider {
     @Override
     public void generateTranslations(HolderLookup.Provider registries, TranslationBuilder builder) {
 
-        builder.add(Items.TURTLE_HELMET, "Turtle Helmet");
-
-        builder.add(RegisterItems.TURTLE_BOOTS, "Turtle Chestplate");
-
-        builder.add(RegisterItems.TURTLE_CHESTPLATE, "Turtle Leggings");
-
-        builder.add(RegisterItems.TURTLE_LEGGINGS, "Turtle Boots");
+        // Advancements
+        builder.add("advancements.nether.obtain_ancient_debris.description", "Obtain Raw Netherite");
     }
 
     @Override
@@ -37,6 +33,6 @@ public final class VanillaLanguageProvider extends FabricLanguageProvider {
 
     @Override
     protected Path getLangFilePath(String code) {
-        return packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "lang").json(Constants.resourceLocation("minecraft", code));
+        return packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "lang").json(resourceLocation("minecraft", code));
     }
 }

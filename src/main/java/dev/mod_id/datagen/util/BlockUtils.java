@@ -1,7 +1,7 @@
 package dev.mod_id.datagen.util;
 
 import static dev.mod_id.util.Constants.MOD_ID;
-import static dev.mod_id.util.Constants.resourceLocation;
+import static dev.mod_id.util.IdentifierUtils.resourceLocation;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;

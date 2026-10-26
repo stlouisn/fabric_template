@@ -5,7 +5,9 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public final class DatagenWorldgenFeatureProvider extends FabricDynamicRegistryProvider {
 
     private static final String PROVIDER_NAME = "Worldgen Feature Provider";

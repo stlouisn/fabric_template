@@ -1,6 +1,8 @@
 package dev.mod_id.datagen.builder;
 
 import static dev.mod_id.util.Constants.MOD_NAME;
+import static dev.mod_id.util.IdentifierUtils.resourceLocation;
+import static dev.mod_id.util.IdentifierUtils.resourcePattern;
 
 import com.google.common.hash.Hashing;
 import com.google.common.hash.HashingOutputStream;
@@ -15,7 +17,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Pattern;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -73,7 +74,7 @@ public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
 
     protected void addFilterBlock(Pattern namespace, String path, List<String> filenames) {
         for (String filename : filenames) {
-            filterPatterns.add(new IdentifierPattern(Optional.of(namespace), Optional.of(Pattern.compile(path + filename))));
+            filterPatterns.add(resourcePattern(namespace, Pattern.compile(path + filename)));
         }
     }
 

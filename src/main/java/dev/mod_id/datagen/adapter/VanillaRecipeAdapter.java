@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.adapter;
 
-import static dev.mod_id.util.Constants.resourceLocation;
+import static dev.mod_id.util.IdentifierUtils.resourceLocation;
 
 import dev.mod_id.datagen.provider.VanillaRecipeProvider;
 import java.util.concurrent.CompletableFuture;
