@@ -1,6 +1,9 @@
 # Filename of this script
 $ScriptFilename = "project-update.ps1"
 
+# Path to this script
+$Self = Join-Path $PSScriptRoot $ScriptFilename
+
 # Define repository details
 $Owner  = "stlouisn"
 $Repo   = "fabric_template"
@@ -10,6 +13,9 @@ $Branch = "fabric-26.2"
 $GradleTemplate     = "gradle-template.properties"
 $ProjectVersions    = "project-versions.properties"
 $GradleProperties   = "gradle.properties"
+
+# Suppress download progress messages
+$ProgressPreference = 'SilentlyContinue'
 
 function DownloadUpdateScript {
 
@@ -135,7 +141,15 @@ function DownloadAPIFiles {
             )
         }
         if ($Content.Contains('"mod_id"')) {
-            $Content = $Content.Replace('"mod_id"', '"' + $ModName + '"')
+            $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
+            [System.IO.File]::WriteAllText(
+                $File,
+                $Content,
+                [System.Text.UTF8Encoding]::new($false)
+            )
+        }
+        if ($Content.Contains('"mod_name"')) {
+            $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
             [System.IO.File]::WriteAllText(
                 $File,
                 $Content,
@@ -221,7 +235,7 @@ function DownloadDatagenFiles {
     }
 }
 
-function ExtractGradleProperties {
+function ExtractMavenDomain {
 
     # Extract maven group
     $MavenGroupLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*maven_group\s*=' } |Select-Object -First 1
@@ -233,8 +247,39 @@ function ExtractGradleProperties {
     if ($MavenParts.Length -lt 2) {
         throw "Invalid maven_group value '$MavenGroup'; expected at least two dot-separated segments."
     }
+
+    # Extract maven domain
     $MavenDomain = $MavenParts[0..($MavenParts.Length - 2)] -join [IO.Path]::DirectorySeparatorChar
+}
+
+function ExtractMavenArtifact {
+
+    # Extract maven group
+    $MavenGroupLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*maven_group\s*=' } |Select-Object -First 1
+    if (-not $MavenGroupLine) {
+        throw "Could not find 'maven_group' in $GradleTemplate."
+    }
+    $MavenGroup = ($MavenGroupLine -replace '^\s*maven_group\s*=\s*', '').Trim()
+    $MavenParts = $MavenGroup.Split('.')
+    if ($MavenParts.Length -lt 2) {
+        throw "Invalid maven_group value '$MavenGroup'; expected at least two dot-separated segments."
+    }
+
+    # Extract maven artifact
     $MavenArtifact = $MavenParts[-1]
+}
+
+function ExtractModId {
+
+    # Extract mod id
+    $ModIdLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*mod_id\s*=' } |Select-Object -First 1
+    if (-not $ModIdLine) {
+        throw "Could not find 'mod_id' in $GradleTemplate."
+    }
+    $ModId = ($ModIdLine -replace '^\s*mod_id\s*=\s*', '').Trim()
+}
+
+function ExtractModName {
 
     # Extract mod name
     $ModNameLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*mod_name\s*=' } |Select-Object -First 1
@@ -280,9 +325,6 @@ function UpdateGradleWrapper {
 # Forcefully terminate all java.exe processes silently
 Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
-# Path to this script
-$Self = Join-Path $PSScriptRoot $ScriptFilename
-
 # Fetch the latest Commit SHA
 Write-Host
 Write-Host "Fetching latest Commit SHA for '$Branch'..." -ForegroundColor Yellow
@@ -302,9 +344,6 @@ try {
 # Base URL for GitHub raw content
 $BaseRawUrl = "https://raw.githubusercontent.com/$Owner/$Repo/$CommitSha"
 
-# Download directly using the commit SHA
-$ProgressPreference = 'SilentlyContinue'
-
 Write-Host
 Write-Host "Downloading files..." -ForegroundColor Yellow
 
@@ -314,13 +353,19 @@ if (DownloadUpdateScript) {
 }
 
 # Extract properties
-ExtractGradleProperties
+$MavenDomain = ExtractMavenDomain
+$MavenArtifact = ExtractMavenArtifact
+$ModId = ExtractModId
+$ModName = ExtractModName
 
 # Download template files
 DownloadTemplateFiles
 
+# Download API files
+DownloadAPIFiles
+
 # Download datagen files
-#DownloadDatagenFiles
+DownloadDatagenFiles
 
 Write-Host "Downloads complete." -ForegroundColor Green
 Write-Host
