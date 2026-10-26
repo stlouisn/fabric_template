@@ -358,6 +358,13 @@ $MavenArtifact = ExtractMavenArtifact
 $ModId = ExtractModId
 $ModName = ExtractModName
 
+Write-Host "MavenDomain = $MavenDomain"
+Write-Host "MavenArtifact = $MavenArtifact"
+Write-Host "ModId = $ModId"
+Write-Host "ModName = $ModName"
+
+Pause
+
 # Download template files
 DownloadTemplateFiles
 
