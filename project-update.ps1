@@ -107,8 +107,9 @@ function DownloadAPIFiles {
 
     # Mod Exemptions
     $ExemptMods = @(
-        "flourish"
+        "anvilrestoration"
         "armordamagescale"
+        "flourish"
     )
     if ($ModId -in $ExemptMods) {
         return
