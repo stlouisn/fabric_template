@@ -235,6 +235,18 @@ function DownloadDatagenFiles {
     }
 }
 
+function ExtractMavenGroup {
+
+    # Extract maven group
+    $MavenGroupLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*maven_group\s*=' } |Select-Object -First 1
+    if (-not $MavenGroupLine) {
+        throw "Could not find 'maven_group' in $GradleTemplate."
+    }
+
+    # Return maven group
+    return ($MavenGroupLine -replace '^\s*maven_group\s*=\s*', '').Trim()
+}
+
 function ExtractMavenDomain {
 
     # Extract maven group
@@ -330,6 +342,7 @@ function UpdateGradleWrapper {
 Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
 # Extract properties
+$MavenGroup = ExtractMavenGroup
 $MavenDomain = ExtractMavenDomain
 $MavenArtifact = ExtractMavenArtifact
 $ModId = ExtractModId
@@ -369,7 +382,7 @@ if (DownloadUpdateScript) {
 DownloadTemplateFiles
 
 # Download API files
-DownloadAPIFiles
+#DownloadAPIFiles
 
 # Download datagen files
 DownloadDatagenFiles
