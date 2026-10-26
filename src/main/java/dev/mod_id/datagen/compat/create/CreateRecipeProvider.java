@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.compat.create;
 
-import dev.mod_id.content.registry.RegisterBlockItems;
+import dev.mod_id.content.registry.RegisterBlocks;
 import java.util.Set;
 import java.util.function.Function;
 import net.minecraft.core.HolderLookup;

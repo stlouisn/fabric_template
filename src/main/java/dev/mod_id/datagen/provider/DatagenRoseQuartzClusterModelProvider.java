@@ -4,7 +4,7 @@ import static dev.mod_id.util.Constants.MOD_ID;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dev.mod_id.content.registry.RegisterBlockItems;
+import dev.mod_id.content.registry.RegisterBlocks;
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;

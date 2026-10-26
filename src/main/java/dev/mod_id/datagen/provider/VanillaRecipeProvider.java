@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.provider;
 
-import dev.mod_id.content.registry.RegisterBlockItems;
+import dev.mod_id.content.registry.RegisterBlocks;
 import dev.mod_id.content.registry.RegisterItems;
 import dev.mod_id.content.tag.TagItems;
 import dev.mod_id.datagen.builder.DatagenRecipeBuilder;

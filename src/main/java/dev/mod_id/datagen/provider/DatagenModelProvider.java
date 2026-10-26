@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.provider;
 
-import dev.mod_id.content.registry.RegisterBlockItems;
+import dev.mod_id.content.registry.RegisterBlocks;
 import dev.mod_id.content.registry.RegisterItems;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;

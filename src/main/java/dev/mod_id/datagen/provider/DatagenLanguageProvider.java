@@ -1,7 +1,7 @@
 package dev.mod_id.datagen.provider;
 
 import dev.mod_id.content.key.KeyTrimMaterials;
-import dev.mod_id.content.registry.RegisterBlockItems;
+import dev.mod_id.content.registry.RegisterBlocks;
 import dev.mod_id.content.registry.RegisterItems;
 import dev.mod_id.content.tag.TagBlocks;
 import dev.mod_id.content.tag.TagItems;
