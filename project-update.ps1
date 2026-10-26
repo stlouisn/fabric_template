@@ -41,7 +41,7 @@ function DownloadUpdateScript {
 
 function DownloadTemplateFiles {
 
-    # Ensure copilot paths exists
+    # Ensure copilot path exists
     $CopilotDirectory = "copilot"
     if (-not (Test-Path $CopilotDirectory)) {
         New-Item -ItemType Directory -Path $CopilotDirectory -Force | Out-Null
@@ -97,6 +97,54 @@ function DownloadTemplateFiles {
     Write-Host
 }
 
+function DownloadAPIFiles {
+
+    # Ensure util path exists
+    $UtilDirectory = "src/main/java/$MavenDomain/$MavenArtifact/util"
+    if (-not (Test-Path $UtilDirectory)) {
+        New-Item -ItemType Directory -Path $UtilDirectory -Force | Out-Null
+    }
+
+    # List of files to download
+    $FilesToDownload = @(
+        "util/Constants.java",
+        "util/IdentifierUtils.java"
+    )
+
+    # Download files from repository
+    foreach ($FileName in $FilesToDownload) {
+        Write-Host "Downloading: $FileName ..." -ForegroundColor Gray
+        Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
+        if (-not (Test-Path -Path ".\$FileName")) {
+            Write-Host
+            Write-Host "Failed to download file: $FileName" -ForegroundColor Red
+            throw "Script execution stopped due to missing download file."
+        }
+    }
+    Write-Host
+
+    # Substitute maven_group and mod_name into placeholder
+    foreach ($FileName in $FilesToDownload) {
+        $Content = [System.IO.File]::ReadAllText($File)
+        if ($Content.Contains("dev.mod_id")) {
+            $Content = $Content.Replace("dev.mod_id", $MavenGroup)
+            [System.IO.File]::WriteAllText(
+                $File,
+                $Content,
+                [System.Text.UTF8Encoding]::new($false)
+            )
+        }
+        if ($Content.Contains("\"mod_id\"")) {
+            $Content = $Content.Replace("\"mod_id\"", "\"" + $ModName + "\"")
+            [System.IO.File]::WriteAllText(
+                $File,
+                $Content,
+                [System.Text.UTF8Encoding]::new($false)
+            )
+        }
+    }
+}
+
 function DownloadDatagenFiles {
 
     # Extract datagen boolean
@@ -113,20 +161,7 @@ function DownloadDatagenFiles {
         return
     }
 
-    # Extract maven group
-    $MavenGroupLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*maven_group\s*=' } |Select-Object -First 1
-    if (-not $MavenGroupLine) {
-        throw "Could not find 'maven_group' in $GradleTemplate."
-    }
-    $MavenGroup = ($MavenGroupLine -replace '^\s*maven_group\s*=\s*', '').Trim()
-    $MavenParts = $MavenGroup.Split('.')
-    if ($MavenParts.Length -lt 2) {
-        throw "Invalid maven_group value '$MavenGroup'; expected at least two dot-separated segments."
-    }
-    $MavenDomain = $MavenParts[0..($MavenParts.Length - 2)] -join [IO.Path]::DirectorySeparatorChar
-    $MavenArtifact = $MavenParts[-1]
-
-    # Ensure datagen paths exists
+    # Ensure datagen paths exist
     $DatagenDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen"
     if (-not (Test-Path $DatagenDirectory)) {
         New-Item -ItemType Directory -Path $DatagenDirectory -Force | Out-Null
@@ -184,6 +219,29 @@ function DownloadDatagenFiles {
             )
         }
     }
+}
+
+function ExtractGradleProperties {
+
+    # Extract maven group
+    $MavenGroupLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*maven_group\s*=' } |Select-Object -First 1
+    if (-not $MavenGroupLine) {
+        throw "Could not find 'maven_group' in $GradleTemplate."
+    }
+    $MavenGroup = ($MavenGroupLine -replace '^\s*maven_group\s*=\s*', '').Trim()
+    $MavenParts = $MavenGroup.Split('.')
+    if ($MavenParts.Length -lt 2) {
+        throw "Invalid maven_group value '$MavenGroup'; expected at least two dot-separated segments."
+    }
+    $MavenDomain = $MavenParts[0..($MavenParts.Length - 2)] -join [IO.Path]::DirectorySeparatorChar
+    $MavenArtifact = $MavenParts[-1]
+
+    # Extract mod name
+    $ModNameLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*mod_name\s*=' } |Select-Object -First 1
+    if (-not $ModNameLine) {
+        throw "Could not find 'mod_name' in $GradleTemplate."
+    }
+    $ModName = ($ModNameLine -replace '^\s*mod_name\s*=\s*', '').Trim()
 }
 
 function UpdateGradleProperties {
@@ -255,6 +313,9 @@ if (DownloadUpdateScript) {
     exit 1
 }
 
+# Extract properties
+ExtractGradleProperties
+
 # Download template files
 DownloadTemplateFiles
 
@@ -264,7 +325,7 @@ DownloadDatagenFiles
 Write-Host "Downloads complete." -ForegroundColor Green
 Write-Host
 
-# Update gradle properties file
+# Update gradle properties
 UpdateGradleProperties
 
 # Update gradle wrapper
