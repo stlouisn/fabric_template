@@ -329,6 +329,15 @@ function UpdateGradleWrapper {
 # Forcefully terminate all java.exe processes silently
 Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
+# Extract properties
+$MavenDomain = ExtractMavenDomain
+$MavenArtifact = ExtractMavenArtifact
+$ModId = ExtractModId
+$ModName = ExtractModName
+
+Write-Host
+Write-Host "Updating '$ModName' project..." -ForegroundColor Cyan
+
 # Fetch the latest Commit SHA
 Write-Host
 Write-Host "Fetching latest Commit SHA for '$Branch'..." -ForegroundColor Yellow
@@ -355,19 +364,6 @@ Write-Host "Downloading files..." -ForegroundColor Yellow
 if (DownloadUpdateScript) {
     exit 1
 }
-
-# Extract properties
-$MavenDomain = ExtractMavenDomain
-$MavenArtifact = ExtractMavenArtifact
-$ModId = ExtractModId
-$ModName = ExtractModName
-
-Write-Host "MavenDomain = $MavenDomain"
-Write-Host "MavenArtifact = $MavenArtifact"
-Write-Host "ModId = $ModId"
-Write-Host "ModName = $ModName"
-
-Pause
 
 # Download template files
 DownloadTemplateFiles
