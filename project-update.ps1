@@ -249,12 +249,10 @@ function ExtractMavenGroup {
 
 function ExtractMavenDomain {
 
-    # Extract maven group
-    $MavenGroupLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*maven_group\s*=' } |Select-Object -First 1
-    if (-not $MavenGroupLine) {
-        throw "Could not find 'maven_group' in $GradleTemplate."
-    }
-    $MavenGroup = ($MavenGroupLine -replace '^\s*maven_group\s*=\s*', '').Trim()
+    # Required param
+    param([string]$MavenGroup)
+
+    # Extract maven domain
     $MavenParts = $MavenGroup.Split('.')
     if ($MavenParts.Length -lt 2) {
         throw "Invalid maven_group value '$MavenGroup'; expected at least two dot-separated segments."
@@ -266,12 +264,10 @@ function ExtractMavenDomain {
 
 function ExtractMavenArtifact {
 
-    # Extract maven group
-    $MavenGroupLine = Get-Content $GradleTemplate |Where-Object { $_ -match '^\s*maven_group\s*=' } |Select-Object -First 1
-    if (-not $MavenGroupLine) {
-        throw "Could not find 'maven_group' in $GradleTemplate."
-    }
-    $MavenGroup = ($MavenGroupLine -replace '^\s*maven_group\s*=\s*', '').Trim()
+    # Required param
+    param([string]$MavenGroup)
+
+    # Extract maven artifact
     $MavenParts = $MavenGroup.Split('.')
     if ($MavenParts.Length -lt 2) {
         throw "Invalid maven_group value '$MavenGroup'; expected at least two dot-separated segments."
@@ -343,8 +339,8 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
 # Extract properties
 $MavenGroup = ExtractMavenGroup
-$MavenDomain = ExtractMavenDomain
-$MavenArtifact = ExtractMavenArtifact
+$MavenDomain = ExtractMavenDomain($MavenGroup)
+$MavenArtifact = ExtractMavenArtifact($MavenGroup)
 $ModId = ExtractModId
 $ModName = ExtractModName
 
