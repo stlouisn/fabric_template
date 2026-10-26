@@ -60,10 +60,26 @@ public final class DatagenLanguageProvider extends FabricLanguageProvider {
         builder.add(TagItems.SMELTS_TO_GOLD_NUGGETS, "Smelts to Gold Nuggets");
         builder.add(TagItems.SMELTS_TO_IRON_NUGGETS, "Smelts to Iron Nuggets");
         builder.add(TagItems.SMELTS_TO_NETHERITE_NUGGETS, "Smelts to Netherite Nuggets");
+
+        // Message
+        builder.add("notification.friendlyfire.protected", "The %s is protected. Crouch to bypass.");
+
+        // Config
+        addConfig(builder, "title", MOD_NAME);
+        addConfig(builder, "enablePetProtection", "Enable Pet Protection");
+        addConfig(builder, "enablePetProtection.tooltip", "Prevent players and their pets from damaging friendly pets");
+        addConfig(builder, "enableBabyProtection", "Enable Baby Protection");
+        addConfig(builder, "enableBabyProtection.tooltip", "Prevent players and their pets from damaging baby animals");
+        addConfig(builder, "displayHitWarning", "Display Hit Warning");
+        addConfig(builder, "displayHitWarning.tooltip", "Show a warning when hitting protected entities");
     }
 
     @Override
     public String getName() {
         return PROVIDER_NAME;
+    }
+
+    private static void addConfig(TranslationBuilder builder, String translationKey, String value) {
+        builder.add(MOD_ID + ".midnightconfig." + translationKey, value);
     }
 }
