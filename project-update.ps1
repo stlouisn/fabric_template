@@ -93,7 +93,7 @@ function DownloadTemplateFiles {
     # Download files from repository
     foreach ($FileName in $FilesToDownload) {
         Write-Host "Downloading: $FileName ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
+        Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile $FileName -ErrorAction Stop
         if (-not (Test-Path -Path ".\$FileName")) {
             Write-Host
             Write-Host "Failed to download file: $FileName" -ForegroundColor Red
@@ -113,14 +113,15 @@ function DownloadAPIFiles {
 
     # List of files to download
     $FilesToDownload = @(
-        "$UtilDirectory/Constants.java",
-        "$UtilDirectory/IdentifierUtils.java"
+        "src/main/java/dev/mod_id/Constants.java",
+        "src/main/java/dev/mod_id/IdentifierUtils.java"
     )
 
     # Download files from repository
     foreach ($FileName in $FilesToDownload) {
         Write-Host "Downloading: $FileName ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile ".\$FileName" -ErrorAction Stop
+        $OutputPath = Join-Path $UtilDirectory (Split-Path $FileName -Leaf)
+        Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile $OutputPath -ErrorAction Stop
         if (-not (Test-Path -Path ".\$FileName")) {
             Write-Host
             Write-Host "Failed to download file: $FileName" -ForegroundColor Red
@@ -378,7 +379,7 @@ if (DownloadUpdateScript) {
 DownloadTemplateFiles
 
 # Download API files
-#DownloadAPIFiles
+DownloadAPIFiles
 
 # Download datagen files
 DownloadDatagenFiles
