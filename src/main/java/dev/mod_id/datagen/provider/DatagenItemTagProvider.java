@@ -18,9 +18,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.WeatheringCopperCollection;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
     private static final String PROVIDER_NAME = "Item Tags Provider";

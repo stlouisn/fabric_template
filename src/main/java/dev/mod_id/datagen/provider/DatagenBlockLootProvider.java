@@ -7,9 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.block.Blocks;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenBlockLootProvider extends DatagenBlockLootBuilder {
 
     public DatagenBlockLootProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {

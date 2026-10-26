@@ -10,9 +10,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.util.Util;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenLanguageProvider extends FabricLanguageProvider {
 
     private static final String PROVIDER_NAME = "Language Provider";

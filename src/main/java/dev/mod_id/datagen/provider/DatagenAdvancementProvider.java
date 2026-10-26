@@ -15,9 +15,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenAdvancementProvider extends FabricAdvancementProvider {
 
     public DatagenAdvancementProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {

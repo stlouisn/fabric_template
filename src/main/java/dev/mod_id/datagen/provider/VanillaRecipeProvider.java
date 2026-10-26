@@ -11,9 +11,7 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class VanillaRecipeProvider extends DatagenRecipeBuilder {
 
     public VanillaRecipeProvider(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {

@@ -8,9 +8,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class VanillaLanguageProvider extends FabricLanguageProvider {
 
     private static final String PROVIDER_NAME = "Vanilla Language Provider";

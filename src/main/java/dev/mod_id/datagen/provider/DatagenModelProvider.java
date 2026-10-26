@@ -7,9 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.model.ModelTemplates;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenModelProvider extends FabricModelProvider {
 
     public DatagenModelProvider(FabricPackOutput output) {

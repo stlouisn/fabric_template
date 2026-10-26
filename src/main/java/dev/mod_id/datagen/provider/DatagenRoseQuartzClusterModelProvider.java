@@ -15,9 +15,7 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenRoseQuartzClusterModelProvider implements DataProvider {
 
     private final FabricPackOutput output;

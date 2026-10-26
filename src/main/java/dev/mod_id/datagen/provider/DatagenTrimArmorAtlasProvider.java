@@ -17,9 +17,7 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public class DatagenTrimArmorAtlasProvider implements DataProvider {
 
     private static final String ROSE_QUARTZ_NAMESPACE = KeyTrimMaterials.ROSE_QUARTZ.identifier().getNamespace().toLowerCase();
