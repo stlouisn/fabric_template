@@ -286,7 +286,7 @@ function ExtractModName {
     if (-not $ModNameLine) {
         throw "Could not find 'mod_name' in $GradleTemplate."
     }
-    $ModName = ($ModNameLine -replace '^\s*mod_name\s*=\s*', '').Trim()
+    return ($ModNameLine -replace '^\s*mod_name\s*=\s*', '').Trim()
 }
 
 function UpdateGradleProperties {
