@@ -113,8 +113,8 @@ function DownloadAPIFiles {
 
     # List of files to download
     $FilesToDownload = @(
-        "src/main/java/dev/mod_id/Constants.java",
-        "src/main/java/dev/mod_id/IdentifierUtils.java"
+        "src/main/java/dev/mod_id/util/Constants.java",
+        "src/main/java/dev/mod_id/util/IdentifierUtils.java"
     )
 
     # Download files from repository
