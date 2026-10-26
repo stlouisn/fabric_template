@@ -248,8 +248,8 @@ function ExtractMavenDomain {
         throw "Invalid maven_group value '$MavenGroup'; expected at least two dot-separated segments."
     }
 
-    # Extract maven domain
-    $MavenDomain = $MavenParts[0..($MavenParts.Length - 2)] -join [IO.Path]::DirectorySeparatorChar
+    # Return maven domain
+    return $MavenParts[0..($MavenParts.Length - 2)] -join [IO.Path]::DirectorySeparatorChar
 }
 
 function ExtractMavenArtifact {
@@ -265,8 +265,8 @@ function ExtractMavenArtifact {
         throw "Invalid maven_group value '$MavenGroup'; expected at least two dot-separated segments."
     }
 
-    # Extract maven artifact
-    $MavenArtifact = $MavenParts[-1]
+    # Return maven artifact
+    return $MavenParts[-1]
 }
 
 function ExtractModId {
@@ -276,7 +276,9 @@ function ExtractModId {
     if (-not $ModIdLine) {
         throw "Could not find 'mod_id' in $GradleTemplate."
     }
-    $ModId = ($ModIdLine -replace '^\s*mod_id\s*=\s*', '').Trim()
+
+    # Return mod id
+    return ($ModIdLine -replace '^\s*mod_id\s*=\s*', '').Trim()
 }
 
 function ExtractModName {
@@ -286,6 +288,8 @@ function ExtractModName {
     if (-not $ModNameLine) {
         throw "Could not find 'mod_name' in $GradleTemplate."
     }
+
+    # Return mod name
     return ($ModNameLine -replace '^\s*mod_name\s*=\s*', '').Trim()
 }
 
