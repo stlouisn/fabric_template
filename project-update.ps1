@@ -121,6 +121,7 @@ function DownloadAPIFiles {
     foreach ($FileName in $FilesToDownload) {
         Write-Host "Downloading: $FileName ..." -ForegroundColor Gray
         $OutputPath = Join-Path $UtilDirectory (Split-Path $FileName -Leaf)
+        Write-Host "Downloading: $FileName -> $OutputPath" -ForegroundColor Gray
         Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile $OutputPath -ErrorAction Stop
         if (-not (Test-Path -Path ".\$FileName")) {
             Write-Host
