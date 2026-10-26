@@ -134,8 +134,8 @@ function DownloadAPIFiles {
                 [System.Text.UTF8Encoding]::new($false)
             )
         }
-        if ($Content.Contains("\"mod_id\"")) {
-            $Content = $Content.Replace("\"mod_id\"", "\"" + $ModName + "\"")
+        if ($Content.Contains('"mod_id"')) {
+            $Content = $Content.Replace('"mod_id"', '"' + $ModName + '"')
             [System.IO.File]::WriteAllText(
                 $File,
                 $Content,
