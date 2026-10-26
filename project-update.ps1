@@ -105,6 +105,7 @@ function DownloadTemplateFiles {
 
 function DownloadAPIFiles {
 
+    # Mod Exemptions
     if ($ModId -eq "flourish") {
         return
     }
