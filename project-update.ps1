@@ -115,7 +115,7 @@ function DownloadAPIFiles {
     $FolderMappings = @(
         @{
             Source      = "src/main/java/dev/mod_id/util"
-            Destination = "$RootDirectory/util"
+            Destination = "$RootDirectory"
         }
     )
 
