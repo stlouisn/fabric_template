@@ -110,6 +110,7 @@ function DownloadAPIFiles {
         "anvilrestoration"
         "armordamagescale"
         "flourish"
+        "jeii"
     )
     if ($ModId -in $ExemptMods) {
         return

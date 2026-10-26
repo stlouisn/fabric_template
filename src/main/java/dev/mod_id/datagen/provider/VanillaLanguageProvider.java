@@ -22,6 +22,9 @@ public final class VanillaLanguageProvider extends FabricLanguageProvider {
 
         // Advancements
         builder.add("advancements.nether.obtain_ancient_debris.description", "Obtain Raw Netherite");
+
+        // Potion Effects
+        addPotionTranslations(builder, RegisterPotions.DECAY, "Decay");
     }
 
     @Override
@@ -32,5 +35,18 @@ public final class VanillaLanguageProvider extends FabricLanguageProvider {
     @Override
     protected Path getLangFilePath(String code) {
         return packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "lang").json(resourceLocation("minecraft", code));
+    }
+
+    /**
+     * Generates translations for Potion, Splash Potion, Lingering Potion, and Tipped Arrow using the base name defined in
+     * the Potion instance.
+     */
+    @SuppressWarnings("SameParameterValue")
+    private static void addPotionTranslations(TranslationBuilder builder, Holder<Potion> potionHolder, String displayName) {
+        final String baseName = potionHolder.value().name();
+        builder.add("item.minecraft.potion.effect." + baseName, "Potion of " + displayName);
+        builder.add("item.minecraft.splash_potion.effect." + baseName, "Splash Potion of " + displayName);
+        builder.add("item.minecraft.lingering_potion.effect." + baseName, "Lingering Potion of " + displayName);
+        builder.add("item.minecraft.tipped_arrow.effect." + baseName, "Arrow of " + displayName);
     }
 }
