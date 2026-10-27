@@ -38,5 +38,7 @@ public final class DatagenModelProvider extends FabricModelProvider {
         modelGenerator.generateFlatItem(RegisterItems.NETHERITE_NUGGET, ModelTemplates.FLAT_ITEM);
         modelGenerator.generateFlatItem(RegisterItems.RAW_NETHERITE, ModelTemplates.FLAT_ITEM);
         modelGenerator.generateFlatItem(RegisterItems.ROSE_QUARTZ_SHARD, ModelTemplates.FLAT_ITEM);
+
+        createConditionalFlatItem(modelGenerator, RegisterItems.PET_CONTRACT, RegisterDataComponentTypes.PET_CONTRACT_DATA, "_filled");
     }
 }

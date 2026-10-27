@@ -61,7 +61,7 @@ public final class DatagenLanguageProvider extends FabricLanguageProvider {
         builder.add(TagItems.SMELTS_TO_IRON_NUGGETS, "Smelts to Iron Nuggets");
         builder.add(TagItems.SMELTS_TO_NETHERITE_NUGGETS, "Smelts to Netherite Nuggets");
 
-        // Message
+        // Messages
         builder.add("notification.friendlyfire.protected", "The %s is protected. Crouch to bypass.");
 
         // Config
