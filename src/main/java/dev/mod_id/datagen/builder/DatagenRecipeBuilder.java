@@ -36,6 +36,29 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
         this.conditionedOutput = conditionedOutput;
     }
 
+    protected void createShapelessRecipe(ItemLike result, ItemLike item) {
+        createShapelessRecipe(result, item, RecipeCategory.MISC);
+    }
+
+    protected void createShapelessRecipe(ItemLike result, ItemLike item, RecipeCategory recipeCategory) {
+        createShapelessRecipe(result, List.of(item), recipeCategory);
+    }
+
+    protected void createShapelessRecipe(ItemLike result, List<ItemLike> items) {
+        createShapelessRecipe(result, items, RecipeCategory.MISC);
+    }
+
+    protected void createShapelessRecipe(ItemLike result, List<ItemLike> items, RecipeCategory recipeCategory) {
+        final RecipeOutput recipeOutput = getModLoadConditions(Stream.concat(Stream.of(result), items.stream()).toArray(ItemLike[]::new));
+        final String recipeGroup = getItemName(result);
+        final ShapelessRecipeBuilder builder = shapeless(recipeCategory, result, 1).group(recipeGroup);
+        for (ItemLike item : items) {
+            builder.requires(item);
+            builder.unlockedBy(getHasName(item), has(item));
+        }
+        builder.save(recipeOutput);
+    }
+
     protected void createNineBlockStorage(ItemLike unpackedForm, ItemLike packedForm) {
         final String unpackedRecipeGroup = getItemName(unpackedForm);
         final String packedRecipeGroup = getItemName(packedForm);
