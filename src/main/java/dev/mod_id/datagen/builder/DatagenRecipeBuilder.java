@@ -5,13 +5,16 @@ import static dev.mod_id.util.Constants.MOD_ID;
 import dev.mod_id.datagen.util.ItemUtils;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Stream;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -51,11 +54,12 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     protected void createShapelessRecipe(ItemLike result, List<ItemLike> items, RecipeCategory recipeCategory) {
         final RecipeOutput recipeOutput = getModLoadConditions(Stream.concat(Stream.of(result), items.stream()).toArray(ItemLike[]::new));
         final String recipeGroup = getItemName(result);
-        final ShapelessRecipeBuilder builder = shapeless(recipeCategory, result, 1).group(recipeGroup);
+        final ShapelessRecipeBuilder builder = shapeless(recipeCategory, result, 1);
         for (ItemLike item : items) {
             builder.requires(item);
             builder.unlockedBy(getHasName(item), has(item));
         }
+        builder.group(recipeGroup);
         builder.save(recipeOutput);
     }
 
