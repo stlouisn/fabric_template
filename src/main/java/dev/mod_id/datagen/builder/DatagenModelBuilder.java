@@ -43,10 +43,10 @@ public final class DatagenModelBuilder {
      * Generate flat item model with an alternate model when the component is present.
      */
     public static void createConditionalFlatItem(ItemModelGenerators modelGenerator, Item item, DataComponentType<?> component, String alternateSuffix) {
-        Identifier defaultModelId = ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(item), modelGenerator.modelOutput);
-        Identifier alternateModelId = ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item, alternateSuffix), TextureMapping.layer0(new Material(ModelLocationUtils.getModelLocation(item, alternateSuffix))), modelGenerator.modelOutput);
-        ItemModel.Unbaked defaultModel = ItemModelUtils.plainModel(defaultModelId);
-        ItemModel.Unbaked alternateModel = ItemModelUtils.plainModel(alternateModelId);
+        final Identifier defaultModelId = ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(item), modelGenerator.modelOutput);
+        final Identifier alternateModelId = ModelTemplates.FLAT_ITEM.create(ModelLocationUtils.getModelLocation(item, alternateSuffix), TextureMapping.layer0(new Material(ModelLocationUtils.getModelLocation(item, alternateSuffix))), modelGenerator.modelOutput);
+        final ItemModel.Unbaked defaultModel = ItemModelUtils.plainModel(defaultModelId);
+        final ItemModel.Unbaked alternateModel = ItemModelUtils.plainModel(alternateModelId);
         modelGenerator.itemModelOutput.accept(item, ItemModelUtils.conditional(ItemModelUtils.hasComponent(component), alternateModel, defaultModel));
     }
 }

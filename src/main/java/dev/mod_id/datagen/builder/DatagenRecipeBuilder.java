@@ -246,7 +246,7 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     private RecipeOutput getModLoadConditions(ItemLike... items) {
-        Set<String> requiredMods = new HashSet<>();
+        final Set<String> requiredMods = new HashSet<>();
         Arrays.stream(items).map(ItemUtils::getNamespace).forEach(requiredMods::add);
         requiredMods.remove("minecraft");
         requiredMods.remove(MOD_ID);
@@ -257,7 +257,7 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     private RecipeOutput getModLoadConditions(@Nullable Set<String> additionalRequiredMods, ItemLike... items) {
-        Set<String> requiredMods;
+        final Set<String> requiredMods;
         if (additionalRequiredMods == null) {
             requiredMods = new HashSet<>();
         } else {

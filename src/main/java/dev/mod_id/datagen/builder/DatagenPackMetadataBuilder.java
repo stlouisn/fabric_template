@@ -34,8 +34,9 @@ public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
 
     private static final Gson ORDERED_GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
-    private final FabricPackOutput output;
     private final List<IdentifierPattern> filterPatterns = new ArrayList<>();
+
+    private final FabricPackOutput output;
     private final PackMetadataSection packMetadataSection;
 
     public DatagenPackMetadataBuilder(FabricPackOutput output) {
