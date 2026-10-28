@@ -1,17 +1,12 @@
 package dev.mod_id.datagen.provider;
 
-import dev.mod_id.content.key.KeyTrimMaterials;
-import dev.mod_id.content.registry.RegisterBlocks;
-import dev.mod_id.content.registry.RegisterItems;
-import dev.mod_id.content.tag.TagBlocks;
-import dev.mod_id.content.tag.TagItems;
+import dev.crossing_rail.content.registry.RegisterBlocks;
+import dev.crossing_rail.datagen.builder.DatagenLanguageBuilder;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.util.Util;
 
-public final class DatagenLanguageProvider extends FabricLanguageProvider {
+public final class DatagenLanguageProvider extends DatagenLanguageBuilder {
 
     public DatagenLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
@@ -70,14 +65,5 @@ public final class DatagenLanguageProvider extends FabricLanguageProvider {
         addConfig(builder, "enableBabyProtection.tooltip", "Prevent players and their pets from damaging baby animals");
         addConfig(builder, "displayHitWarning", "Display Hit Warning");
         addConfig(builder, "displayHitWarning.tooltip", "Show a warning when hitting protected entities");
-    }
-
-    @Override
-    public String getName() {
-        return "Language Provider";
-    }
-
-    private static void addConfig(TranslationBuilder builder, String translationKey, String value) {
-        builder.add(MOD_ID + ".midnightconfig." + translationKey, value);
     }
 }
