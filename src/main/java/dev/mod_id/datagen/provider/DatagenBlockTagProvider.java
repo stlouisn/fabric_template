@@ -56,9 +56,4 @@ public final class DatagenBlockTagProvider extends DatagenBlockTagBuilder {
 
         builder(BlockTags.INSIDE_STEP_SOUND_BLOCKS).add(KeyBlockItems.SMALL_ROSE_QUARTZ_BUD);
     }
-
-    @Override
-    public String getName() {
-        return "Block Tags Provider";
-    }
 }

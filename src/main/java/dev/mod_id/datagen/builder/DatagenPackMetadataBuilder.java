@@ -30,7 +30,7 @@ import net.minecraft.util.IdentifierPattern;
 import net.minecraft.util.Util;
 
 @SuppressWarnings("unused")
-public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
+public final class DatagenPackMetadataBuilder extends PackMetadataGenerator {
 
     private static final Gson ORDERED_GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
