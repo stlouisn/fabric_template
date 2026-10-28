@@ -11,7 +11,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"SameParameterValue", "unused"})
 public class DatagenEquipmentAssetsBuilder implements DataProvider {
 
     private static final Map<ResourceKey<EquipmentAsset>, EquipmentClientInfo> equipmentAssets = new HashMap<>();

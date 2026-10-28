@@ -16,11 +16,6 @@ public final class DatagenPackMetadataProvider extends DatagenPackMetadataBuilde
         addMinecraftFilterBlock(filters, "recipe/", FILTERED_VANILLA_RECIPES);
     }
 
-    @Override
-    public String getName() {
-        return "Pack Metadata Provider";
-    }
-
     private static final List<String> FILTERED_VANILLA_ADVANCEMENTS = List.of(
         "netherite_scrap.json",
         "netherite_scrap_from_blasting.json",
