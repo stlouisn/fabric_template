@@ -19,19 +19,4 @@ public class IdentifierUtils {
     public static Identifier resourceLocation(final String namespace, final String path) {
         return Identifier.fromNamespaceAndPath(namespace, path);
     }
-
-    public static IdentifierPattern resourcePattern(final Pattern path) {
-        return resourcePattern(null, path);
-    }
-
-    public static IdentifierPattern resourcePattern(@Nullable final Pattern namespace, @Nullable final Pattern path) {
-        JsonObject json = new JsonObject();
-        if (namespace != null) {
-            json.addProperty("namespace", namespace.pattern());
-        }
-        if (path != null) {
-            json.addProperty("path", path.pattern());
-        }
-        return IdentifierPattern.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow();
-    }
 }
