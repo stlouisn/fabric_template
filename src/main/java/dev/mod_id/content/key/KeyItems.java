@@ -1,6 +1,6 @@
-package dev.turtle_armour.content.key;
+package dev.mod_id.content.key;
 
-import static dev.turtle_armour.util.Constants.resourceLocation;
+import static dev.mod_id.util.Constants.resourceLocation;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;

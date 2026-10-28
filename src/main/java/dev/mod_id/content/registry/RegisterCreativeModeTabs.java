@@ -1,4 +1,4 @@
-package dev.turtle_armour.content.registry;
+package dev.mod_id.content.registry;
 
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTabOutput;

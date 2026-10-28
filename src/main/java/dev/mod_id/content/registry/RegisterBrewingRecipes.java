@@ -1,4 +1,4 @@
-package dev.turtle_armour.content.registry;
+package dev.mod_id.content.registry;
 
 import net.fabricmc.fabric.api.registry.FabricPotionBrewingBuilder;
 import net.minecraft.world.item.Items;

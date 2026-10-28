@@ -1,6 +1,6 @@
-package dev.turtle_armour.content.registry;
+package dev.mod_id.content.registry;
 
-import dev.turtle_armour.content.key.KeyItems;
+import dev.mod_id.content.key.KeyItems;
 import java.util.function.Function;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
