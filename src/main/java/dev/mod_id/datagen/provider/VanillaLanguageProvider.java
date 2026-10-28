@@ -1,15 +1,13 @@
 package dev.mod_id.datagen.provider;
 
-import static dev.mod_id.util.IdentifierUtils.resourceLocation;
-
-import java.nio.file.Path;
+import dev.mod_id.content.registry.RegisterItems;
+import dev.mod_id.datagen.builder.VanillaLanguageBuilder;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
+import net.minecraft.world.item.Items;
 
-public final class VanillaLanguageProvider extends FabricLanguageProvider {
+public final class VanillaLanguageProvider extends VanillaLanguageBuilder {
 
     public VanillaLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
@@ -23,28 +21,5 @@ public final class VanillaLanguageProvider extends FabricLanguageProvider {
 
         // Potion Effects
         addPotionTranslations(builder, RegisterPotions.DECAY, "Decay");
-    }
-
-    @Override
-    public String getName() {
-        return "Vanilla Language Provider";
-    }
-
-    @Override
-    protected Path getLangFilePath(String code) {
-        return packOutput.createPathProvider(PackOutput.Target.RESOURCE_PACK, "lang").json(resourceLocation("minecraft", code));
-    }
-
-    /**
-     * Generates translations for Potion, Splash Potion, Lingering Potion, and Tipped Arrow using the base name defined in
-     * the Potion instance.
-     */
-    @SuppressWarnings("SameParameterValue")
-    private static void addPotionTranslations(TranslationBuilder builder, Holder<Potion> potionHolder, String displayName) {
-        final String baseName = potionHolder.value().name();
-        builder.add("item.minecraft.potion.effect." + baseName, "Potion of " + displayName);
-        builder.add("item.minecraft.splash_potion.effect." + baseName, "Splash Potion of " + displayName);
-        builder.add("item.minecraft.lingering_potion.effect." + baseName, "Lingering Potion of " + displayName);
-        builder.add("item.minecraft.tipped_arrow.effect." + baseName, "Arrow of " + displayName);
     }
 }
