@@ -1,7 +1,7 @@
 package dev.mod_id.datagen.builder;
 
 import static dev.mod_id.util.Constants.MOD_NAME;
-import static dev.mod_id.datagen.datagen.util.JsonUtils.resourcePattern;
+import static dev.mod_id.datagen.util.JsonUtils.resourcePattern;
 
 import com.google.common.hash.Hashing;
 import com.google.common.hash.HashingOutputStream;

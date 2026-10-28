@@ -1,6 +1,5 @@
 package dev.mod_id.datagen.util;
 
-
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
 import java.util.regex.Pattern;
