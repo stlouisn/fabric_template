@@ -39,23 +39,23 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
         this.conditionedOutput = conditionedOutput;
     }
 
-    protected void createShapelessRecipe(ItemLike result, ItemLike item) {
-        createShapelessRecipe(result, item, RecipeCategory.MISC);
+    protected void createShapelessRecipe(ItemLike input, ItemLike result) {
+        createShapelessRecipe(input, result,RecipeCategory.MISC);
     }
 
-    protected void createShapelessRecipe(ItemLike result, ItemLike item, RecipeCategory recipeCategory) {
-        createShapelessRecipe(result, List.of(item), recipeCategory);
+    protected void createShapelessRecipe(ItemLike input, ItemLike result, RecipeCategory recipeCategory) {
+        createShapelessRecipe(List.of(input), result, recipeCategory);
     }
 
-    protected void createShapelessRecipe(ItemLike result, List<ItemLike> items) {
-        createShapelessRecipe(result, items, RecipeCategory.MISC);
+    protected void createShapelessRecipe(List<ItemLike> inputs, ItemLike result) {
+        createShapelessRecipe(inputs, result, RecipeCategory.MISC);
     }
 
-    protected void createShapelessRecipe(ItemLike result, List<ItemLike> items, RecipeCategory recipeCategory) {
-        final RecipeOutput recipeOutput = getModLoadConditions(Stream.concat(Stream.of(result), items.stream()).toArray(ItemLike[]::new));
+    protected void createShapelessRecipe(List<ItemLike> inputs, ItemLike result, RecipeCategory recipeCategory) {
+        final RecipeOutput recipeOutput = getModLoadConditions(Stream.concat(Stream.of(result), inputs.stream()).toArray(ItemLike[]::new));
         final String recipeGroup = getItemName(result);
         final ShapelessRecipeBuilder builder = shapeless(recipeCategory, result, 1);
-        for (ItemLike item : items) {
+        for (ItemLike item : inputs) {
             builder.requires(item);
             builder.unlockedBy(getHasName(item), has(item));
         }
@@ -123,6 +123,33 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             .save(recipeOutput);
     }
 
+    protected void createThreeByThreePacker(ItemLike unpackedForm, ItemLike packedForm) {
+        final String recipeGroup = getItemName(packedForm);
+        createThreeByThreePacker(unpackedForm, packedForm, recipeGroup);
+    }
+
+    protected void createThreeByThreePacker(ItemLike unpackedForm, ItemLike packedForm, RecipeCategory recipeCategory) {
+        final String recipeGroup = getItemName(packedForm);
+        createThreeByThreePacker(unpackedForm, packedForm, recipeGroup, recipeCategory);
+    }
+
+    protected void createThreeByThreePacker(ItemLike unpackedForm, ItemLike packedForm, String recipeGroup) {
+        final RecipeCategory recipeCategory = RecipeCategory.MISC;
+        createThreeByThreePacker(unpackedForm, packedForm, recipeGroup, recipeCategory);
+    }
+
+    protected void createThreeByThreePacker(ItemLike unpackedForm, ItemLike packedForm, String recipeGroup, RecipeCategory recipeCategory) {
+        final RecipeOutput recipeOutput = getModLoadConditions(unpackedForm, packedForm);
+        shaped(recipeCategory, packedForm, 1)
+            .define('#', unpackedForm)
+            .pattern("###")
+            .pattern("###")
+            .pattern("###")
+            .group(recipeGroup)
+            .unlockedBy(getHasName(unpackedForm), has(unpackedForm))
+            .save(recipeOutput);
+    }
+
     protected void createOneToOneConversion(ItemLike input, ItemLike result) {
         final RecipeCategory recipeCategory = RecipeCategory.MISC;
         createOneToOneConversion(input, result, recipeCategory);
@@ -155,16 +182,16 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
         createCrossPatternRecipe(ingredient, center, result, count, recipeGroup, recipeCategory);
     }
 
-    protected void createCrossPatternRecipe(ItemLike ingredient, ItemLike center, ItemLike result, int count, String recipeGroup, RecipeCategory recipeCategory) {
-        final RecipeOutput recipeOutput = getModLoadConditions(ingredient, center, result);
+    protected void createCrossPatternRecipe(ItemLike outerInput, ItemLike centerInput, ItemLike result, int count, String recipeGroup, RecipeCategory recipeCategory) {
+        final RecipeOutput recipeOutput = getModLoadConditions(outerInput, centerInput, result);
         shaped(recipeCategory, result, count)
-            .define('X', ingredient)
-            .define('#', center)
-            .pattern(" X ")
-            .pattern("X#X")
-            .pattern(" X ")
+            .define('#', outerInput)
+            .define('X', centerInput)
+            .pattern(" # ")
+            .pattern("#X#")
+            .pattern(" # ")
             .group(recipeGroup)
-            .unlockedBy(getHasName(ingredient), has(ingredient))
+            .unlockedBy(getHasName(outerInput), has(outerInput))
             .save(recipeOutput);
     }
 
