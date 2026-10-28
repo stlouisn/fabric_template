@@ -169,29 +169,29 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             .save(recipeOutput, getItemName(result) + "_from" + getItemName(input));
     }
 
-    protected void createCrossPatternRecipe(ItemLike ingredient, ItemLike center, ItemLike result, RecipeCategory recipeCategory) {
-        createCrossPatternRecipe(ingredient, center, result, 1, recipeCategory);
+    protected void createCrossPatternRecipe(ItemLike outer, ItemLike center, ItemLike result, RecipeCategory recipeCategory) {
+        createCrossPatternRecipe(outer, center, result, 1, recipeCategory);
     }
 
-    protected void createCrossPatternRecipe(ItemLike ingredient, ItemLike center, ItemLike result, String recipeGroup, RecipeCategory recipeCategory) {
-        createCrossPatternRecipe(ingredient, center, result, 1, recipeGroup, recipeCategory);
+    protected void createCrossPatternRecipe(ItemLike outer, ItemLike center, ItemLike result, String recipeGroup, RecipeCategory recipeCategory) {
+        createCrossPatternRecipe(outer, center, result, 1, recipeGroup, recipeCategory);
     }
 
-    protected void createCrossPatternRecipe(ItemLike ingredient, ItemLike center, ItemLike result, int count, RecipeCategory recipeCategory) {
+    protected void createCrossPatternRecipe(ItemLike outer, ItemLike center, ItemLike result, int count, RecipeCategory recipeCategory) {
         final String recipeGroup = getItemName(result);
-        createCrossPatternRecipe(ingredient, center, result, count, recipeGroup, recipeCategory);
+        createCrossPatternRecipe(outer, center, result, count, recipeGroup, recipeCategory);
     }
 
-    protected void createCrossPatternRecipe(ItemLike outerInput, ItemLike centerInput, ItemLike result, int count, String recipeGroup, RecipeCategory recipeCategory) {
-        final RecipeOutput recipeOutput = getModLoadConditions(outerInput, centerInput, result);
+    protected void createCrossPatternRecipe(ItemLike outer, ItemLike center, ItemLike result, int count, String recipeGroup, RecipeCategory recipeCategory) {
+        final RecipeOutput recipeOutput = getModLoadConditions(outer, center, result);
         shaped(recipeCategory, result, count)
-            .define('#', outerInput)
-            .define('X', centerInput)
+            .define('#', outer)
+            .define('X', center)
             .pattern(" # ")
             .pattern("#X#")
             .pattern(" # ")
             .group(recipeGroup)
-            .unlockedBy(getHasName(outerInput), has(outerInput))
+            .unlockedBy(getHasName(outer), has(outer))
             .save(recipeOutput);
     }
 
