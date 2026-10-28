@@ -10,7 +10,7 @@ import net.minecraft.util.IdentifierPattern;
 import org.jspecify.annotations.Nullable;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
-public class IdentifierUtils {
+public final class JsonUtils {
 
     public static IdentifierPattern resourcePattern(Pattern path) {
         return resourcePattern(null, path);

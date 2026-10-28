@@ -10,7 +10,7 @@ import net.minecraft.util.IdentifierPattern;
 import org.jspecify.annotations.Nullable;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
-public class IdentifierUtils {
+public final class IdentifierUtils {
 
     public static Identifier resourceLocation(final String path) {
         return Identifier.fromNamespaceAndPath(MOD_ID, path);
