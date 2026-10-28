@@ -13,8 +13,6 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public final class DatagenRecipeAdapter extends FabricRecipeProvider {
 
-    private static final String PROVIDER_NAME = "Recipe Provider";
-
     public DatagenRecipeAdapter(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
@@ -26,6 +24,6 @@ public final class DatagenRecipeAdapter extends FabricRecipeProvider {
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Recipe Provider";
     }
 }

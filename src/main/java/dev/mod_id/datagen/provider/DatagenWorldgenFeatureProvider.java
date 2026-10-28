@@ -8,8 +8,6 @@ import net.minecraft.core.registries.Registries;
 
 public final class DatagenWorldgenFeatureProvider extends FabricDynamicRegistryProvider {
 
-    private static final String PROVIDER_NAME = "Worldgen Feature Provider";
-
     public DatagenWorldgenFeatureProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, completableFuture);
     }
@@ -22,6 +20,6 @@ public final class DatagenWorldgenFeatureProvider extends FabricDynamicRegistryP
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Worldgen Feature Provider";
     }
 }

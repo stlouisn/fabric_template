@@ -11,8 +11,6 @@ import net.minecraft.data.PackOutput;
 
 public final class VanillaLanguageProvider extends FabricLanguageProvider {
 
-    private static final String PROVIDER_NAME = "Vanilla Language Provider";
-
     public VanillaLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
@@ -29,7 +27,7 @@ public final class VanillaLanguageProvider extends FabricLanguageProvider {
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Vanilla Language Provider";
     }
 
     @Override

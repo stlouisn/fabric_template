@@ -6,8 +6,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 
 public final class DatagenPackMetadataProvider extends DatagenPackMetadataBuilder {
 
-    private static final String PROVIDER_NAME = "Pack Metadata Provider";
-
     public DatagenPackMetadataProvider(FabricPackOutput output) {
         super(output);
     }
@@ -20,7 +18,7 @@ public final class DatagenPackMetadataProvider extends DatagenPackMetadataBuilde
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Pack Metadata Provider";
     }
 
     private static final List<String> FILTERED_VANILLA_ADVANCEMENTS = List.of(

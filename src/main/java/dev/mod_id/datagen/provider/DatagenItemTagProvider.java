@@ -21,8 +21,6 @@ import net.minecraft.world.level.block.WeatheringCopperCollection;
 
 public final class DatagenItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
-    private static final String PROVIDER_NAME = "Item Tags Provider";
-
     public DatagenItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture, DatagenBlockTagProvider blockTagProvider) {
         super(output, completableFuture, blockTagProvider);
     }
@@ -123,6 +121,6 @@ public final class DatagenItemTagProvider extends FabricTagsProvider.ItemTagsPro
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Item Tags Provider";
     }
 }

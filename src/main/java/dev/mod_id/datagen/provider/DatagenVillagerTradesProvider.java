@@ -10,8 +10,6 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public final class DatagenVillagerTradesProvider extends FabricDynamicRegistryProvider {
 
-    private static final String PROVIDER_NAME = "Villager Trade Provider";
-
     public DatagenVillagerTradesProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, completableFuture);
     }
@@ -23,6 +21,6 @@ public final class DatagenVillagerTradesProvider extends FabricDynamicRegistryPr
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Villager Trade Provider";
     }
 }

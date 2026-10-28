@@ -11,8 +11,6 @@ import net.minecraft.tags.BlockTags;
 
 public final class DatagenBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
 
-    private static final String PROVIDER_NAME = "Block Tags Provider";
-
     public DatagenBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, completableFuture);
     }
@@ -64,6 +62,6 @@ public final class DatagenBlockTagProvider extends FabricTagsProvider.BlockTagsP
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Block Tags Provider";
     }
 }

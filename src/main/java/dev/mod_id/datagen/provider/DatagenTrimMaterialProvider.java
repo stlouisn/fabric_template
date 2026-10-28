@@ -8,8 +8,6 @@ import net.minecraft.core.registries.Registries;
 
 public final class DatagenTrimMaterialProvider extends FabricDynamicRegistryProvider {
 
-    private static final String PROVIDER_NAME = "Trim Material Provider";
-
     public DatagenTrimMaterialProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, completableFuture);
     }
@@ -21,6 +19,6 @@ public final class DatagenTrimMaterialProvider extends FabricDynamicRegistryProv
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Trim Material Provider";
     }
 }

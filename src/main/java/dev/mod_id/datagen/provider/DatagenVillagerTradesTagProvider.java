@@ -12,8 +12,6 @@ import net.minecraft.world.item.trading.VillagerTrade;
 
 public final class DatagenVillagerTradesTagProvider extends FabricTagsProvider<VillagerTrade> {
 
-    private static final String PROVIDER_NAME = "Villager Trade Tags Provider";
-
     public DatagenVillagerTradesTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, Registries.VILLAGER_TRADE, completableFuture);
     }
@@ -25,6 +23,6 @@ public final class DatagenVillagerTradesTagProvider extends FabricTagsProvider<V
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Villager Trade Tags Provider";
     }
 }

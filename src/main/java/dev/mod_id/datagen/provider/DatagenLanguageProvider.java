@@ -13,8 +13,6 @@ import net.minecraft.util.Util;
 
 public final class DatagenLanguageProvider extends FabricLanguageProvider {
 
-    private static final String PROVIDER_NAME = "Language Provider";
-
     public DatagenLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
@@ -76,7 +74,7 @@ public final class DatagenLanguageProvider extends FabricLanguageProvider {
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Language Provider";
     }
 
     private static void addConfig(TranslationBuilder builder, String translationKey, String value) {

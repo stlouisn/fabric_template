@@ -16,8 +16,6 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public final class VanillaRecipeAdapter extends FabricRecipeProvider {
 
-    private static final String PROVIDER_NAME = "Vanilla Recipe Provider";
-
     public VanillaRecipeAdapter(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
@@ -29,7 +27,7 @@ public final class VanillaRecipeAdapter extends FabricRecipeProvider {
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Vanilla Recipe Provider";
     }
 
     @Override

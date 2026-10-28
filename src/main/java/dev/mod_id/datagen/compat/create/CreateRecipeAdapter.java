@@ -13,8 +13,6 @@ import net.minecraft.resources.Identifier;
 
 public final class CreateRecipeAdapter extends FabricRecipeProvider {
 
-    private static final String PROVIDER_NAME = "Create Recipe Provider";
-
     public CreateRecipeAdapter(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
@@ -26,7 +24,7 @@ public final class CreateRecipeAdapter extends FabricRecipeProvider {
 
     @Override
     public String getName() {
-        return PROVIDER_NAME;
+        return "Create Recipe Provider";
     }
 
     @Override
