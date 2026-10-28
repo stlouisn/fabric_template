@@ -29,7 +29,7 @@ public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider
         super(packOutput, registriesFuture);
     }
 
-    protected void createSelfDrop(Block block) {
+    protected void createSimpleDrop(Block block) {
         final String namespace = BuiltInRegistries.BLOCK.getKey(block).getNamespace();
         final String path = BuiltInRegistries.BLOCK.getKey(block).getPath();
         final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
