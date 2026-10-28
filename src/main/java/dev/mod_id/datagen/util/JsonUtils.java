@@ -1,4 +1,4 @@
-package dev.mod_id.util;
+package dev.mod_id.datagen.util;
 
 import static dev.mod_id.util.Constants.MOD_ID;
 
@@ -12,11 +12,11 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public class IdentifierUtils {
 
-    public static IdentifierPattern resourcePattern(final Pattern path) {
+    public static IdentifierPattern resourcePattern(Pattern path) {
         return resourcePattern(null, path);
     }
 
-    public static IdentifierPattern resourcePattern(@Nullable final Pattern namespace, @Nullable final Pattern path) {
+    public static IdentifierPattern resourcePattern(@Nullable Pattern namespace, @Nullable Pattern path) {
         JsonObject json = new JsonObject();
         if (namespace != null) {
             json.addProperty("namespace", namespace.pattern());
