@@ -34,6 +34,11 @@ public class DatagenEquipmentAssetsBuilder implements DataProvider {
         return DataProvider.saveAll(cache, EquipmentClientInfo.CODEC, this.pathProvider::json, equipmentAssets);
     }
 
+    /**
+     * Registers humanoid equipment layers for the given equipment asset.
+     *
+     * @param asset the equipment asset to register; throws an exception if it has already been registered
+     */
     public final void addHumanoidLayers(ResourceKey<EquipmentAsset> asset) {
         final EquipmentClientInfo info = EquipmentClientInfo.builder().addHumanoidLayers(asset.identifier()).build();
         if (equipmentAssets.putIfAbsent(asset, info) != null) {
