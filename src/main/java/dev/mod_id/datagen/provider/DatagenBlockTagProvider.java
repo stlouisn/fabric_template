@@ -1,15 +1,12 @@
 package dev.mod_id.datagen.provider;
 
-import dev.mod_id.content.key.KeyBlockItems;
-import dev.mod_id.content.tag.TagBlocks;
+import dev.mod_id.datagen.builder.DatagenBlockTagBuilder;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.tags.BlockTags;
 
-public final class DatagenBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
+public final class DatagenBlockTagProvider extends DatagenBlockTagBuilder {
+
 
     public DatagenBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, completableFuture);

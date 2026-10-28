@@ -41,4 +41,3 @@ public final class DatagenEquipmentAssetsProvider implements DataProvider {
         }
     }
 }
-
