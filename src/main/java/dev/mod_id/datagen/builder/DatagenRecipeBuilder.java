@@ -40,21 +40,37 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     protected void createShapelessRecipe(ItemLike input, ItemLike result) {
-        createShapelessRecipe(input, result, RecipeCategory.MISC);
-    }
-
-    protected void createShapelessRecipe(ItemLike input, ItemLike result, RecipeCategory recipeCategory) {
-        createShapelessRecipe(List.of(input), result, recipeCategory);
+        createShapelessRecipe(input, result, 1, RecipeCategory.MISC);
     }
 
     protected void createShapelessRecipe(List<ItemLike> inputs, ItemLike result) {
-        createShapelessRecipe(inputs, result, RecipeCategory.MISC);
+        createShapelessRecipe(inputs, result, 1, RecipeCategory.MISC);
+    }
+
+    protected void createShapelessRecipe(ItemLike input, ItemLike result, RecipeCategory recipeCategory) {
+        createShapelessRecipe(List.of(input), result, 1, recipeCategory);
     }
 
     protected void createShapelessRecipe(List<ItemLike> inputs, ItemLike result, RecipeCategory recipeCategory) {
+        createShapelessRecipe(inputs, result, 1, recipeCategory);
+    }
+
+    protected void createShapelessRecipe(ItemLike input, ItemLike result, int count) {
+        createShapelessRecipe(input, result, count, RecipeCategory.MISC);
+    }
+
+    protected void createShapelessRecipe(List<ItemLike> inputs, ItemLike result, int count) {
+        createShapelessRecipe(inputs, result, count, RecipeCategory.MISC);
+    }
+
+    protected void createShapelessRecipe(ItemLike input, ItemLike result, int count, RecipeCategory recipeCategory) {
+        createShapelessRecipe(List.of(input), result, count, recipeCategory);
+    }
+
+    protected void createShapelessRecipe(List<ItemLike> inputs, ItemLike result, int count, RecipeCategory recipeCategory) {
         final RecipeOutput recipeOutput = getModLoadConditions(Stream.concat(Stream.of(result), inputs.stream()).toArray(ItemLike[]::new));
         final String recipeGroup = getItemName(result);
-        final ShapelessRecipeBuilder builder = shapeless(recipeCategory, result, 1);
+        final ShapelessRecipeBuilder builder = shapeless(recipeCategory, result, count);
         for (ItemLike item : inputs) {
             builder.requires(item);
             builder.unlockedBy(getHasName(item), has(item));
