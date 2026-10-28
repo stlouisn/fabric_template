@@ -9,7 +9,7 @@ import net.minecraft.core.HolderLookup;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenItemTagBuilder extends FabricTagsProvider.ItemTagsProvider {
 
-    public DatagenItemTagBuilder(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture, DatagenBlockTagProvider blockTagProvider) {
+    public DatagenItemTagBuilder(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture, DatagenBlockTagBuilder blockTagProvider) {
         super(output, completableFuture, blockTagProvider);
     }
 
