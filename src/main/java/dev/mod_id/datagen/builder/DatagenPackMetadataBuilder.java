@@ -86,10 +86,25 @@ public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
         }, Util.backgroundExecutor().forName("saveOrdered"));
     }
 
+    /**
+     * Adds a filter entry for a Minecraft resource path and the specified filenames.
+     *
+     * @param filters the list to add the filter entry to
+     * @param path the resource path to filter
+     * @param filenames the filenames to include in the filter
+     */
     protected void addMinecraftFilterBlock(List<FilterEntry> filters, String path, List<String> filenames) {
         filters.add(FilterEntry.minecraft(path, filenames));
     }
 
+    /**
+     * Adds a filter entry for the specified namespace pattern, resource path, and filenames.
+     *
+     * @param filters the list to add the filter entry to
+     * @param namespace the regular-expression pattern used to match namespaces
+     * @param path the resource path to filter
+     * @param filenames the filenames to include in the filter
+     */
     protected void addFilterBlock(List<FilterEntry> filters, String namespace, String path, List<String> filenames) {
         filters.add(new FilterEntry(Pattern.compile(namespace), path, filenames));
     }
