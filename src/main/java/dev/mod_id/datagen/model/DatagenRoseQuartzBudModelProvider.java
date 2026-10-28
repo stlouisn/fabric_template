@@ -1,4 +1,4 @@
-package dev.mod_id.datagen.provider;
+package dev.mod_id.datagen.model;
 
 import static dev.mod_id.util.Constants.MOD_ID;
 
@@ -28,7 +28,7 @@ public final class DatagenRoseQuartzBudModelProvider implements DataProvider {
 
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
-        return this.registriesFuture.thenCompose(_ -> CompletableFuture.allOf(this.writeFile(cache, RegisterBlockItems.SMALL_ROSE_QUARTZ_BUD, true, 6, 7), this.writeFile(cache, RegisterBlockItems.MEDIUM_ROSE_QUARTZ_BUD, false, 0, 6), this.writeFile(cache, RegisterBlockItems.LARGE_ROSE_QUARTZ_BUD, false, 0, 4)));
+        return this.registriesFuture.thenCompose(_ -> CompletableFuture.allOf(this.writeFile(cache, RegisterBlocks.SMALL_ROSE_QUARTZ_BUD, true, 6, 7), this.writeFile(cache, RegisterBlocks.MEDIUM_ROSE_QUARTZ_BUD, false, 0, 6), this.writeFile(cache, RegisterBlocks.LARGE_ROSE_QUARTZ_BUD, false, 0, 4)));
     }
 
     private Path resolveItemModelPath(Identifier id) {
