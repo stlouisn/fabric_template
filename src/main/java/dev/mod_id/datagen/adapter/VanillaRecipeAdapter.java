@@ -26,12 +26,12 @@ public final class VanillaRecipeAdapter extends FabricRecipeProvider {
     }
 
     @Override
-    public String getName() {
-        return "Vanilla Recipe Provider";
+    public Identifier getRecipeIdentifier(Identifier identifier) {
+        return resourceLocation("minecraft", identifier.getPath());
     }
 
     @Override
-    public Identifier getRecipeIdentifier(Identifier identifier) {
-        return resourceLocation("minecraft", identifier.getPath());
+    public String getName() {
+        return "Vanilla Recipe Provider";
     }
 }
