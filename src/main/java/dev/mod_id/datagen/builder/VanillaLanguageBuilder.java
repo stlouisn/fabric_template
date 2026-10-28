@@ -29,7 +29,12 @@ public abstract class VanillaLanguageBuilder extends FabricLanguageProvider {
     }
 
     /**
-     * Generates translations for Potion, Splash Potion, Lingering Potion, and Tipped Arrow.
+     * Adds translations for potion, splash potion, lingering potion, and tipped arrow
+     * variants associated with the given potion effect.
+     *
+     * @param builder the builder to add the translations to
+     * @param potionHolder the potion whose translation-key name is used to build the keys
+     * @param displayName the potion effect's display name
      */
     public static void addPotionTranslations(TranslationBuilder builder, Holder<Potion> potionHolder, String displayName) {
         final String baseName = potionHolder.value().name();
