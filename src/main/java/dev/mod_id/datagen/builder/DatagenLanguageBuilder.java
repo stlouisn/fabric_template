@@ -26,7 +26,7 @@ public abstract class DatagenLanguageBuilder extends FabricLanguageProvider {
      * @param translationKey the config option's translation-key suffix
      * @param value the translated text
      */
-    public static void addConfig(TranslationBuilder builder, String translationKey, String value) {
+    public static void midnightConfig(String translationKey, String value, TranslationBuilder builder) {
         builder.add(MOD_ID + ".midnightconfig." + translationKey, value);
     }
 }

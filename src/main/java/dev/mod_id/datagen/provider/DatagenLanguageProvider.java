@@ -58,12 +58,12 @@ public final class DatagenLanguageProvider extends DatagenLanguageBuilder {
         builder.add("notification.friendlyfire.protected", "The %s is protected. Crouch to bypass.");
 
         // Config
-        addConfig(builder, "title", MOD_NAME);
-        addConfig(builder, "enablePetProtection", "Enable Pet Protection");
-        addConfig(builder, "enablePetProtection.tooltip", "Prevent players and their pets from damaging friendly pets");
-        addConfig(builder, "enableBabyProtection", "Enable Baby Protection");
-        addConfig(builder, "enableBabyProtection.tooltip", "Prevent players and their pets from damaging baby animals");
-        addConfig(builder, "displayHitWarning", "Display Hit Warning");
-        addConfig(builder, "displayHitWarning.tooltip", "Show a warning when hitting protected entities");
+        midnightConfig("title", MOD_NAME, builder);
+        midnightConfig("enablePetProtection", "Enable Pet Protection", builder);
+        midnightConfig("enablePetProtection.tooltip", "Prevent players and their pets from damaging friendly pets", builder);
+        midnightConfig("enableBabyProtection", "Enable Baby Protection", builder);
+        midnightConfig("enableBabyProtection.tooltip", "Prevent players and their pets from damaging baby animals", builder);
+        midnightConfig("displayHitWarning", "Display Hit Warning", builder);
+        midnightConfig("displayHitWarning.tooltip", "Show a warning when hitting protected entities", builder);
     }
 }
