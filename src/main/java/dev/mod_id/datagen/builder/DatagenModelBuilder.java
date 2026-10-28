@@ -20,8 +20,8 @@ import net.minecraft.world.level.block.Block;
 public final class DatagenModelBuilder {
 
     /**
-     * Generates a flat rail block model without rotation, elevation, or powered-state variants,
-     * registers its block state, and generates a flat item model for the block item.
+     * Generates a flat rail block model without rotation, elevation, or powered-state variants, registers its block state,
+     * and generates a flat item model for the block item.
      *
      * @param modelGenerator the generator used to create and register the block and item models
      * @param block the rail block to generate models for
@@ -47,9 +47,8 @@ public final class DatagenModelBuilder {
     }
 
     /**
-     * Registers the block item's model to use the block's existing model location.
-     *
-     * <p>Assumes that a suitable model for the block is already available or generated elsewhere.
+     * Registers the block item's model to use the block's existing model location. Assumes that a suitable model for the
+     * block is already available or generated elsewhere.
      *
      * @param modelGenerator the generator used to register the item model
      * @param block the block whose item uses the existing model
@@ -60,8 +59,8 @@ public final class DatagenModelBuilder {
     }
 
     /**
-     * Generates default and alternate flat item models, then registers a component-based
-     * conditional model that uses the alternate model when the item has the specified component.
+     * Generates default and alternate flat item models, then registers a component-based conditional model that uses the
+     * alternate model when the item has the specified component.
      *
      * @param modelGenerator the generator used to create and register the item models
      * @param item the item whose models are generated
