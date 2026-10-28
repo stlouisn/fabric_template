@@ -29,8 +29,8 @@ public abstract class VanillaLanguageBuilder extends FabricLanguageProvider {
     }
 
     /**
-     * Adds translations for potion, splash potion, lingering potion, and tipped arrow
-     * variants associated with the given potion effect.
+     * Adds translations for potion, splash potion, lingering potion, and tipped arrow variants associated with the given
+     * potion effect.
      *
      * @param builder the builder to add the translations to
      * @param potionHolder the potion whose translation-key name is used to build the keys
