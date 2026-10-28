@@ -1,6 +1,5 @@
 package dev.mod_id.datagen.builder;
 
-import dev.mod_id.datagen.provider.DatagenBlockTagProvider;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
