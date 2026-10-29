@@ -14,19 +14,7 @@ public final class DatagenItemTagProvider extends DatagenItemTagBuilder {
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider provider) {
-
-        copy(ConventionalBlockTags.BUDDING_BLOCKS, ConventionalItemTags.BUDDING_BLOCKS);
-
-        copy(ConventionalBlockTags.BUDS, ConventionalItemTags.BUDS);
-
-        copy(ConventionalBlockTags.CLUSTERS, ConventionalItemTags.CLUSTERS);
-
-        copy(TagBlocks.STORAGE_BLOCKS_CHARCOAL, TagItems.STORAGE_BLOCKS_CHARCOAL);
-
-        copy(TagBlocks.STORAGE_BLOCKS_RAW_NETHERITE, TagItems.STORAGE_BLOCKS_RAW_NETHERITE);
-
-        copy(ConventionalBlockTags.STORAGE_BLOCKS, ConventionalItemTags.STORAGE_BLOCKS);
+    protected void addItemTags(HolderLookup.Provider provider) {
 
         builder(TagItems.ROSE_QUARTZ_GEMS).add(KeyItems.ROSE_QUARTZ_SHARD);
 

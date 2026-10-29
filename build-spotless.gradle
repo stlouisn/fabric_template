@@ -150,6 +150,20 @@ def conditionalDatagenBlockTagProviderRule = { spec ->
     }
 }
 
+def conditionalDatagenItemTagBuilderRule = { spec ->
+    spec.custom 'DatagenItemTagBuilderRule', { String text ->
+        if (!text.contains("class DatagenItemTagBuilder")) {
+            return text
+        }
+        return text
+            .replaceAll(/(?s)([ \t]*)private static final Set<TagKey<Block>> IGNORED_BLOCK_TAGS = Set\.of\(\s*(.*?)\s*\);/) { Object[] args ->
+                def indent = args[1]
+                def entries = args[2].split(/\s*,\s*/)
+                return indent + "private static final Set<TagKey<Block>> IGNORED_BLOCK_TAGS = Set.of(\n" + entries.collect { entry -> indent + "    " + entry }.join(",\n") + "\n" + indent + ");"
+            }
+    }
+}
+
 def conditionalDatagenItemTagProviderRule = { spec ->
     spec.custom 'DatagenItemTagProviderRule', { String text ->
         if (!text.contains("class DatagenItemTagProvider")) {
@@ -389,6 +403,7 @@ spotless {
         conditionalContentBlockRule(delegate)
         conditionalDatagenAdvancementProviderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
+        conditionalDatagenItemTagBuilderRule(delegate)
         conditionalDatagenItemTagProviderRule(delegate)
         conditionalDatagenPackMetadataProviderRule(delegate)
         conditionalDatagenRecipeBuilderRule(delegate)
