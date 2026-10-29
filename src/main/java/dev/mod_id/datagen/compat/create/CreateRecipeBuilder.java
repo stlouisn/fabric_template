@@ -18,12 +18,10 @@ import net.minecraft.world.level.ItemLike;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class CreateRecipeBuilder extends RecipeProvider {
 
-    protected final RecipeOutput output;
     private final Function<Set<String>, RecipeOutput> conditionedOutput;
 
     protected CreateRecipeBuilder(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {
         super(registries, output);
-        this.output = output;
         this.conditionedOutput = conditionedOutput;
     }
 
