@@ -15,9 +15,9 @@ import org.jspecify.annotations.Nullable;
 
 public final class SandpaperRecipeBuilder implements RecipeBuilder {
 
-    private final ItemStackTemplate result;
-    private final Ingredient ingredient;
     private final RecipeUnlockAdvancementBuilder advancementBuilder;
+    private final Ingredient ingredient;
+    private final ItemStackTemplate result;
 
     private SandpaperRecipeBuilder(ItemLike input, ItemLike result) {
         this.advancementBuilder = new RecipeUnlockAdvancementBuilder();
@@ -25,7 +25,7 @@ public final class SandpaperRecipeBuilder implements RecipeBuilder {
         this.result = new ItemStackTemplate(result.asItem());
     }
 
-    public static SandpaperRecipeBuilder polishing(ItemLike input, ItemLike result) {
+    protected static SandpaperRecipeBuilder polishing(ItemLike input, ItemLike result) {
         return new SandpaperRecipeBuilder(input, result);
     }
 
