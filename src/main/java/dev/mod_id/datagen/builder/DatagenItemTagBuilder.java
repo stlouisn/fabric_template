@@ -29,15 +29,12 @@ public abstract class DatagenItemTagBuilder extends FabricTagsProvider.ItemTagsP
 
     private final DatagenBlockTagBuilder blockTagProvider;
 
-    public DatagenItemTagBuilder(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture, DatagenBlockTagBuilder blockTagProvider) {
+    protected DatagenItemTagBuilder(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture, DatagenBlockTagBuilder blockTagProvider) {
         super(output, completableFuture, blockTagProvider);
         this.blockTagProvider = blockTagProvider;
     }
 
-    @Override
-    protected CompletableFuture<HolderLookup.Provider> createContentsProvider() {
-        return blockTagProvider.contentsGetter().thenCompose(_ -> super.createContentsProvider());
-    }
+    protected abstract void addItemTags(HolderLookup.Provider provider);
 
     @Override
     protected final void addTags(HolderLookup.Provider provider) {
@@ -51,7 +48,10 @@ public abstract class DatagenItemTagBuilder extends FabricTagsProvider.ItemTagsP
         addItemTags(provider);
     }
 
-    protected abstract void addItemTags(HolderLookup.Provider provider);
+    @Override
+    protected CompletableFuture<HolderLookup.Provider> createContentsProvider() {
+        return blockTagProvider.contentsGetter().thenCompose(_ -> super.createContentsProvider());
+    }
 
     @Override
     public String getName() {

@@ -10,13 +10,8 @@ import net.minecraft.core.HolderLookup;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenLanguageBuilder extends FabricLanguageProvider {
 
-    public DatagenLanguageBuilder(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    protected DatagenLanguageBuilder(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
-    }
-
-    @Override
-    public String getName() {
-        return "Language Provider";
     }
 
     /**
@@ -26,7 +21,12 @@ public abstract class DatagenLanguageBuilder extends FabricLanguageProvider {
      * @param translationKey the config option's translation-key suffix
      * @param value the translated text
      */
-    public static void midnightConfig(String translationKey, String value, TranslationBuilder builder) {
+    protected static void midnightConfig(String translationKey, String value, TranslationBuilder builder) {
         builder.add(MOD_ID + ".midnightconfig." + translationKey, value);
+    }
+
+    @Override
+    public String getName() {
+        return "Language Provider";
     }
 }
