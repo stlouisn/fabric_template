@@ -20,7 +20,7 @@ public abstract class DatagenBlockTagBuilder extends FabricTagsProvider.BlockTag
         super(output, completableFuture);
     }
 
-    public Set<TagKey<Block>> declaredTags() {
+    protected Set<TagKey<Block>> declaredTags() {
         return Collections.unmodifiableSet(declaredTags);
     }
 
