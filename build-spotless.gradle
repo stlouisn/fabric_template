@@ -96,9 +96,9 @@ def conditionalContentBlockRule = { spec ->
     }
 }
 
-def conditionalDatagenAdvancementProviderRule = { spec ->
-    spec.custom 'DatagenAdvancementProviderRule', { String text ->
-        if (!text.contains("class DatagenAdvancementProvider")) {
+def conditionalDatagenAdvancementBuilderRule = { spec ->
+    spec.custom 'DatagenAdvancementBuilderRule', { String text ->
+        if (!text.contains("class DatagenAdvancementBuilder")) {
             return text
         }
         return text
@@ -401,7 +401,7 @@ spotless {
         applyPreConfig(delegate)
         conditionalMixinRule(delegate)
         conditionalContentBlockRule(delegate)
-        conditionalDatagenAdvancementProviderRule(delegate)
+        conditionalDatagenAdvancementBuilderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
         conditionalDatagenItemTagBuilderRule(delegate)
         conditionalDatagenItemTagProviderRule(delegate)
