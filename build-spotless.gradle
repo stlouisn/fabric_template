@@ -126,8 +126,7 @@ def conditionalDatagenAdvancementProviderRule = { spec ->
                 def continuationIndent = indent + "    "
                 def formattedParameters = parameters.collect { "${indent + indent1}${it}" }.join(",\n")
                 return "${indent}builder.add(\n${formattedParameters});"
-            }
-            )
+            })
     }
 }
 
