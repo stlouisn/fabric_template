@@ -36,7 +36,6 @@ public final class DatagenRoseQuartzBudModelProvider implements DataProvider {
         return provider.json(id);
     }
 
-    @SuppressWarnings("ExtractMethodRecommender")
     private CompletableFuture<?> writeFile(CachedOutput cache, Block block, boolean overrideFirstPerson, int firstPersonTranslateY, int fixedTranslateY) {
 
         // Retrieve block identifier from the registry
