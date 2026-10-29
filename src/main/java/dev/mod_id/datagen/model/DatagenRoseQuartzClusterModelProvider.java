@@ -28,12 +28,7 @@ public final class DatagenRoseQuartzClusterModelProvider implements DataProvider
 
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
-        return this.registriesFuture.thenCompose(_ -> this.writeFile(cache, RegisterBlocks.ROSE_QUARTZ_CLUSTER));
-    }
-
-    private Path resolveItemModelPath(Identifier id) {
-        final PackOutput.PathProvider provider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "models/item");
-        return provider.json(id);
+        return this.registriesFuture.thenCompose(_ -> writeFile(cache, RegisterBlocks.ROSE_QUARTZ_CLUSTER));
     }
 
     @SuppressWarnings("SameParameterValue")
@@ -69,7 +64,8 @@ public final class DatagenRoseQuartzClusterModelProvider implements DataProvider
         root.add("display", display);
 
         // Resolve the output file path and save the stable JSON model asset
-        final Path path = resolveItemModelPath(id);
+        final PackOutput.PathProvider provider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "models/item");
+        final Path path = provider.json(id);
         return DataProvider.saveStable(cache, root, path);
     }
 
