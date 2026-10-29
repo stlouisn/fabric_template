@@ -9,7 +9,7 @@ import net.minecraft.data.recipes.RecipeOutput;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public final class CreateRecipeProvider extends CreateRecipeBuilder {
 
-    CreateRecipeProvider(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {
+    public CreateRecipeProvider(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {
         super(registries, output, conditionedOutput);
     }
 
