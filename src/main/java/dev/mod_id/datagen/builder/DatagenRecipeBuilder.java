@@ -30,7 +30,7 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenRecipeBuilder extends RecipeProvider {
 
-    protected final RecipeOutput output;
+    private final RecipeOutput output;
     private final Function<Set<String>, RecipeOutput> conditionedOutput;
 
     protected DatagenRecipeBuilder(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {
