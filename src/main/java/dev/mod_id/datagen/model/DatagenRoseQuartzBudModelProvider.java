@@ -28,12 +28,7 @@ public final class DatagenRoseQuartzBudModelProvider implements DataProvider {
 
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
-        return this.registriesFuture.thenCompose(_ -> CompletableFuture.allOf(this.writeFile(cache, RegisterBlocks.SMALL_ROSE_QUARTZ_BUD, true, 6, 7), this.writeFile(cache, RegisterBlocks.MEDIUM_ROSE_QUARTZ_BUD, false, 0, 6), this.writeFile(cache, RegisterBlocks.LARGE_ROSE_QUARTZ_BUD, false, 0, 4)));
-    }
-
-    private Path resolveItemModelPath(Identifier id) {
-        final PackOutput.PathProvider provider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "models/item");
-        return provider.json(id);
+        return this.registriesFuture.thenCompose(_ -> CompletableFuture.allOf(writeFile(cache, RegisterBlocks.SMALL_ROSE_QUARTZ_BUD, true, 6, 7), writeFile(cache, RegisterBlocks.MEDIUM_ROSE_QUARTZ_BUD, false, 0, 6), writeFile(cache, RegisterBlocks.LARGE_ROSE_QUARTZ_BUD, false, 0, 4)));
     }
 
     private CompletableFuture<?> writeFile(CachedOutput cache, Block block, boolean overrideFirstPerson, int firstPersonTranslateY, int fixedTranslateY) {
@@ -87,7 +82,8 @@ public final class DatagenRoseQuartzBudModelProvider implements DataProvider {
         root.add("display", display);
 
         // Resolve the output file path and save the stable JSON model asset
-        final Path path = resolveItemModelPath(id);
+        final PackOutput.PathProvider provider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "models/item");
+        final Path path = provider.json(id);
         return DataProvider.saveStable(cache, root, path);
     }
 
