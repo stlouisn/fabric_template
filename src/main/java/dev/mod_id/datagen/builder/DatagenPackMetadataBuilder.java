@@ -34,7 +34,7 @@ public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
 
     private static final Gson ORDERED_GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
-    public static final List<FilterEntry> filterEntries = new ArrayList<>();
+    private static final List<FilterEntry> filterEntries = new ArrayList<>();
 
     private final FabricPackOutput output;
     private final PackMetadataSection packMetadataSection;
@@ -49,41 +49,6 @@ public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
      * Register filter entries here in subclasses.
      */
     protected void generateFilterBlocks(List<FilterEntry> filters) {
-    }
-
-    @Override
-    public CompletableFuture<?> run(CachedOutput cache) {
-
-        generateFilterBlocks(filterEntries);
-
-        final JsonObject result = new JsonObject();
-        result.add("pack", PackMetadataSection.SERVER_TYPE.codec().encodeStart(JsonOps.INSTANCE, this.packMetadataSection).getOrThrow(IllegalArgumentException::new));
-
-        if (!filterEntries.isEmpty()) {
-            final List<IdentifierPattern> patterns = new ArrayList<>();
-            for (FilterEntry entry : filterEntries) {
-                for (String filename : entry.filenames()) {
-                    patterns.add(resourcePattern(entry.namespace(), Pattern.compile(entry.path() + filename)));
-                }
-            }
-            final ResourceFilterSection filterSection = new ResourceFilterSection(List.copyOf(patterns));
-            result.add("filter", ResourceFilterSection.TYPE.codec().encodeStart(JsonOps.INSTANCE, filterSection).getOrThrow(IllegalArgumentException::new));
-        }
-
-        final Path path = this.output.getOutputFolder().resolve("pack.mcmeta");
-
-        return CompletableFuture.runAsync(() -> {
-            try {
-                final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                final HashingOutputStream hashedBytes = new HashingOutputStream(Hashing.sha256(), bytes);
-                try (final OutputStreamWriter writer = new OutputStreamWriter(hashedBytes, StandardCharsets.UTF_8)) {
-                    ORDERED_GSON.toJson(result, writer);
-                }
-                cache.writeIfNeeded(path, bytes.toByteArray(), hashedBytes.hash());
-            } catch (IOException e) {
-                LOGGER.error("Failed to save file to {}", path, e);
-            }
-        }, Util.backgroundExecutor().forName("saveOrdered"));
     }
 
     /**
@@ -109,10 +74,40 @@ public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
         filters.add(new FilterEntry(Pattern.compile(namespace), path, filenames));
     }
 
-    public record FilterEntry(Pattern namespace, String path, List<String> filenames) {
-        public static FilterEntry minecraft(String path, List<String> filenames) {
+    protected record FilterEntry(Pattern namespace, String path, List<String> filenames) {
+        protected static FilterEntry minecraft(String path, List<String> filenames) {
             return new FilterEntry(Pattern.compile("minecraft"), path, filenames);
         }
+    }
+
+    @Override
+    public CompletableFuture<?> run(CachedOutput cache) {
+        generateFilterBlocks(filterEntries);
+        final JsonObject result = new JsonObject();
+        result.add("pack", PackMetadataSection.SERVER_TYPE.codec().encodeStart(JsonOps.INSTANCE, this.packMetadataSection).getOrThrow(IllegalArgumentException::new));
+        if (!filterEntries.isEmpty()) {
+            final List<IdentifierPattern> patterns = new ArrayList<>();
+            for (FilterEntry entry : filterEntries) {
+                for (String filename : entry.filenames()) {
+                    patterns.add(resourcePattern(entry.namespace(), Pattern.compile(entry.path() + filename)));
+                }
+            }
+            final ResourceFilterSection filterSection = new ResourceFilterSection(List.copyOf(patterns));
+            result.add("filter", ResourceFilterSection.TYPE.codec().encodeStart(JsonOps.INSTANCE, filterSection).getOrThrow(IllegalArgumentException::new));
+        }
+        final Path path = this.output.getOutputFolder().resolve("pack.mcmeta");
+        return CompletableFuture.runAsync(() -> {
+            try {
+                final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                final HashingOutputStream hashedBytes = new HashingOutputStream(Hashing.sha256(), bytes);
+                try (final OutputStreamWriter writer = new OutputStreamWriter(hashedBytes, StandardCharsets.UTF_8)) {
+                    ORDERED_GSON.toJson(result, writer);
+                }
+                cache.writeIfNeeded(path, bytes.toByteArray(), hashedBytes.hash());
+            } catch (IOException e) {
+                LOGGER.error("Failed to save file to {}", path, e);
+            }
+        }, Util.backgroundExecutor().forName("saveOrdered"));
     }
 
     @Override
