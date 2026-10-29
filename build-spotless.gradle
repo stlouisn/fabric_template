@@ -114,6 +114,23 @@ def conditionalDatagenAdvancementBuilderRule = { spec ->
     }
 }
 
+def conditionalDatagenAdvancementProviderRule = { spec ->
+    spec.custom 'DatagenAdvancementProviderRule', { String text ->
+        if (!text.contains("class DatagenAdvancementProvider")) {
+            return text
+        }
+        return text
+            .replaceAll(/(?m)^([ \t]*)builder\.add\(([^()\r\n]*)\);/, { Object[] args ->
+                def indent = args[1]
+                def parameters = args[2].split(/\s*,\s*/).toList()
+                def continuationIndent = indent + "    "
+                def formattedParameters = parameters.collect { "${indent + indent1}${it}" }.join(",\n")
+                return "${indent}builder.add(\n${formattedParameters});"
+            }
+            )
+    }
+}
+
 def conditionalDatagenBlockTagProviderRule = { spec ->
     spec.custom 'DatagenBlockTagProviderRule', { String text ->
         if (!text.contains("class DatagenBlockTagProvider")) {
@@ -402,6 +419,7 @@ spotless {
         conditionalMixinRule(delegate)
         conditionalContentBlockRule(delegate)
         conditionalDatagenAdvancementBuilderRule(delegate)
+        conditionalDatagenAdvancementProviderRule(delegate)
         conditionalDatagenBlockTagProviderRule(delegate)
         conditionalDatagenItemTagBuilderRule(delegate)
         conditionalDatagenItemTagProviderRule(delegate)
