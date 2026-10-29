@@ -48,37 +48,35 @@ public abstract class DatagenTrimArmorAtlasBuilder implements DataProvider {
 
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
-        return registriesFuture.thenCompose(registries -> writeFile(cache, registries));
-    }
-
-    private CompletableFuture<?> writeFile(CachedOutput cache, HolderLookup.Provider registries) {
-        final JsonObject rootJson = new JsonObject();
-        final JsonArray sources = new JsonArray();
-        final JsonObject permutationsSource = new JsonObject();
-        permutationsSource.addProperty("type", "minecraft:paletted_permutations");
-        permutationsSource.addProperty("palette_key", "minecraft:trims/color_palettes/trim_palette");
-        final JsonObject permutations = new JsonObject();
-        for (ResourceKey<TrimMaterial> material : trimMaterials) {
-            final Identifier id = material.identifier();
-            final String namespace = id.getNamespace().toLowerCase();
-            final String path = id.getPath().toLowerCase();
-            permutations.addProperty(path, namespace + ":trims/color_palettes/" + path);
-        }
-        permutationsSource.add("permutations", permutations);
-        final JsonArray textures = new JsonArray();
-        final List<String> assetNames = new ArrayList<>();
-        registries.lookupOrThrow(Registries.TRIM_PATTERN).listElementIds().forEach(patternKey -> registries.lookupOrThrow(Registries.TRIM_PATTERN).get(patternKey).map(Holder::value).ifPresent(pattern -> assetNames.add(pattern.assetId().getPath())));
-        assetNames.sort(String::compareTo);
-        for (String assetName : assetNames) {
-            textures.add("minecraft:trims/entity/humanoid/" + assetName);
-            textures.add("minecraft:trims/entity/humanoid_leggings/" + assetName);
-        }
-        permutationsSource.add("textures", textures);
-        sources.add(permutationsSource);
-        rootJson.add("sources", sources);
-        final PackOutput.PathProvider pathProvider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "atlases");
-        java.nio.file.Path path = pathProvider.json(resourceLocation("minecraft", "armor_trims"));
-        return DataProvider.saveStable(cache, rootJson, path);
+        return registriesFuture.thenCompose(registries -> {
+            final JsonObject rootJson = new JsonObject();
+            final JsonArray sources = new JsonArray();
+            final JsonObject permutationsSource = new JsonObject();
+            permutationsSource.addProperty("type", "minecraft:paletted_permutations");
+            permutationsSource.addProperty("palette_key", "minecraft:trims/color_palettes/trim_palette");
+            final JsonObject permutations = new JsonObject();
+            for (ResourceKey<TrimMaterial> material : trimMaterials) {
+                final Identifier id = material.identifier();
+                final String namespace = id.getNamespace().toLowerCase();
+                final String path = id.getPath().toLowerCase();
+                permutations.addProperty(path, namespace + ":trims/color_palettes/" + path);
+            }
+            permutationsSource.add("permutations", permutations);
+            final JsonArray textures = new JsonArray();
+            final List<String> assetNames = new ArrayList<>();
+            registries.lookupOrThrow(Registries.TRIM_PATTERN).listElementIds().forEach(patternKey -> registries.lookupOrThrow(Registries.TRIM_PATTERN).get(patternKey).map(Holder::value).ifPresent(pattern -> assetNames.add(pattern.assetId().getPath())));
+            assetNames.sort(String::compareTo);
+            for (String assetName : assetNames) {
+                textures.add("minecraft:trims/entity/humanoid/" + assetName);
+                textures.add("minecraft:trims/entity/humanoid_leggings/" + assetName);
+            }
+            permutationsSource.add("textures", textures);
+            sources.add(permutationsSource);
+            rootJson.add("sources", sources);
+            final PackOutput.PathProvider pathProvider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "atlases");
+            final java.nio.file.Path path = pathProvider.json(resourceLocation("minecraft", "armor_trims"));
+            return DataProvider.saveStable(cache, rootJson, path);
+        });
     }
 
     @Override

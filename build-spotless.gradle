@@ -265,18 +265,20 @@ def conditionalDatagenRecipeBuilderRule = { spec ->
     }
 }
 
-def conditionalDatagenTrimItemsAtlasProviderRule = { spec ->
-    spec.custom 'DatagenTrimItemsAtlasProviderRule', { String text ->
-        if (!text.contains("class DatagenTrimItemsAtlasProvider")) {
+def conditionalDatagenTrimItemsAtlasBuilderRule = { spec ->
+    spec.custom 'DatagenTrimItemsAtlasBuilderRule', { String text ->
+        if (!text.contains("class DatagenTrimItemsAtlasBuilder")) {
             return text
         }
         return text
-            .replaceAll(/(?m)^([ \t]*)final List<String> itemTextures = List\.of\(([^)]*)\);/) { Object[] args ->
+            .replaceAll(/(?m)^([ \t]*)private static final String\[\] ITEM_TEXTURES = \{([^{}\r\n]*)\};/, { args ->
                 def indent = args[1]
-                def itemIndent = indent + "    "
-                def items = args[2].findAll(/"[^"]*"/)
-                return indent + "final List<String> itemTextures = List.of(\n" + items.collect { itemIndent + it }.join(",\n") + "\n" + indent + ");"
+                def items = args[2].split(/\s*,\s*/).toList()
+                def itemIndent = indent + indent1
+                def formattedItems = items.collect { "${itemIndent}${it}" }.join(",\n")
+                return "${indent}private static final String[] ITEM_TEXTURES = {\n${formattedItems}\n${indent}};"
             }
+            )
     }
 }
 
@@ -424,7 +426,7 @@ spotless {
         conditionalDatagenItemTagProviderRule(delegate)
         conditionalDatagenPackMetadataProviderRule(delegate)
         conditionalDatagenRecipeBuilderRule(delegate)
-        conditionalDatagenTrimItemsAtlasProviderRule(delegate)
+        conditionalDatagenTrimItemsAtlasBuilderRule(delegate)
         conditionalBlockDataRule(delegate)
         conditionalGenerateSourceCode(delegate)
         conditionalRegisterBlocksRule(delegate)

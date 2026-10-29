@@ -21,14 +21,19 @@ public abstract class DatagenTrimItemsAtlasBuilder implements DataProvider {
 
     private static final Set<ResourceKey<TrimMaterial>> trimMaterials = new HashSet<>();
 
+    private static final String[] ITEM_TEXTURES = {
+        "minecraft:trims/items/boots_trim",
+        "minecraft:trims/items/chestplate_trim",
+        "minecraft:trims/items/helmet_trim",
+        "minecraft:trims/items/leggings_trim"
+    };
+
     private final PackOutput.PathProvider pathProvider;
 
     protected DatagenTrimItemsAtlasBuilder(FabricPackOutput output) {
         this.pathProvider = output.createPathProvider(PackOutput.Target.RESOURCE_PACK, "atlases");
         this.generateTrimMaterials();
     }
-
-    private static final String[] ITEM_TEXTURES = {"minecraft:trims/items/helmet_trim", "minecraft:trims/items/chestplate_trim", "minecraft:trims/items/leggings_trim", "minecraft:trims/items/boots_trim"};
 
     /**
      * Register this mod's trim materials here in subclasses.
