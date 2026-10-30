@@ -11,6 +11,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 
+@SuppressWarnings({"SameParameterValue", "unused"})
 public final class ClusterModelWriter implements ModelWriter {
 
     private final PackOutput.PathProvider pathProvider;
