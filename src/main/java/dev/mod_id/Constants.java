@@ -15,4 +15,3 @@ public final class Constants {
         return Identifier.fromNamespaceAndPath(namespace, path);
     }
 }
-X

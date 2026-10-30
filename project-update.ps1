@@ -127,41 +127,27 @@ function DownloadAPIFiles {
 
     # Download files from repository
     foreach ($File in $FilesToDownload) {
+        $SourcePath = "$SourceDirectory/$File"
+        $DestinationPath = "$DestinationDirectory/$File"
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
         Invoke-WebRequest `
-            -Uri "$BaseRawUrl/$SourceDirectory/$File" `
-            -OutFile $DestinationDirectory/$File `
+            -Uri "$BaseRawUrl/$SourcePath" `
+            -OutFile $DestinationPath `
             -ErrorAction Stop
-        if (-not (Test-Path -Path "$DestinationDirectory/$File")) {
+        if (-not (Test-Path -Path $DestinationPath)) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
             throw "Script execution stopped due to missing download file."
         }
-        $Content = [System.IO.File]::ReadAllText("$DestinationDirectory/$File")
-        if ($Content.Contains("dev.mod_id")) {
-            $Content = $Content.Replace("dev.mod_id", $MavenGroup)
-            [System.IO.File]::WriteAllText(
-                $File,
+        $Content = [System.IO.File]::ReadAllText($DestinationPath)
+        $Content = $Content.Replace("dev.mod_id", $MavenGroup)
+        $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
+        $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
+        [System.IO.File]::WriteAllText(
+                $DestinationPath,
                 $Content,
                 [System.Text.UTF8Encoding]::new($false)
-            )
-        }
-        if ($Content.Contains('"mod_id"')) {
-            $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
-            [System.IO.File]::WriteAllText(
-                $File,
-                $Content,
-                [System.Text.UTF8Encoding]::new($false)
-            )
-        }
-        if ($Content.Contains('"mod_name"')) {
-            $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
-            [System.IO.File]::WriteAllText(
-                $File,
-                $Content,
-                [System.Text.UTF8Encoding]::new($false)
-            )
-        }
+        )
     }
     Write-Host
 }
