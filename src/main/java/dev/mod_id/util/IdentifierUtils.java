@@ -7,11 +7,11 @@ import net.minecraft.resources.Identifier;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public final class IdentifierUtils {
 
-    public static Identifier resourceLocation(final String path) {
+    public static Identifier resourceLocation(String path) {
         return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 
-    public static Identifier resourceLocation(final String namespace, final String path) {
+    public static Identifier resourceLocation(String namespace, String path) {
         return Identifier.fromNamespaceAndPath(namespace, path);
     }
 }
