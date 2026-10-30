@@ -347,6 +347,7 @@ function UpdateGradleProperties {
 
     Write-Host
     Write-Host "Generated '$GradleProperties' successfully." -ForegroundColor Green
+    Write-Host
 }
 
 function UpdateGradleWrapper {
