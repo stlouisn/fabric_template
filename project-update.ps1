@@ -248,8 +248,8 @@ function DownloadDatagenFiles {
             Invoke-WebRequest -Uri "$BaseRawUrl/$EncodedPath" -OutFile $DestinationPath -ErrorAction Stop
             $DownloadedFiles.Add($DestinationPath)
         }
+        Write-Host
     }
-    Write-Host
 
     # Substitute maven_group into placeholder
     foreach ($File in $DownloadedFiles) {
