@@ -105,6 +105,10 @@ function DownloadTemplateFiles {
 
 function DownloadAPIFiles {
 
+    $SourceDirectory = "src/main/java/dev/mod_id"
+    $DestinationDirectory = "src/main/java/$MavenDomain/$MavenArtifact"
+
+    #TODO: replace the following skip check with verification if file MOD_NAME exists in $RootDirectory
     # Mod Exemptions
     $ExemptMods = @(
         "anvilrestoration"
@@ -124,13 +128,16 @@ function DownloadAPIFiles {
     # Download files from repository
     foreach ($File in $FilesToDownload) {
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl/$File" -OutFile $File -ErrorAction Stop
-        if (-not (Test-Path -Path ".\$File")) {
+        Invoke-WebRequest `
+            -Uri "$BaseRawUrl/$SourceDirectory/$File" `
+            -OutFile $DestinationDirectory/$File `
+            -ErrorAction Stop
+        if (-not (Test-Path -Path "$DestinationDirectory/$File")) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
             throw "Script execution stopped due to missing download file."
         }
-        $Content = [System.IO.File]::ReadAllText($File)
+        $Content = [System.IO.File]::ReadAllText($DestinationDirectory/$File)
         if ($Content.Contains("dev.mod_id")) {
             $Content = $Content.Replace("dev.mod_id", $MavenGroup)
             [System.IO.File]::WriteAllText(
