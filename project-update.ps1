@@ -220,6 +220,10 @@ function DownloadDatagenFiles {
             Destination = "$DatagenDirectory/builder"
         },
         @{
+            Source      = "src/main/java/dev/mod_id/datagen/model"
+            Destination = "$DatagenDirectory/model"
+        },
+        @{
             Source      = "src/main/java/dev/mod_id/datagen/util"
             Destination = "$DatagenDirectory/util"
         }
