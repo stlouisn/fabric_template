@@ -1,5 +1,7 @@
 package dev.mod_id.api;
 
+import static dev.mod_id.Constants.MOD_ID;
+
 import net.minecraft.resources.Identifier;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
