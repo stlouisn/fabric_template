@@ -57,6 +57,10 @@ public final class DatagenLanguageProvider extends DatagenLanguageBuilder {
         // Messages
         builder.add("notification.friendlyfire.protected", "The %s is protected. Crouch to bypass.");
 
+        // Keybinds
+        builder.add("category." + MOD_ID + ".general", MOD_NAME);
+        builder.add("key." + MOD_ID + ".frontview", "Hold for Front View");
+
         // Config
         midnightConfig("title", MOD_NAME, builder);
         midnightConfig("enablePetProtection", "Enable Pet Protection", builder);
