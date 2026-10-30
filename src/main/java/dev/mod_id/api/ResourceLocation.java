@@ -4,7 +4,7 @@ import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-public final class Constants {
+public final class ResourceLocation {
 
     public static Identifier resourceLocation(String path) {
         return Identifier.fromNamespaceAndPath(MOD_ID, path);

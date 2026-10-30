@@ -105,10 +105,6 @@ function DownloadTemplateFiles {
 
 function DownloadAPIFiles {
 
-    $SourceDirectory = "src/main/java/dev/mod_id"
-    $DestinationDirectory = "src/main/java/$MavenDomain/$MavenArtifact"
-
-    #TODO: replace the following skip check with verification if file MOD_NAME exists in $RootDirectory
     # Mod Exemptions
     $ExemptMods = @(
         "anvilrestoration"
@@ -120,8 +116,12 @@ function DownloadAPIFiles {
         return
     }
 
+    $SourceDirectory = "src/main/java/dev/mod_id"
+    $DestinationDirectory = "src/main/java/$MavenDomain/$MavenArtifact"
+
     # List of files to download
     $FilesToDownload = @(
+        "api/ResourceLocation.java"
         "Constants.java"
     )
 
@@ -143,11 +143,7 @@ function DownloadAPIFiles {
         $Content = $Content.Replace("dev.mod_id", $MavenGroup)
         $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
         $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
-        [System.IO.File]::WriteAllText(
-                $DestinationPath,
-                $Content,
-                [System.Text.UTF8Encoding]::new($false)
-        )
+        [System.IO.File]::WriteAllText($DestinationPath, $Content,[System.Text.UTF8Encoding]::new($false))
     }
     Write-Host
 }
