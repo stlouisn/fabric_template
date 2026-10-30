@@ -2,6 +2,7 @@ package dev.mod_id.api;
 
 import net.minecraft.resources.Identifier;
 
+@SuppressWarnings({"SameParameterValue", "unused"})
 public final class ResourceLocation {
 
     public static Identifier resourceLocation(String path) {
