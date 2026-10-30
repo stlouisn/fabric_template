@@ -25,7 +25,10 @@ function DownloadUpdateScript {
     # Download update script
     Write-Host
     Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Gray
-    Invoke-WebRequest -Uri "$BaseRawUrl/$ScriptFilename" -OutFile ".\$ScriptFilename" -ErrorAction Stop
+    Invoke-WebRequest `
+        -Uri "$BaseRawUrl/$ScriptFilename" `
+        -OutFile $ScriptFilename `
+        -ErrorAction Stop
     if (-not (Test-Path -Path ".\$ScriptFilename")) {
         Write-Host
         Write-Host "Failed to download file: $ScriptFilename" -ForegroundColor Red
@@ -67,26 +70,26 @@ function DownloadTemplateFiles {
 
     # List of files to download
     $FilesToDownload = @(
-        ".idea/inspectionProfiles/Project_Default.xml",
-        ".idea/betterCommentsSettings.xml",
-        "copilot/coding.txt",
-        "copilot/efficiency_audit.txt",
-        "copilot/generate_javadoc.txt",
-        ".editorconfig",
-        ".gitattributes",
-        ".gitignore",
-        ".java-style.xml",
-        "build.gradle",
-        "build-spotless.gradle",
-        "gradlew",
-        "gradlew.bat",
-        "project-build.ps1",
-        "project-fileStructure.ps1",
-        "project-genSources.ps1",
-        "project-runClient.ps1",
-        "project-runDatagen.ps1",
-        "project-runSpotless.ps1",
-        "project-versions.properties",
+        ".idea/inspectionProfiles/Project_Default.xml"
+        ".idea/betterCommentsSettings.xml"
+        "copilot/coding.txt"
+        "copilot/efficiency_audit.txt"
+        "copilot/generate_javadoc.txt"
+        ".editorconfig"
+        ".gitattributes"
+        ".gitignore"
+        ".java-style.xml"
+        "build.gradle"
+        "build-spotless.gradle"
+        "gradlew"
+        "gradlew.bat"
+        "project-build.ps1"
+        "project-fileStructure.ps1"
+        "project-genSources.ps1"
+        "project-runClient.ps1"
+        "project-runDatagen.ps1"
+        "project-runSpotless.ps1"
+        "project-versions.properties"
         "settings.gradle"
     )
 
