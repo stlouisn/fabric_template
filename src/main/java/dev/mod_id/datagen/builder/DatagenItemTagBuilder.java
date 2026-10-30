@@ -1,4 +1,4 @@
-package dev.mod_id.datagen.builder;
+package com.cypresswood.datagen.builder;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -15,7 +15,9 @@ import net.minecraft.world.level.block.Block;
 public abstract class DatagenItemTagBuilder extends FabricTagsProvider.ItemTagsProvider {
 
     private static final Set<TagKey<Block>> IGNORED_BLOCK_TAGS = Set.of(
+        BlockTags.CEILING_HANGING_SIGNS,
         BlockTags.CRYSTAL_SOUND_BLOCKS,
+        BlockTags.FLOWER_POTS,
         BlockTags.INSIDE_STEP_SOUND_BLOCKS,
         BlockTags.MINEABLE_WITH_AXE,
         BlockTags.MINEABLE_WITH_HOE,
@@ -24,7 +26,11 @@ public abstract class DatagenItemTagBuilder extends FabricTagsProvider.ItemTagsP
         BlockTags.NEEDS_DIAMOND_TOOL,
         BlockTags.NEEDS_IRON_TOOL,
         BlockTags.NEEDS_STONE_TOOL,
-        BlockTags.VIBRATION_RESONATORS
+        BlockTags.OVERWORLD_NATURAL_LOGS,
+        BlockTags.STANDING_SIGNS,
+        BlockTags.VIBRATION_RESONATORS,
+        BlockTags.WALL_HANGING_SIGNS,
+        BlockTags.WALL_SIGNS
     );
 
     private final DatagenBlockTagBuilder blockTagProvider;
