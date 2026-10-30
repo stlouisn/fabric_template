@@ -331,7 +331,7 @@ def conditionalRegisterBlocksRule = { spec ->
                 def rawBody = args[2] + args[3]
                 def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
                 def spitLines = cleanSingleLine.replaceAll(/(?=\bKeyBlockItems\b|BlockBehaviour\.Properties)/, '\n' + indent + indent1)
-                def formatted = spitLines.replaceAll(/\s*\.(emissiveRendering|forceSolidOff|friction|ignitedByLava|instabreak|instrument|isRedstoneConductor|isValidSpawn|lightLevel|mapColor|noCollision|noLootTable|noOcclusion|pushReaction|randomTicks|requiresCorrectToolForDrops|sound|strength)\(/, '\n' + indent + indent2 + '.$1(')
+                def formatted = spitLines.replaceAll(/\s*\.(emissiveRendering|forceSolidOff|friction|ignitedByLava|instabreak|instrument|isRedstoneConductor|isValidSpawn|lightLevel|mapColor|noCollision|noLootTable|noOcclusion|overrideDescription|overrideLootTable|pushReaction|randomTicks|requiresCorrectToolForDrops|sound|strength)\(/, '\n' + indent + indent2 + '.$1(')
                 return indent + formatted + ";"
             }
     }
