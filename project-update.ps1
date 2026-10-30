@@ -137,7 +137,7 @@ function DownloadAPIFiles {
             Write-Host "Failed to download file: $File" -ForegroundColor Red
             throw "Script execution stopped due to missing download file."
         }
-        $Content = [System.IO.File]::ReadAllText($DestinationDirectory/$File)
+        $Content = [System.IO.File]::ReadAllText("$DestinationDirectory/$File")
         if ($Content.Contains("dev.mod_id")) {
             $Content = $Content.Replace("dev.mod_id", $MavenGroup)
             [System.IO.File]::WriteAllText(
