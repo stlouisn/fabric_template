@@ -91,12 +91,12 @@ function DownloadTemplateFiles {
     )
 
     # Download files from repository
-    foreach ($FileName in $FilesToDownload) {
-        Write-Host "Downloading: $FileName ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl/$FileName" -OutFile $FileName -ErrorAction Stop
-        if (-not (Test-Path -Path ".\$FileName")) {
+    foreach ($File in $FilesToDownload) {
+        Write-Host "Downloading: $File ..." -ForegroundColor Gray
+        Invoke-WebRequest -Uri "$BaseRawUrl/$File" -OutFile $File -ErrorAction Stop
+        if (-not (Test-Path -Path ".\$File")) {
             Write-Host
-            Write-Host "Failed to download file: $FileName" -ForegroundColor Red
+            Write-Host "Failed to download file: $File" -ForegroundColor Red
             throw "Script execution stopped due to missing download file."
         }
     }
@@ -116,44 +116,20 @@ function DownloadAPIFiles {
         return
     }
 
-    # Ensure util path exists
-    $RootDirectory = "src/main/java/$MavenDomain/$MavenArtifact/util"
-    if (-not (Test-Path $RootDirectory)) {
-        New-Item -ItemType Directory -Path $RootDirectory -Force | Out-Null
-    }
-
-    # List of mapped folders to download
-    $FolderMappings = @(
-        @{
-            Source      = "src/main/java/dev/mod_id/util"
-            Destination = "$RootDirectory"
-        }
+    # List of files to download
+    $FilesToDownload = @(
+        "Constants.java"
     )
 
-    # List of downloaded files (from mapped folders)
-    $DownloadedFiles = [System.Collections.Generic.List[string]]::new()
-
-    # Download folder contents from repository
-    $TreeUrl = "https://api.github.com/repos/$Owner/$Repo/git/trees/${TreeSha}?recursive=1"
-    $Tree = Invoke-RestMethod -Uri $TreeUrl -Headers @{ "User-Agent" = "PowerShell" }
-    foreach ($Mapping in $FolderMappings) {
-        $SourcePrefix = "$($Mapping.Source)/"
-        $Paths = $Tree.tree |Where-Object { $_.type -eq "blob" -and $_.path.StartsWith($SourcePrefix) } | ForEach-Object { $_.path }
-        foreach ($SourcePath in $Paths) {
-            $RelativePath = $SourcePath.Substring($SourcePrefix.Length)
-            $DestinationPath = Join-Path $Mapping.Destination $RelativePath
-            $DestinationDirectory = Split-Path -Parent $DestinationPath
-            New-Item -ItemType Directory -Path $DestinationDirectory -Force | Out-Null
-            $EncodedPath = ($SourcePath -split "/" | ForEach-Object { [Uri]::EscapeDataString($_) }) -join "/"
-            Write-Host "Downloading: $DestinationPath" -ForegroundColor Gray
-            Invoke-WebRequest -Uri "$BaseRawUrl/$EncodedPath" -OutFile $DestinationPath -ErrorAction Stop
-            $DownloadedFiles.Add($DestinationPath)
+    # Download files from repository
+    foreach ($File in $FilesToDownload) {
+        Write-Host "Downloading: $File ..." -ForegroundColor Gray
+        Invoke-WebRequest -Uri "$BaseRawUrl/$File" -OutFile $File -ErrorAction Stop
+        if (-not (Test-Path -Path ".\$File")) {
+            Write-Host
+            Write-Host "Failed to download file: $File" -ForegroundColor Red
+            throw "Script execution stopped due to missing download file."
         }
-    }
-    Write-Host
-
-    # Substitute maven_group into placeholder
-    foreach ($File in $DownloadedFiles) {
         $Content = [System.IO.File]::ReadAllText($File)
         if ($Content.Contains("dev.mod_id")) {
             $Content = $Content.Replace("dev.mod_id", $MavenGroup)
@@ -180,6 +156,7 @@ function DownloadAPIFiles {
             )
         }
     }
+    Write-Host
 }
 
 function DownloadDatagenFiles {
