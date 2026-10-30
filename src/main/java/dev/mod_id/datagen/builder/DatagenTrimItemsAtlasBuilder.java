@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.builder;
 
-import static dev.mod_id.util.IdentifierUtils.resourceLocation;
+import static dev.mod_id.api.ResourceLocation.resourceLocation;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

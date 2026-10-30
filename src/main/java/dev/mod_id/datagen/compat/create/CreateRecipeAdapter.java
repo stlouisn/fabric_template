@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.compat.create;
 
-import static dev.mod_id.util.IdentifierUtils.resourceLocation;
+import static dev.mod_id.api.ResourceLocation.resourceLocation;
 
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;

@@ -1,7 +1,7 @@
 package dev.mod_id.datagen.compat.create;
 
-import static dev.mod_id.util.Constants.MOD_ID;
-import static dev.mod_id.util.IdentifierUtils.resourceLocation;
+import static dev.mod_id.Constants.MOD_ID;
+import static dev.mod_id.api.ResourceLocation.resourceLocation;
 
 import dev.mod_id.datagen.util.ItemUtils;
 import java.util.Arrays;

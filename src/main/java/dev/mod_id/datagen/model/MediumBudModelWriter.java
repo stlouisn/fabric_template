@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.model;
 
-import static dev.mod_id.util.Constants.MOD_ID;
+import static dev.mod_id.Constants.MOD_ID;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
