@@ -1,4 +1,4 @@
-package com.cypresswood.datagen.builder;
+package dev.mod_id.datagen.builder;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
