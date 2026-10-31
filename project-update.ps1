@@ -17,13 +17,19 @@ $GradleProperties   = "gradle.properties"
 # Suppress download progress messages
 $ProgressPreference = 'SilentlyContinue'
 
+# Extract properties
+$MavenGroup = ExtractMavenGroup
+$MavenDomain = ExtractMavenDomain($MavenGroup)
+$MavenArtifact = ExtractMavenArtifact($MavenGroup)
+$ModId = ExtractModId
+$ModName = ExtractModName
+
 function DownloadUpdateScript {
 
-    # Compute hash before update
+    # Compute before-hash
     $BeforeHash = (Get-FileHash -Path $Self -Algorithm SHA256).Hash
 
     # Download update script
-    Write-Host
     Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Gray
     Invoke-WebRequest -Uri "$BaseRawUrl/$ScriptFilename" -OutFile $ScriptFilename -ErrorAction Stop
     if (-not (Test-Path -Path $ScriptFilename)) {
@@ -32,7 +38,7 @@ function DownloadUpdateScript {
         throw "Script execution stopped due to missing download file."
     }
 
-    # Compute hash after update
+    # Compute after-hash
     $AfterHash = (Get-FileHash -Path $Self -Algorithm SHA256).Hash
 
     # Exit if the script updated itself
@@ -45,25 +51,19 @@ function DownloadUpdateScript {
     return $false
 }
 
-function DownloadTemplateFiles {
+function DownloadProjectFiles {
 
     # Ensure copilot path exists
     $CopilotDirectory = "copilot"
-    if (-not (Test-Path $CopilotDirectory)) {
-        New-Item -ItemType Directory -Path $CopilotDirectory -Force | Out-Null
-    }
+    New-Item -ItemType Directory -Path $CopilotDirectory -Force | Out-Null
 
     # Ensure inspectionProfiles path exists
     $InspectionProfilesDirectory = ".idea/inspectionProfiles"
-    if (-not (Test-Path $InspectionProfilesDirectory)) {
-        New-Item -ItemType Directory -Path $InspectionProfilesDirectory -Force | Out-Null
-    }
+    New-Item -ItemType Directory -Path $InspectionProfilesDirectory -Force | Out-Null
 
     # Ensure dictionaries path exists
     $DictionariesDirectory = ".idea/dictionaries"
-    if (-not (Test-Path $DictionariesDirectory)) {
-        New-Item -ItemType Directory -Path $DictionariesDirectory -Force | Out-Null
-    }
+    New-Item -ItemType Directory -Path $DictionariesDirectory -Force | Out-Null
 
     # List of files to download
     $FilesToDownload = @(
@@ -121,9 +121,7 @@ function DownloadAPIFiles {
 
     # Ensure api path exist
     $APIDirectory = "src/main/java/$MavenDomain/$MavenArtifact/api"
-    if (-not (Test-Path $ApiDirectory)) {
-        New-Item -ItemType Directory -Path $ApiDirectory -Force | Out-Null
-    }
+    New-Item -ItemType Directory -Path $ApiDirectory -Force | Out-Null
 
     $SourceDirectory = "src/main/java/dev/mod_id"
     $DestinationDirectory = "src/main/java/$MavenDomain/$MavenArtifact"
@@ -150,7 +148,7 @@ function DownloadAPIFiles {
         $Content = $Content.Replace("dev.mod_id", $MavenGroup)
         $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
         $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
-        [System.IO.File]::WriteAllText($DestinationPath, $Content,[System.Text.UTF8Encoding]::new($false))
+        [System.IO.File]::WriteAllText($DestinationPath, $Content, [System.Text.UTF8Encoding]::new($false))
     }
     Write-Host
 }
@@ -171,20 +169,12 @@ function DownloadDatagenFiles {
         return
     }
 
-    # Ensure datagen paths exist
     $DatagenDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen"
-    if (-not (Test-Path $DatagenDirectory)) {
-        New-Item -ItemType Directory -Path $DatagenDirectory -Force | Out-Null
-    }
-    if (-not (Test-Path $DatagenDirectory/adapter)) {
-        New-Item -ItemType Directory -Path $DatagenDirectory/adapter -Force | Out-Null
-    }
-    if (-not (Test-Path $DatagenDirectory/compat)) {
-        New-Item -ItemType Directory -Path $DatagenDirectory/compat -Force | Out-Null
-    }
-    if (-not (Test-Path $DatagenDirectory/provider)) {
-        New-Item -ItemType Directory -Path $DatagenDirectory/provider -Force | Out-Null
-    }
+
+    # Ensure datagen paths exist
+    New-Item -ItemType Directory -Path $DatagenDirectory/adapter -Force | Out-Null
+    New-Item -ItemType Directory -Path $DatagenDirectory/compat -Force | Out-Null
+    New-Item -ItemType Directory -Path $DatagenDirectory/provider -Force | Out-Null
 
     # List of mapped folders to download
     $FolderMappings = @(
@@ -210,7 +200,7 @@ function DownloadDatagenFiles {
     $Tree = Invoke-RestMethod -Uri $TreeUrl -Headers @{ "User-Agent" = "PowerShell" }
     foreach ($Mapping in $FolderMappings) {
         $SourcePrefix = "$($Mapping.Source)/"
-        $Paths = $Tree.tree |Where-Object { $_.type -eq "blob" -and $_.path.StartsWith($SourcePrefix) } | ForEach-Object { $_.path }
+        $Paths = $Tree.tree | Where-Object { $_.type -eq "blob" -and $_.path.StartsWith($SourcePrefix) } | ForEach-Object { $_.path }
         foreach ($SourcePath in $Paths) {
             $RelativePath = $SourcePath.Substring($SourcePrefix.Length)
             $DestinationPath = Join-Path $Mapping.Destination $RelativePath
@@ -227,14 +217,10 @@ function DownloadDatagenFiles {
     # Substitute maven_group into placeholder
     foreach ($File in $DownloadedFiles) {
         $Content = [System.IO.File]::ReadAllText($File)
-        if ($Content.Contains("dev.mod_id")) {
-            $Content = $Content.Replace("dev.mod_id", $MavenGroup)
-            [System.IO.File]::WriteAllText(
-                $File,
-                $Content,
-                [System.Text.UTF8Encoding]::new($false)
-            )
-        }
+        $Content = $Content.Replace("dev.mod_id", $MavenGroup)
+        $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
+        $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
+        [System.IO.File]::WriteAllText($File, $Content, [System.Text.UTF8Encoding]::new($false))
     }
 }
 
@@ -283,7 +269,7 @@ function DownloadDatagenPlaceholders {
         $Content = $Content.Replace("dev.mod_id", $MavenGroup)
         $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
         $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
-        [System.IO.File]::WriteAllText($DestinationPath, $Content,[System.Text.UTF8Encoding]::new($false))
+        [System.IO.File]::WriteAllText($DestinationPath, $Content, [System.Text.UTF8Encoding]::new($false))
     }
     Write-Host
 }
@@ -389,18 +375,11 @@ function UpdateGradleWrapper {
 # Forcefully terminate all java.exe processes silently
 Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
-# Extract properties
-$MavenGroup = ExtractMavenGroup
-$MavenDomain = ExtractMavenDomain($MavenGroup)
-$MavenArtifact = ExtractMavenArtifact($MavenGroup)
-$ModId = ExtractModId
-$ModName = ExtractModName
-
 Write-Host
 Write-Host "Updating '$ModName' project..." -ForegroundColor Cyan
+Write-Host
 
 # Fetch the latest Commit SHA
-Write-Host
 Write-Host "Fetching latest Commit SHA for '$Branch'..." -ForegroundColor Yellow
 try {
     $ApiUrl = "https://api.github.com/repos/$Owner/$Repo/commits/$Branch"
@@ -420,6 +399,7 @@ $BaseRawUrl = "https://raw.githubusercontent.com/$Owner/$Repo/$CommitSha"
 
 Write-Host
 Write-Host "Downloading files..." -ForegroundColor Yellow
+Write-Host
 
 # Download this script and exit if it changed
 if (DownloadUpdateScript) {
@@ -427,7 +407,7 @@ if (DownloadUpdateScript) {
 }
 
 # Download template files
-DownloadTemplateFiles
+DownloadProjectFiles
 
 # Download API files
 DownloadAPIFiles
