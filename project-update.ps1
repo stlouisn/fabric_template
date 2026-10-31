@@ -17,13 +17,6 @@ $GradleProperties   = "gradle.properties"
 # Suppress download progress messages
 $ProgressPreference = 'SilentlyContinue'
 
-# Extract properties
-$MavenGroup = ExtractMavenGroup
-$MavenDomain = ExtractMavenDomain($MavenGroup)
-$MavenArtifact = ExtractMavenArtifact($MavenGroup)
-$ModId = ExtractModId
-$ModName = ExtractModName
-
 function DownloadUpdateScript {
 
     # Compute before-hash
@@ -396,6 +389,13 @@ try {
 
 # Base URL for GitHub raw content
 $BaseRawUrl = "https://raw.githubusercontent.com/$Owner/$Repo/$CommitSha"
+
+# Extract properties
+$MavenGroup = ExtractMavenGroup
+$MavenDomain = ExtractMavenDomain($MavenGroup)
+$MavenArtifact = ExtractMavenArtifact($MavenGroup)
+$ModId = ExtractModId
+$ModName = ExtractModName
 
 Write-Host
 Write-Host "Downloading files..." -ForegroundColor Yellow
