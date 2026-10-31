@@ -212,35 +212,35 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             .save(recipeOutput);
     }
 
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, String recipeGroup, float experience, boolean useRecipeSuffix) {
-        createOreProcessingRecipe(input, result, recipeGroup, experience, useRecipeSuffix, null);
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience) {
+        createOreProcessingRecipe(input, result, experience, false, null);
     }
 
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, String recipeGroup, float experience, boolean useRecipeSuffix, @Nullable Set<String> requiredMods) {
-        final String recipeSuffix;
-        if (useRecipeSuffix) {
-            recipeSuffix = "_" + input.location().getPath();
-        } else {
-            recipeSuffix = "";
-        }
-        createOreProcessingRecipe(input, result, recipeGroup, experience, recipeSuffix, requiredMods);
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, boolean useRecipeSuffix) {
+        createOreProcessingRecipe(input, result, experience, useRecipeSuffix, null);
+    }
+
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, @Nullable Set<String> requiredMods) {
+        createOreProcessingRecipe(input, result, experience, false, requiredMods);
     }
 
     protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, String recipeSuffix) {
         createOreProcessingRecipe(input, result, experience, recipeSuffix, null);
     }
 
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, boolean useRecipeSuffix, @Nullable Set<String> requiredMods) {
+        final String recipeSuffix;
+        if (useRecipeSuffix) {
+            recipeSuffix = "_" + input.location().getPath();
+        } else {
+            recipeSuffix = "";
+        }
+        createOreProcessingRecipe(input, result, experience, recipeSuffix, requiredMods);
+    }
+
     protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, String recipeSuffix, @Nullable Set<String> requiredMods) {
-        final String recipeGroup = getItemName(result);
-        createOreProcessingRecipe(input, result, recipeGroup, experience, recipeSuffix, requiredMods);
-    }
-
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, String recipeGroup, float experience, String recipeSuffix) {
-        createOreProcessingRecipe(input, result, recipeGroup, experience, recipeSuffix, null);
-    }
-
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, String recipeGroup, float experience, String recipeSuffix, @Nullable Set<String> requiredMods) {
         final RecipeOutput recipeOutput = getModLoadConditions(requiredMods, result);
+        final String recipeGroup = getItemName(result);
         final Ingredient ingredient = Ingredient.of(registries.lookupOrThrow(Registries.ITEM).getOrThrow(input));
         SimpleCookingRecipeBuilder.generic(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, 200, SmeltingRecipe::new)
             .group(recipeGroup)
@@ -253,36 +253,31 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     protected void createOreProcessingRecipe(ItemLike input, ItemLike result, float experience) {
-        final String recipeGroup = getItemName(result);
-        createOreProcessingRecipe(input, result, recipeGroup, experience);
+        createOreProcessingRecipe(input, result, experience, true);
     }
 
-    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, String recipeGroup, float experience) {
-        createOreProcessingRecipe(input, result, recipeGroup, experience, true);
-    }
-
-    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, String recipeGroup, float experience, boolean useRecipeSuffix) {
+    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, float experience, boolean useRecipeSuffix) {
         final String recipeSuffix;
         if (useRecipeSuffix) {
             recipeSuffix = "_" + getItemName(input);
         } else {
             recipeSuffix = "";
         }
-        createOreProcessingRecipe(input, result, recipeGroup, experience, recipeSuffix);
+        createOreProcessingRecipe(input, result, experience, recipeSuffix);
     }
 
-    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, String recipeGroup, float experience, String recipeSuffix) {
+    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, float experience, String recipeSuffix) {
         final RecipeOutput recipeOutput = getModLoadConditions(input, result);
+        final String recipeGroup = getItemName(result);
         final Ingredient ingredient = Ingredient.of(input);
-        final String recipePrefix = getItemName(result);
         SimpleCookingRecipeBuilder.generic(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, 200, SmeltingRecipe::new)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
-            .save(recipeOutput, recipePrefix + "_from_smelting" + recipeSuffix);
+            .save(recipeOutput, recipeGroup + "_from_smelting" + recipeSuffix);
         SimpleCookingRecipeBuilder.generic(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, 100, BlastingRecipe::new)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
-            .save(recipeOutput, recipePrefix + "_from_blasting" + recipeSuffix);
+            .save(recipeOutput, recipeGroup + "_from_blasting" + recipeSuffix);
     }
 
     private RecipeOutput getModLoadConditions(ItemLike... items) {
