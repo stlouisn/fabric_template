@@ -246,12 +246,6 @@ function DownloadDatagenPlaceholders {
         New-Item -ItemType Directory -Path $AdapterDirectory -Force | Out-Null
     }
 
-    ## Ensure datagen/compat path exist
-    #$CompatDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/compat"
-    #if (-not (Test-Path $CompatDirectory)) {
-    #    New-Item -ItemType Directory -Path $CompatDirectory -Force | Out-Null
-    #}
-
     # Ensure datagen/compat/create path exist
     $CompatCreateDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/compat/create"
     if (-not (Test-Path $CompatCreateDirectory)) {
