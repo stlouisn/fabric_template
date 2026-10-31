@@ -224,14 +224,48 @@ function DownloadDatagenFiles {
         Write-Host
     }
 
+    # Substitute maven_group into placeholder
+    foreach ($File in $DownloadedFiles) {
+        $Content = [System.IO.File]::ReadAllText($File)
+        if ($Content.Contains("dev.mod_id")) {
+            $Content = $Content.Replace("dev.mod_id", $MavenGroup)
+            [System.IO.File]::WriteAllText(
+                $File,
+                $Content,
+                [System.Text.UTF8Encoding]::new($false)
+            )
+        }
+    }
+}
+
+function DownloadDatagenPlaceholders {
+
+    # Ensure datagen/adapter path exist
+    $AdapterDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/adapter"
+    if (-not (Test-Path $AdapterDirectory)) {
+        New-Item -ItemType Directory -Path $AdapterDirectory -Force | Out-Null
+    }
+
+    # Ensure datagen/compat path exist
+    $CompatDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/compat"
+    if (-not (Test-Path $CompatDirectory)) {
+        New-Item -ItemType Directory -Path $CompatDirectory -Force | Out-Null
+    }
+
+    # Ensure datagen/provider path exist
+    $ProviderDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/provider"
+    if (-not (Test-Path $ProviderDirectory)) {
+        New-Item -ItemType Directory -Path $ProviderDirectory -Force | Out-Null
+    }
+
     $SourceDirectory = "src/main/java/dev/mod_id/datagen"
     $DestinationDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen"
 
-    # List of additional files to download
+    # List of files to download
     $FilesToDownload = @(
-        "$SourceDirectory/adapter/package-info.java"
-        "$SourceDirectory/compat/package-info.java"
-        "$SourceDirectory/provider/package-info.java"
+        "adapter/package-info.java"
+        "compat/package-info.java"
+        "provider/package-info.java"
     )
 
     # Download files from repository
@@ -245,21 +279,13 @@ function DownloadDatagenFiles {
             Write-Host "Failed to download file: $File" -ForegroundColor Red
             throw "Script execution stopped due to missing download file."
         }
-        $DownloadedFiles.Add($File)
+        $Content = [System.IO.File]::ReadAllText($DestinationPath)
+        $Content = $Content.Replace("dev.mod_id", $MavenGroup)
+        $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
+        $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
+        [System.IO.File]::WriteAllText($DestinationPath, $Content,[System.Text.UTF8Encoding]::new($false))
     }
-
-    # Substitute maven_group into placeholder
-    foreach ($File in $DownloadedFiles) {
-        $Content = [System.IO.File]::ReadAllText($File)
-        if ($Content.Contains("dev.mod_id")) {
-            $Content = $Content.Replace("dev.mod_id", $MavenGroup)
-            [System.IO.File]::WriteAllText(
-                $File,
-                $Content,
-                [System.Text.UTF8Encoding]::new($false)
-            )
-        }
-    }
+    Write-Host
 }
 
 function ExtractMavenGroup {
