@@ -67,11 +67,11 @@ function DownloadTemplateFiles {
 
     # List of files to download
     $FilesToDownload = @(
-        ".idea/inspectionProfiles/Project_Default.xml"
-        ".idea/betterCommentsSettings.xml"
-        "copilot/coding.txt"
-        "copilot/efficiency_audit.txt"
-        "copilot/generate_javadoc.txt"
+        ".idea\inspectionProfiles\Project_Default.xml"
+        ".idea\betterCommentsSettings.xml"
+        "copilot\coding.txt"
+        "copilot\efficiency_audit.txt"
+        "copilot\generate_javadoc.txt"
         ".editorconfig"
         ".gitattributes"
         ".gitignore"
@@ -269,9 +269,9 @@ function DownloadDatagenPlaceholders {
 
     # List of files to download
     $FilesToDownload = @(
-        "adapter/package-info.java"
-        "compat/create/package-info.java"
-        "provider/package-info.java"
+        "adapter\package-info.java"
+        "compat\create\package-info.java"
+        "provider\package-info.java"
     )
 
     # Download files from repository
