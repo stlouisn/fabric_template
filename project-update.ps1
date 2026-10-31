@@ -202,19 +202,24 @@ function DownloadDatagenFiles {
             $EncodedPath = ($SourcePath -split "/" | ForEach-Object { [Uri]::EscapeDataString($_) }) -join "/"
             Write-Host "Downloading: $DestinationPath" -ForegroundColor Gray
             Invoke-WebRequest -Uri "$BaseRawUrl/$EncodedPath" -OutFile $DestinationPath -ErrorAction Stop
-            $DownloadedFiles.Add($DestinationPath)
+            #$DownloadedFiles.Add($DestinationPath)
+            $Content = [System.IO.File]::ReadAllText($DestinationPath)
+            $Content = $Content.Replace("dev.mod_id", $MavenGroup)
+            $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
+            $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
+            [System.IO.File]::WriteAllText($DestinationPath, $Content, [System.Text.UTF8Encoding]::new($false))
         }
         Write-Host
     }
 
-    # Substitute maven_group into placeholder
-    foreach ($File in $DownloadedFiles) {
-        $Content = [System.IO.File]::ReadAllText($File)
-        $Content = $Content.Replace("dev.mod_id", $MavenGroup)
-        $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
-        $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
-        [System.IO.File]::WriteAllText($File, $Content, [System.Text.UTF8Encoding]::new($false))
-    }
+    ## Substitute maven_group into placeholder
+    #foreach ($File in $DownloadedFiles) {
+    #    $Content = [System.IO.File]::ReadAllText($File)
+    #    $Content = $Content.Replace("dev.mod_id", $MavenGroup)
+    #    $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
+    #    $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
+    #    [System.IO.File]::WriteAllText($File, $Content, [System.Text.UTF8Encoding]::new($false))
+    #}
 }
 
 function DownloadDatagenPlaceholders {
