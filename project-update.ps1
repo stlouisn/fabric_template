@@ -240,7 +240,7 @@ function DownloadDatagenFiles {
             Write-Host "Failed to download file: $File" -ForegroundColor Red
             throw "Script execution stopped due to missing download file."
         }
-        $DownloadedFiles.Add($$File)
+        $DownloadedFiles.Add($File)
     }
 
     # Substitute maven_group into placeholder
