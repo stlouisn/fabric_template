@@ -25,10 +25,7 @@ function DownloadUpdateScript {
     # Download update script
     Write-Host
     Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Gray
-    Invoke-WebRequest `
-        -Uri "$BaseRawUrl/$ScriptFilename" `
-        -OutFile $ScriptFilename `
-        -ErrorAction Stop
+    Invoke-WebRequest -Uri "$BaseRawUrl/$ScriptFilename" -OutFile $ScriptFilename -ErrorAction Stop
     if (-not (Test-Path -Path ".\$ScriptFilename")) {
         Write-Host
         Write-Host "Failed to download file: $ScriptFilename" -ForegroundColor Red
@@ -97,7 +94,7 @@ function DownloadTemplateFiles {
     foreach ($File in $FilesToDownload) {
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
         Invoke-WebRequest -Uri "$BaseRawUrl/$File" -OutFile $File -ErrorAction Stop
-        if (-not (Test-Path -Path ".\$File")) {
+        if (-not (Test-Path -Path $File)) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
             throw "Script execution stopped due to missing download file."
@@ -108,15 +105,24 @@ function DownloadTemplateFiles {
 
 function DownloadAPIFiles {
 
-    # Mod Exemptions
-    $ExemptMods = @(
-        "anvilrestoration"
-        "armordamagescale"
-        "flourish"
-        "jeii"
-    )
-    if ($ModId -in $ExemptMods) {
+    # Extract download_api boolean
+    $DownloadDatagenLine = Get-Content $GradleTemplate | Where-Object { $_ -match '^\s*download_api\s*=' } | Select-Object -First 1
+    if (-not $DownloadDatagenLine) {
+        throw "Could not find 'download_api' in $GradleTemplate."
+    }
+    $DownloadDatagen = ($DownloadDatagenLine -replace '^\s*download_api\s*=\s*', '').Trim()
+
+    # Return unless download_api is true
+    if ($DownloadDatagen -ine "true") {
+        Write-Host "API download is not enabled ... skipping" -ForegroundColor Gray
+        Write-Host
         return
+    }
+
+    # Ensure api path exist
+    $APIDirectory = "src/main/java/$MavenDomain/$MavenArtifact/api"
+    if (-not (Test-Path $ApiDirectory)) {
+        New-Item -ItemType Directory -Path $ApiDirectory -Force | Out-Null
     }
 
     $SourceDirectory = "src/main/java/dev/mod_id"
@@ -134,10 +140,7 @@ function DownloadAPIFiles {
         $SourcePath = "$SourceDirectory/$File"
         $DestinationPath = "$DestinationDirectory/$File"
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
-        Invoke-WebRequest `
-            -Uri "$BaseRawUrl/$SourcePath" `
-            -OutFile $DestinationPath `
-            -ErrorAction Stop
+        Invoke-WebRequest -Uri "$BaseRawUrl/$SourcePath" -OutFile $DestinationPath -ErrorAction Stop
         if (-not (Test-Path -Path $DestinationPath)) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
@@ -154,7 +157,7 @@ function DownloadAPIFiles {
 
 function DownloadDatagenFiles {
 
-    # Extract datagen boolean
+    # Extract download_datagen boolean
     $DownloadDatagenLine = Get-Content $GradleTemplate | Where-Object { $_ -match '^\s*download_datagen\s*=' } | Select-Object -First 1
     if (-not $DownloadDatagenLine) {
         throw "Could not find 'download_datagen' in $GradleTemplate."
@@ -163,7 +166,7 @@ function DownloadDatagenFiles {
 
     # Return unless download_datagen is true
     if ($DownloadDatagen -ine "true") {
-        Write-Host "Datagen is not enabled ... skipping" -ForegroundColor Gray
+        Write-Host "Datagen download is not enabled ... skipping" -ForegroundColor Gray
         Write-Host
         return
     }
@@ -219,6 +222,25 @@ function DownloadDatagenFiles {
             $DownloadedFiles.Add($DestinationPath)
         }
         Write-Host
+    }
+
+    # List of additional files to download
+    $FilesToDownload = @(
+        "$DatagenDirectory/adapter/package-info.java"
+        "$DatagenDirectory/compat/package-info.java"
+        "$DatagenDirectory/provider/package-info.java"
+    )
+
+    # Download files from repository
+    foreach ($File in $FilesToDownload) {
+        Write-Host "Downloading: $File ..." -ForegroundColor Gray
+        Invoke-WebRequest -Uri "$BaseRawUrl/$File" -OutFile $File -ErrorAction Stop
+        if (-not (Test-Path -Path $File)) {
+            Write-Host
+            Write-Host "Failed to download file: $File" -ForegroundColor Red
+            throw "Script execution stopped due to missing download file."
+        }
+        $DownloadedFiles.Add($$File)
     }
 
     # Substitute maven_group into placeholder
