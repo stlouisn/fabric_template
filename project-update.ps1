@@ -226,21 +226,15 @@ function DownloadDatagenPlaceholders {
 
     # Ensure datagen/adapter path exist
     $AdapterDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/adapter"
-    if (-not (Test-Path $AdapterDirectory)) {
-        New-Item -ItemType Directory -Path $AdapterDirectory -Force | Out-Null
-    }
+    New-Item -ItemType Directory -Path $AdapterDirectory -Force | Out-Null
 
     # Ensure datagen/compat/create path exist
     $CompatCreateDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/compat/create"
-    if (-not (Test-Path $CompatCreateDirectory)) {
-        New-Item -ItemType Directory -Path $CompatCreateDirectory -Force | Out-Null
-    }
+    New-Item -ItemType Directory -Path $CompatCreateDirectory -Force | Out-Null
 
     # Ensure datagen/provider path exist
     $ProviderDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/provider"
-    if (-not (Test-Path $ProviderDirectory)) {
-        New-Item -ItemType Directory -Path $ProviderDirectory -Force | Out-Null
-    }
+    New-Item -ItemType Directory -Path $ProviderDirectory -Force | Out-Null
 
     $SourceDirectory = "src/main/java/dev/mod_id/datagen"
     $DestinationDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen"
