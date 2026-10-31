@@ -43,7 +43,7 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     protected void createShapelessRecipe(ItemLike input, ItemLike result) {
-        createShapelessRecipe(List.of(input), result, 1,RecipeCategory.MISC);
+        createShapelessRecipe(List.of(input), result, 1, RecipeCategory.MISC);
     }
 
     protected void createShapelessRecipe(ItemLike input, ItemLike result, RecipeCategory recipeCategory) {
