@@ -5,8 +5,10 @@ import static dev.mod_id.Constants.MOD_ID;
 import dev.mod_id.datagen.util.ItemUtils;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import net.minecraft.core.HolderLookup;
@@ -14,6 +16,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.resources.Identifier;
@@ -68,11 +71,29 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     protected void createShapelessRecipe(List<ItemLike> inputs, ItemLike result, int count, RecipeCategory recipeCategory) {
+        final ShapelessRecipeBuilder builder = shapeless(recipeCategory, result, count);
         final RecipeOutput recipeOutput = getModLoadConditions(Stream.concat(Stream.of(result), inputs.stream()).toArray(ItemLike[]::new));
         final String recipeGroup = getItemName(result);
-        final ShapelessRecipeBuilder builder = shapeless(recipeCategory, result, count);
         for (ItemLike item : inputs) {
             builder.requires(item);
+            builder.unlockedBy(getHasName(item), has(item));
+        }
+        builder.group(recipeGroup);
+        builder.save(recipeOutput);
+    }
+
+    protected void createShapedRecipe(ItemLike result, RecipeCategory recipeCategory, Consumer<ShapedRecipeContext> consumer) {
+        createShapedRecipe(result, 1, recipeCategory, consumer);
+    }
+
+    protected void createShapedRecipe(ItemLike result, int count, RecipeCategory recipeCategory, Consumer<ShapedRecipeContext> consumer) {
+        final ShapedRecipeBuilder builder = shaped(recipeCategory, result, count);
+        final ShapedRecipeContext capturingBuilder = new ShapedRecipeContext(builder);
+        consumer.accept(capturingBuilder);
+        final Set<ItemLike> inputs = capturingBuilder.getDefinedItems();
+        final RecipeOutput recipeOutput = getModLoadConditions(Stream.concat(Stream.of(result), inputs.stream()).toArray(ItemLike[]::new));
+        final String recipeGroup = getItemName(result);
+        for (ItemLike item : inputs) {
             builder.unlockedBy(getHasName(item), has(item));
         }
         builder.group(recipeGroup);
@@ -313,5 +334,42 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             return output;
         }
         return conditionedOutput.apply(requiredMods);
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    protected static final class ShapedRecipeContext {
+
+        private static final Set<ItemLike> DEFINED_ITEMS = new LinkedHashSet<>();
+
+        private final ShapedRecipeBuilder delegate;
+
+        public ShapedRecipeContext(ShapedRecipeBuilder delegate) {
+            this.delegate = delegate;
+        }
+
+        public ShapedRecipeContext pattern(String patternString) {
+            delegate.pattern(patternString);
+            return this;
+        }
+
+        public ShapedRecipeContext define(char symbol, ItemLike item) {
+            delegate.define(symbol, item);
+            DEFINED_ITEMS.add(item);
+            return this;
+        }
+
+        public ShapedRecipeContext define(char symbol, TagKey<Item> tag) {
+            delegate.define(symbol, tag);
+            return this;
+        }
+
+        public ShapedRecipeContext define(char symbol, Ingredient ingredient) {
+            delegate.define(symbol, ingredient);
+            return this;
+        }
+
+        public Set<ItemLike> getDefinedItems() {
+            return DEFINED_ITEMS;
+        }
     }
 }

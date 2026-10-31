@@ -29,7 +29,7 @@ import net.minecraft.server.packs.resources.ResourceFilterSection;
 import net.minecraft.util.IdentifierPattern;
 import net.minecraft.util.Util;
 
-@SuppressWarnings({"SameParameterValue", "unused", "UnstableApiUsage"})
+@SuppressWarnings({"SameParameterValue", "unused"})
 public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
 
     private static final Gson ORDERED_GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
@@ -80,6 +80,7 @@ public class DatagenPackMetadataBuilder extends PackMetadataGenerator {
         }
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
         generateFilterBlocks(filterEntries);
