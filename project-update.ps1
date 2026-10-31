@@ -434,6 +434,7 @@ DownloadAPIFiles
 
 # Download datagen files
 DownloadDatagenFiles
+DownloadDatagenPlaceholders
 
 Write-Host "Downloads complete." -ForegroundColor Green
 Write-Host
