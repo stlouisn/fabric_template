@@ -212,18 +212,6 @@ function DownloadDatagenFiles {
         Write-Host
     }
 
-    ## Substitute maven_group into placeholder
-    #foreach ($File in $DownloadedFiles) {
-    #    $Content = [System.IO.File]::ReadAllText($File)
-    #    $Content = $Content.Replace("dev.mod_id", $MavenGroup)
-    #    $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
-    #    $Content = $Content.Replace('"mod_name"', '"' + $ModName + '"')
-    #    [System.IO.File]::WriteAllText($File, $Content, [System.Text.UTF8Encoding]::new($false))
-    #}
-}
-
-function DownloadDatagenPlaceholders {
-
     # Ensure datagen/adapter path exist
     $AdapterDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/adapter"
     New-Item -ItemType Directory -Path $AdapterDirectory -Force | Out-Null
@@ -413,7 +401,6 @@ DownloadAPIFiles
 
 # Download datagen files
 DownloadDatagenFiles
-DownloadDatagenPlaceholders
 
 Write-Host "Downloads complete." -ForegroundColor Green
 Write-Host
