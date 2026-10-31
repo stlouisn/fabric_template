@@ -8,9 +8,7 @@ import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenRecipeAdapter extends FabricRecipeProvider {
 
     public DatagenRecipeAdapter(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
