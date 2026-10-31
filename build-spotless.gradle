@@ -396,7 +396,7 @@ def conditionalRecipeProviderRule = { spec ->
             return text
         }
         return text
-            .replaceAll(/(?s)([ \t]*)(shaped|shapeless)\b(.*?);/) { Object[] args ->
+            .replaceAll(/(?s)([ \t]*)(createShapedRecipe|shaped|shapeless)\b(.*?);/) { Object[] args ->
                 def indent = args[1]
                 def rawBody = args[2] + args[3]
                 def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
