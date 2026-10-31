@@ -26,7 +26,7 @@ function DownloadUpdateScript {
     Write-Host
     Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Gray
     Invoke-WebRequest -Uri "$BaseRawUrl/$ScriptFilename" -OutFile $ScriptFilename -ErrorAction Stop
-    if (-not (Test-Path -Path ".\$ScriptFilename")) {
+    if (-not (Test-Path -Path $ScriptFilename)) {
         Write-Host
         Write-Host "Failed to download file: $ScriptFilename" -ForegroundColor Red
         throw "Script execution stopped due to missing download file."
@@ -54,13 +54,13 @@ function DownloadTemplateFiles {
     }
 
     # Ensure inspectionProfiles path exists
-    $InspectionProfilesDirectory = ".idea\inspectionProfiles"
+    $InspectionProfilesDirectory = ".idea/inspectionProfiles"
     if (-not (Test-Path $InspectionProfilesDirectory)) {
         New-Item -ItemType Directory -Path $InspectionProfilesDirectory -Force | Out-Null
     }
 
     # Ensure dictionaries path exists
-    $DictionariesDirectory = ".idea\dictionaries"
+    $DictionariesDirectory = ".idea/dictionaries"
     if (-not (Test-Path $DictionariesDirectory)) {
         New-Item -ItemType Directory -Path $DictionariesDirectory -Force | Out-Null
     }
@@ -224,18 +224,23 @@ function DownloadDatagenFiles {
         Write-Host
     }
 
+    $SourceDirectory = "src/main/java/dev/mod_id/datagen"
+    $DestinationDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen"
+
     # List of additional files to download
     $FilesToDownload = @(
-        "$DatagenDirectory/adapter/package-info.java"
-        "$DatagenDirectory/compat/package-info.java"
-        "$DatagenDirectory/provider/package-info.java"
+        "$SourceDirectory/adapter/package-info.java"
+        "$SourceDirectory/compat/package-info.java"
+        "$SourceDirectory/provider/package-info.java"
     )
 
     # Download files from repository
     foreach ($File in $FilesToDownload) {
+        $SourcePath = "$SourceDirectory/$File"
+        $DestinationPath = "$DestinationDirectory/$File"
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl/$File" -OutFile $File -ErrorAction Stop
-        if (-not (Test-Path -Path $File)) {
+        Invoke-WebRequest -Uri "$BaseRawUrl/$SourcePath" -OutFile $DestinationPath -ErrorAction Stop
+        if (-not (Test-Path -Path $DestinationPath)) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
             throw "Script execution stopped due to missing download file."
