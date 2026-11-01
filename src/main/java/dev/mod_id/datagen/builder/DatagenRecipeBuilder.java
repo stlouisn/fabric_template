@@ -191,7 +191,7 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             .requires(input, 1)
             .group(recipeGroup)
             .unlockedBy(getHasName(input), has(input))
-            .save(recipeOutput, getItemName(result) + "_from" + getItemName(input));
+            .save(recipeOutput, getItemName(result) + "_from_" + getItemName(input));
     }
 
     protected void createCrossPatternRecipe(ItemLike outer, ItemLike center, ItemLike result, RecipeCategory recipeCategory) {
