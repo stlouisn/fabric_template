@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.util;
 
-import static dev.mod_id.util.Constants.MOD_ID;
+import static dev.mod_id.Constants.MOD_ID;
 
 import java.io.File;
 import java.io.FileWriter;

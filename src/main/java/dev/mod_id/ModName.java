@@ -7,6 +7,6 @@ public final class ModName implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        MidnightConfig.init(Constants.MOD_ID, ModConfig.class);
+        MidnightConfig.register(Constants.MOD_ID, ModConfig.class);
     }
 }

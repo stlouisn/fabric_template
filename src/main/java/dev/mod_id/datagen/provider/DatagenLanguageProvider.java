@@ -57,13 +57,17 @@ public final class DatagenLanguageProvider extends DatagenLanguageBuilder {
         // Messages
         builder.add("notification.friendlyfire.protected", "The %s is protected. Crouch to bypass.");
 
+        // Keybinds
+        builder.add("category." + MOD_ID + ".general", MOD_NAME);
+        builder.add("key." + MOD_ID + ".frontview", "Hold for Front View");
+
         // Config
-        midnightConfig("title", MOD_NAME, builder);
-        midnightConfig("enablePetProtection", "Enable Pet Protection", builder);
-        midnightConfig("enablePetProtection.tooltip", "Prevent players and their pets from damaging friendly pets", builder);
-        midnightConfig("enableBabyProtection", "Enable Baby Protection", builder);
-        midnightConfig("enableBabyProtection.tooltip", "Prevent players and their pets from damaging baby animals", builder);
-        midnightConfig("displayHitWarning", "Display Hit Warning", builder);
-        midnightConfig("displayHitWarning.tooltip", "Show a warning when hitting protected entities", builder);
+        midnightConfig(builder, "title", MOD_NAME);
+        midnightConfig(builder, "minSpawnDelay", "Min Spawn Delay", "Minimum delay between spawn attempts, in seconds");
+        midnightConfig(builder, "spawnDelayRange", "Spawn Delay Range", "Added to the minimum spawn delay to determine the maximum delay, in seconds");
+        midnightConfig(builder, "spawnCount", "Spawn Count", "Maximum number of entities that can spawn per wave");
+        midnightConfig(builder, "maxNearbyEntities", "Max Nearby Entities", "Maximum number of entities that can be loaded around the spawner before it stops");
+        midnightConfig(builder, "requiredPlayerRange", "Required Player Range", "Minimum range to player required for the spawner to become active");
+        midnightConfig(builder, "spawnRange", "Spawn Range", "Maximum radius around the spawner where entities can spawn");
     }
 }

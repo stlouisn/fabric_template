@@ -4,6 +4,6 @@ Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 Write-Host
 
 # Run Spotless
-./gradlew --console=colored spotlessApply
+./gradlew --console=colored --quiet spotlessApply
 
 Write-Host

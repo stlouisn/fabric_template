@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.adapter;
 
-import static dev.mod_id.util.IdentifierUtils.resourceLocation;
+import static dev.mod_id.api.ResourceLocation.resourceLocation;
 
 import dev.mod_id.datagen.provider.VanillaRecipeProvider;
 import java.util.concurrent.CompletableFuture;
@@ -11,9 +11,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.Identifier;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class VanillaRecipeAdapter extends FabricRecipeProvider {
 
     public VanillaRecipeAdapter(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {

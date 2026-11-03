@@ -16,6 +16,7 @@ public final class DatagenModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockModelGenerators modelGenerator) {
+
         modelGenerator.createTrivialCube(RegisterBlockItems.CHARCOAL_BLOCK);
         modelGenerator.createTrivialCube(RegisterBlockItems.RAW_NETHERITE_BLOCK);
         modelGenerator.createTrivialCube(RegisterBlockItems.ROSE_QUARTZ_BLOCK);
@@ -29,6 +30,7 @@ public final class DatagenModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators modelGenerator) {
+
         modelGenerator.declareCustomModelItem(RegisterBlockItems.ROSE_QUARTZ_CLUSTER.asItem());
         modelGenerator.declareCustomModelItem(RegisterBlockItems.SMALL_ROSE_QUARTZ_BUD.asItem());
         modelGenerator.declareCustomModelItem(RegisterBlockItems.MEDIUM_ROSE_QUARTZ_BUD.asItem());

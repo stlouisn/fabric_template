@@ -31,6 +31,7 @@ loom {
             getProgramArguments().add("DevPlayer")
             getProgramArguments().add("--uuid")
             getProgramArguments().add("00000000-0000-0000-0000-000000000000")
+            getJvmArguments().addAll(Arrays.asList("--add-modules=jdk.incubator.vector"))
             getJvmArguments().addAll(Arrays.asList("-Dfabric.disableYggdrasil=true"))
             getJvmArguments().addAll(Arrays.asList("-Dfabric.disableRealms=true"))
             getGenerateRunConfig().set(true)
@@ -57,7 +58,6 @@ dependencies {
     compileOnly "com.github.spotbugs:spotbugs-annotations:latest.release"
 }
 
-// Common Repositories
 repositories {
     maven {
         name = "Terraformers"
@@ -105,7 +105,7 @@ if (recipe_viewer == "rrv") {
 }
 
 // Mixin Extras
-if (file("src/main/resources/${archives_base_name}.mixins.json").exists()) {
+if (file("src/main/resources/${archives_base_name}.mixins.json").exists() || file("src/main/resources/${mod_id}.mixins.json").exists()) {
     dependencies {
         implementation( annotationProcessor( "io.github.llamalad7:mixinextras-common:${mixinextras_version}" ))
     }
@@ -183,7 +183,7 @@ processResources {
         // Remove blank lines
         filter { line -> line.trim().isEmpty() ? null : line }
 
-        // Remove datagen
+        // Remove fabric-datagen entrypoints when not running datagen
         if (!isDatagen) {
             def removingDatagen = false
             filter { line ->
@@ -222,5 +222,6 @@ jar {
         )
     }
     exclude("${maven_group.replace('.', '/')}/datagen/**")
+    exclude("${maven_group.replace('.', '/')}/Constants.class")
     exclude("data/**/advancement/recipes/**")
 }

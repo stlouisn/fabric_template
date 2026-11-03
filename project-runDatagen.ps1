@@ -2,12 +2,14 @@
 Stop-Process -Name "java" -Force -ErrorAction SilentlyContinue
 
 # Extract datagen boolean
-$GradleTemplate     = "gradle-template.properties"
+$GradleTemplate = "gradle-template.properties"
 $DownloadDatagenLine = Get-Content $GradleTemplate | Where-Object { $_ -match '^\s*download_datagen\s*=' } | Select-Object -First 1
 if (-not $DownloadDatagenLine) {
     throw "Could not find 'download_datagen' in $GradleTemplate."
 }
 $DownloadDatagen = ($DownloadDatagenLine -replace '^\s*download_datagen\s*=\s*', '').Trim()
+
+Write-Host
 
 # Return unless download_datagen is true
 if ($DownloadDatagen -ine "true") {
@@ -15,8 +17,6 @@ if ($DownloadDatagen -ine "true") {
     Write-Host
     exit
 }
-
-Write-Host
 
 # Run Datagen
 ./gradlew --console=plain --warn --non-interactive runDatagen
