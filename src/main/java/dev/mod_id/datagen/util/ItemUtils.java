@@ -51,6 +51,18 @@ public final class ItemUtils {
     }
 
     /**
+     * Returns the resource key of the given block identifier.
+     */
+    @Nullable
+    public static ResourceKey<Item> getResourceKey(Identifier key) {
+        Item item = getItem(key);
+        if (item == null) {
+            return null;
+        }
+        return BuiltInRegistries.Item.getResourceKey(item).orElse(null);
+    }
+
+    /**
      * Returns the resource key of the given item.
      */
     @Nullable

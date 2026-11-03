@@ -36,6 +36,18 @@ public final class BlockUtils {
     }
 
     /**
+     * Returns the resource key of the given block identifier.
+     */
+    @Nullable
+    public static ResourceKey<Block> getResourceKey(Identifier key) {
+        Block block = getBlock(key);
+        if (block == null) {
+            return null;
+        }
+        return BuiltInRegistries.BLOCK.getResourceKey(block).orElse(null);
+    }
+
+    /**
      * Returns the path of the given block.
      */
     public static String getPath(Block block) {
