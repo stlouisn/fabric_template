@@ -15,6 +15,17 @@ import org.jspecify.annotations.Nullable;
 
 public final class RecordUtils {
 
+    public static String buildPath(@Nullable String prefix, BlockType blockType, @Nullable String suffix) {
+        String path = blockType.material();
+        if (prefix != null && !prefix.isEmpty()) {
+            path = prefix + "_" + path;
+        }
+        if (suffix != null && !suffix.isEmpty()) {
+            path = path + "_" + suffix;
+        }
+        return path;
+    }
+
     @Nullable
     public static Identifier getPreviousBlockIdentifier(BlockType blockType, BlockVariant blockVariant) {
         return getPreviousBlockIdentifier(blockType, null, blockVariant, null);
@@ -55,7 +66,7 @@ public final class RecordUtils {
             if (variantFilter != null && !variantFilter.test(previousVariant)) {
                 continue;
             }
-            String buildPath = BlockType.buildPath(previousVariant.prefix(), blockType, previousVariant.suffix());
+            String buildPath = RecordUtils.buildPath(previousVariant.prefix(), blockType, previousVariant.suffix());
             Identifier id = checkForBlockOverrides(buildPath);
             Identifier identifier;
             if (id != null) {
@@ -78,7 +89,7 @@ public final class RecordUtils {
                 if (variantFilter != null && !variantFilter.test(previousVariant)) {
                     continue;
                 }
-                String buildPath = BlockType.buildPath(previousVariant.prefix(), previousType, previousVariant.suffix());
+                String buildPath = RecordUtils.buildPath(previousVariant.prefix(), previousType, previousVariant.suffix());
                 Identifier id = checkForBlockOverrides(buildPath);
                 Identifier identifier;
                 if (id != null) {
