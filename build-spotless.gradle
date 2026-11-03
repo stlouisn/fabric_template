@@ -301,7 +301,13 @@ def conditionalBlockDataRule = { spec ->
 
 def conditionalGenerateSourceCode = { spec ->
     spec.custom 'conditionalGenerateSourceCodeRule', { String text ->
-        if (!text.contains("class GenerateKeyBlockItems") && !text.contains("class GenerateRegisterBlockEntityType") && !text.contains("class GenerateRegisterBlocks") && !text.contains("class GenerateRegisterBlockItems") && !text.contains("class GenerateRegisterCreativeModeTabs")) {
+        if (!text.contains("class GenerateKeyBlockItems") &&
+            !text.contains("class GenerateRegisterBlockEntityType") &&
+            !text.contains("class GenerateRegisterBlocks") &&
+            !text.contains("class GenerateRegisterBlockItems") &&
+            !text.contains("class GenerateRegisterFlammables") &&
+            !text.contains("class GenerateRegisterStrippables") &&
+            !text.contains("class GenerateRegisterCreativeModeTabs")) {
             return text
         }
         return text
