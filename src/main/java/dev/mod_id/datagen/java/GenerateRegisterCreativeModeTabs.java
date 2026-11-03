@@ -32,6 +32,8 @@ public final class GenerateRegisterCreativeModeTabs {
             import net.minecraft.world.level.block.Blocks;
             """;
 
+    private static final String CONSTANTS = "";
+
     private static final String INIT = """
                 public static void init() {
                     CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(RegisterCreativeModeTabs::addBuildingBlocks);
@@ -58,14 +60,20 @@ public final class GenerateRegisterCreativeModeTabs {
         sourceCode.append(CLASS_DECLARATION + " " + CLASS_NAME + " {" + "\n");
         sourceCode.append("\n");
 
-        // Init
-        if (INIT != null && !INIT.isEmpty()) {
-            sourceCode.append(INIT);
+        // Constants
+        if (CONSTANTS != null && !CONSTANTS.isEmpty()) {
+            sourceCode.append(CONSTANTS);
             sourceCode.append("\n");
         }
 
         // Building Blocks
         addBuildingBlocks(sourceCode);
+
+        // Init
+        if (INIT != null && !INIT.isEmpty()) {
+            sourceCode.append(INIT);
+            sourceCode.append("\n");
+        }
 
         // Footer
         if (PRIVATE_METHODS != null && !PRIVATE_METHODS.isEmpty()) {

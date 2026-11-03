@@ -31,6 +31,8 @@ public final class GenerateKeyBlockItems {
             import net.minecraft.references.BlockItemId;
             """;
 
+    private static final String CONSTANTS = "";
+
     private static final String INIT = "";
 
     private static final String PRIVATE_METHODS = """
@@ -59,6 +61,12 @@ public final class GenerateKeyBlockItems {
         }
         sourceCode.append(CLASS_DECLARATION + " " + CLASS_NAME + " {" + "\n");
         sourceCode.append("\n");
+
+        // Constants
+        if (CONSTANTS != null && !CONSTANTS.isEmpty()) {
+            sourceCode.append(CONSTANTS);
+            sourceCode.append("\n");
+        }
 
         // BlockItemIds
         processBlocks(sourceCode);

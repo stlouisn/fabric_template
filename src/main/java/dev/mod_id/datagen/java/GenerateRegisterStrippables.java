@@ -1,7 +1,6 @@
 package dev.mod_id.datagen.java;
 
 import static dev.mod_id.Constants.MOD_ID;
-import static dev.mod_id.datagen.data.BlockOverrides.checkForBlockOverrides;
 import static dev.mod_id.datagen.data.BlockOverrides.checkForPathOverrides;
 import static dev.mod_id.datagen.util.CreateJavaFile.createJavaFile;
 import static dev.mod_id.datagen.util.RegistryUtils.doesBlockExist;
@@ -30,28 +29,50 @@ public final class GenerateRegisterStrippables {
             import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
             """;
 
+    private static final String CONSTANTS = "";
+
+    private static final String INIT = "";
+
+    private static final String PRIVATE_METHODS = "";
+
     public static void run() {
 
         StringBuilder sourceCode = new StringBuilder();
 
         // Header
-        sourceCode.append(AUTO_GENERATED_WARNING).append("\n");
+        sourceCode.append(AUTO_GENERATED_WARNING + "\n");
         sourceCode.append("\n");
-        sourceCode.append("package " + PACKAGE_NAME + ";").append("\n");
+        sourceCode.append("package " + PACKAGE_NAME + ";" + "\n");
         sourceCode.append("\n");
         if (IMPORTS != null && !IMPORTS.isEmpty()) {
-            sourceCode.append(IMPORTS).append("\n");
+            sourceCode.append(IMPORTS + "\n");
         }
         if (CLASS_ANNOTATION != null && !CLASS_ANNOTATION.isEmpty()) {
-            sourceCode.append(CLASS_ANNOTATION).append("\n");
+            sourceCode.append(CLASS_ANNOTATION + "\n");
         }
-        sourceCode.append(CLASS_DECLARATION + " " + CLASS_NAME + " {").append("\n");
+        sourceCode.append(CLASS_DECLARATION + " " + CLASS_NAME + " {" + "\n");
         sourceCode.append("\n");
 
-        // Block Registration
+        // Constants
+        if (CONSTANTS != null && !CONSTANTS.isEmpty()) {
+            sourceCode.append(CONSTANTS);
+            sourceCode.append("\n");
+        }
+
+        // Registration
         processBlocks(sourceCode);
 
-        sourceCode.append("}").append("\n");
+        // Init
+        if (INIT != null && !INIT.isEmpty()) {
+            sourceCode.append(INIT);
+            sourceCode.append("\n");
+        }
+
+        // Footer
+        if (PRIVATE_METHODS != null && !PRIVATE_METHODS.isEmpty()) {
+            sourceCode.append(PRIVATE_METHODS);
+        }
+        sourceCode.append("}" + "\n");
 
         // Create File
         createJavaFile(sourceCode, "src/main/java/" + PACKAGE_NAME.replace(".", "/"), CLASS_NAME + ".java");
@@ -59,7 +80,9 @@ public final class GenerateRegisterStrippables {
 
     private static void processBlocks(StringBuilder sourceCode) {
 
-        sourceCode.append("    public static void init() {").append("\n");
+        sourceCode
+            .append("    public static void init() {")
+            .append("\n");
 
         for (BlockType blockType : BlockType.BLOCK_TYPES) {
 
@@ -95,6 +118,8 @@ public final class GenerateRegisterStrippables {
             }
         }
 
-        sourceCode.append("    }").append("\n");
+        sourceCode
+            .append("    }")
+            .append("\n");
     }
 }

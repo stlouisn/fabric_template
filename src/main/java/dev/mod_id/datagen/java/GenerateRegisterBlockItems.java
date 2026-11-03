@@ -44,6 +44,8 @@ public final class GenerateRegisterBlockItems {
             import net.minecraft.world.level.material.MapColor;
             """;
 
+    private static final String CONSTANTS = "";
+
     private static final String INIT = """
                 public static void init() {
                 }
@@ -95,6 +97,12 @@ public final class GenerateRegisterBlockItems {
         }
         sourceCode.append(CLASS_DECLARATION + " " + CLASS_NAME + " {" + "\n");
         sourceCode.append("\n");
+
+        // Constants
+        if (CONSTANTS != null && !CONSTANTS.isEmpty()) {
+            sourceCode.append(CONSTANTS);
+            sourceCode.append("\n");
+        }
 
         // Registration
         processBlocks(sourceCode);
