@@ -21,13 +21,6 @@ public final class BlockUtils {
     }
 
     /**
-     * Returns the namespace of the given block.
-     */
-    public static String getNamespace(Block block) {
-        return BuiltInRegistries.BLOCK.getKey(block).getNamespace();
-    }
-
-    /**
      * Returns the resource key of the given block.
      */
     @Nullable
@@ -40,11 +33,18 @@ public final class BlockUtils {
      */
     @Nullable
     public static ResourceKey<Block> getResourceKey(Identifier key) {
-        Block block = getBlock(key);
+        final Block block = getBlock(key);
         if (block == null) {
             return null;
         }
         return BuiltInRegistries.BLOCK.getResourceKey(block).orElse(null);
+    }
+
+    /**
+     * Returns the namespace of the given block.
+     */
+    public static String getNamespace(Block block) {
+        return BuiltInRegistries.BLOCK.getKey(block).getNamespace();
     }
 
     /**

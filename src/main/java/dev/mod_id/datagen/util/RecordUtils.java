@@ -1,6 +1,5 @@
 package dev.mod_id.datagen.util;
 
-import static dev.mod_id.datagen.data.BlockOverrides.checkForBlockOverrides;
 import static dev.mod_id.datagen.data.BlockOverrides.checkForPathOverrides;
 import static dev.mod_id.datagen.util.BlockUtils.getBlock;
 import static dev.mod_id.datagen.util.RegistryUtils.getBlockIdentifier;
@@ -11,10 +10,14 @@ import dev.mod_id.datagen.data.BlockVariant;
 import java.util.List;
 import java.util.function.Predicate;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
 import org.jspecify.annotations.Nullable;
 
 public final class RecordUtils {
 
+    /**
+     * Returns the path using the specified prefix, block type, and suffix.
+     */
     public static String buildPath(@Nullable String prefix, BlockType blockType, @Nullable String suffix) {
         String path = blockType.material();
         if (prefix != null && !prefix.isEmpty()) {
@@ -24,6 +27,22 @@ public final class RecordUtils {
             path = path + "_" + suffix;
         }
         return path;
+    }
+
+    /**
+     * Returns the block using the specified prefix, block type, and suffix.
+     */
+    public static Block getBlockWithBlockType(@Nullable String prefix, BlockType blockType, @Nullable String suffix) {
+        final String path = checkForPathOverrides(buildPath(prefix, blockType, suffix));
+        final Identifier key = getBlockIdentifier(path);
+        if (key == null) {
+            throw new IllegalStateException("Could not find identifier for '" + path + "' in registry.");
+        }
+        final Block block = getBlock(key);
+        if (block == null) {
+            throw new IllegalStateException("Could not find block for '" + key + "' in registry.");
+        }
+        return block;
     }
 
     @Nullable
@@ -66,8 +85,8 @@ public final class RecordUtils {
             if (variantFilter != null && !variantFilter.test(previousVariant)) {
                 continue;
             }
-            String buildPath = RecordUtils.buildPath(previousVariant.prefix(), blockType, previousVariant.suffix());
-            Identifier id = checkForBlockOverrides(buildPath);
+            final String buildPath = checkForPathOverrides(buildPath(previousVariant.prefix(), blockType, previousVariant.suffix()));
+            final Identifier id = getBlockIdentifier(buildPath);
             Identifier identifier;
             if (id != null) {
                 identifier = getBlockIdentifier(id.getPath(), candidate -> candidate.getNamespace().equals(id.getNamespace()), BlockExclusions::collisionRules);
@@ -89,8 +108,8 @@ public final class RecordUtils {
                 if (variantFilter != null && !variantFilter.test(previousVariant)) {
                     continue;
                 }
-                String buildPath = RecordUtils.buildPath(previousVariant.prefix(), previousType, previousVariant.suffix());
-                Identifier id = checkForBlockOverrides(buildPath);
+                String buildPath = checkForPathOverrides(buildPath(previousVariant.prefix(), previousType, previousVariant.suffix()));
+                final Identifier id = getBlockIdentifier(buildPath);
                 Identifier identifier;
                 if (id != null) {
                     identifier = getBlockIdentifier(id.getPath(), candidate -> candidate.getNamespace().equals(id.getNamespace()), BlockExclusions::collisionRules);

@@ -29,6 +29,22 @@ public final class ItemUtils {
     }
 
     /**
+     * Returns the resource key of the given item.
+     */
+    @Nullable
+    public static ResourceKey<Item> getResourceKey(ItemLike item) {
+        return getResourceKey(item.asItem());
+    }
+
+    /**
+     * Returns the resource key of the given item.
+     */
+    @Nullable
+    public static ResourceKey<Item> getResourceKey(Item item) {
+        return BuiltInRegistries.ITEM.getResourceKey(item).orElse(null);
+    }
+
+    /**
      * Returns the namespace of the given item.
      */
     public static String getNamespace(ItemLike item) {
@@ -40,34 +56,6 @@ public final class ItemUtils {
      */
     public static String getNamespace(Item item) {
         return BuiltInRegistries.ITEM.getKey(item).getNamespace();
-    }
-
-    /**
-     * Returns the resource key of the given item.
-     */
-    @Nullable
-    public static ResourceKey<Item> getResourceKey(ItemLike item) {
-        return getResourceKey(item.asItem());
-    }
-
-    /**
-     * Returns the resource key of the given block identifier.
-     */
-    @Nullable
-    public static ResourceKey<Item> getResourceKey(Identifier key) {
-        Item item = getItem(key);
-        if (item == null) {
-            return null;
-        }
-        return BuiltInRegistries.Item.getResourceKey(item).orElse(null);
-    }
-
-    /**
-     * Returns the resource key of the given item.
-     */
-    @Nullable
-    public static ResourceKey<Item> getResourceKey(Item item) {
-        return BuiltInRegistries.ITEM.getResourceKey(item).orElse(null);
     }
 
     /**

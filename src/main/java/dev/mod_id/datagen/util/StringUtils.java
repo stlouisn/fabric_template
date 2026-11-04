@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public final class StringUtils {
 
-    public static String formatName(String name) {
-        return Arrays.stream(name.split("_")).map(word -> word.isEmpty() ? "" : Character.toUpperCase(word.charAt(0)) + word.substring(1)).collect(Collectors.joining(" "));
+    public static String titleCase(String name) {
+        return Arrays.stream(name.split(" ", -1)).map(word -> word.isEmpty() ? "" : Character.toUpperCase(word.charAt(0)) + word.substring(1)).collect(Collectors.joining(" "));
     }
 }

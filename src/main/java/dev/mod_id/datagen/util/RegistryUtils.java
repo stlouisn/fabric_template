@@ -2,6 +2,7 @@ package dev.mod_id.datagen.util;
 
 import static dev.mod_id.Constants.MOD_ID;
 
+import dev.mod_id.datagen.data.BlockExclusions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -9,6 +10,7 @@ import java.util.function.Predicate;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.block.Block;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,17 @@ public final class RegistryUtils {
      */
     public static boolean doesBlockExist(String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
         return getIdentifier(BuiltInRegistries.BLOCK, path, filter, collisionRules) != null;
+    }
+
+    /**
+     * Checks whether a block already exists in the block registry.
+     */
+    public static boolean doesBlockAlreadyExist(Block block) {
+        final Identifier id = BlockUtils.getKey(block);
+        if (!id.getNamespace().equals(MOD_ID)) {
+            return true;
+        }
+        return doesBlockExist(id.getPath(), identifier -> !identifier.getNamespace().equals(MOD_ID), BlockExclusions::collisionRules);
     }
 
     /**
