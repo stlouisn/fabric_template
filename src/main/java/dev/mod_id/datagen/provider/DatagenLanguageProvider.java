@@ -1,7 +1,7 @@
 package dev.mod_id.datagen.provider;
 
-import dev.crossing_rail.content.registry.RegisterBlocks;
-import dev.crossing_rail.datagen.builder.DatagenLanguageBuilder;
+import dev.mod_id.content.registry.RegisterBlocks;
+import dev.mod_id.datagen.builder.DatagenLanguageBuilder;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
