@@ -176,6 +176,10 @@ function DownloadDatagenFiles {
             Destination = "$DatagenDirectory/builder"
         },
         @{
+            Source      = "src/main/java/dev/mod_id/datagen/data"
+            Destination = "$DatagenDirectory/data"
+        },
+        @{
             Source      = "src/main/java/dev/mod_id/datagen/model"
             Destination = "$DatagenDirectory/model"
         },
@@ -184,9 +188,6 @@ function DownloadDatagenFiles {
             Destination = "$DatagenDirectory/util"
         }
     )
-
-    # List of downloaded files (from mapped folders)
-    $DownloadedFiles = [System.Collections.Generic.List[string]]::new()
 
     # Download folder contents from repository
     $TreeUrl = "https://api.github.com/repos/$Owner/$Repo/git/trees/${TreeSha}?recursive=1"
@@ -202,7 +203,6 @@ function DownloadDatagenFiles {
             $EncodedPath = ($SourcePath -split "/" | ForEach-Object { [Uri]::EscapeDataString($_) }) -join "/"
             Write-Host "Downloading: $DestinationPath" -ForegroundColor Gray
             Invoke-WebRequest -Uri "$BaseRawUrl/$EncodedPath" -OutFile $DestinationPath -ErrorAction Stop
-            #$DownloadedFiles.Add($DestinationPath)
             $Content = [System.IO.File]::ReadAllText($DestinationPath)
             $Content = $Content.Replace("dev.mod_id", $MavenGroup)
             $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
