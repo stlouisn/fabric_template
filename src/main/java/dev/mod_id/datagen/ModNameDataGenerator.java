@@ -18,6 +18,12 @@ public final class ModNameDataGenerator implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(final FabricDataGenerator fabricDataGenerator) {
 
+        GenerateKeyBlockItems.run();
+        GenerateRegisterBlockItems.run();
+        GenerateRegisterFlammables.run();
+        GenerateRegisterStrippables.run();
+        GenerateRegisterCreativeModeTabs.run();
+
         final FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(DatagenPackMetadataGenerator::new);
         pack.addProvider(DatagenLanguageProvider::new);
@@ -32,8 +38,4 @@ public final class ModNameDataGenerator implements DataGeneratorEntrypoint {
 
         pack.addProvider(DatagenDynamicRegistryProvider::new);
     }
-
-//    @Override
-//    public void buildRegistry(RegistrySetBuilder registryBuilder) {
-//    }
 }

@@ -2,7 +2,6 @@ package dev.mod_id.datagen.util;
 
 import static dev.mod_id.Constants.MOD_ID;
 
-import dev.mod_id.datagen.data.BlockExclusions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -10,7 +9,6 @@ import java.util.function.Predicate;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.level.block.Block;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,17 +19,31 @@ public final class RegistryUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     /**
+     * Checks whether a block exists in the block registry with the specified identifier.
+     */
+    public static boolean doesBlockExist(Identifier id) {
+        return BuiltInRegistries.BLOCK.containsKey(id);
+    }
+
+    /**
      * Checks whether a block exists in the block registry with the specified path.
      */
     public static boolean doesBlockExist(String path) {
-        return getIdentifier(BuiltInRegistries.BLOCK, path, null, null) != null;
+        return doesBlockExist(path, null, null);
+    }
+
+    /**
+     * Checks whether a block exists in the block registry using the specified namespace and path.
+     */
+    public static boolean doesBlockExist(String namespace, String path) {
+        return doesBlockExist(path, identifier -> identifier.getNamespace().equals(namespace));
     }
 
     /**
      * Checks whether a block exists in the block registry matching the specified path and filter predicate.
      */
     public static boolean doesBlockExist(String path, @Nullable Predicate<Identifier> filter) {
-        return getIdentifier(BuiltInRegistries.BLOCK, path, filter, null) != null;
+        return doesBlockExist(path, filter, null);
     }
 
     /**
@@ -43,28 +55,31 @@ public final class RegistryUtils {
     }
 
     /**
-     * Checks whether a block already exists in the block registry.
+     * Checks whether an item exists in the item registry with the specified identifier.
      */
-    public static boolean doesBlockAlreadyExist(Block block) {
-        final Identifier id = BlockUtils.getKey(block);
-        if (!id.getNamespace().equals(MOD_ID)) {
-            return true;
-        }
-        return doesBlockExist(id.getPath(), identifier -> !identifier.getNamespace().equals(MOD_ID), BlockExclusions::collisionRules);
+    public static boolean doesItemExist(Identifier id) {
+        return BuiltInRegistries.ITEM.containsKey(id);
     }
 
     /**
      * Checks whether an item exists in the item registry with the specified path.
      */
     public static boolean doesItemExist(String path) {
-        return getIdentifier(BuiltInRegistries.ITEM, path, null, null) != null;
+        return doesItemExist(path, null, null);
+    }
+
+    /**
+     * Checks whether an item exists in the item registry using the specified namespace and path.
+     */
+    public static boolean doesItemExist(String namespace, String path) {
+        return doesItemExist(path, identifier -> identifier.getNamespace().equals(namespace));
     }
 
     /**
      * Checks whether an item exists in the item registry matching the specified path and filter predicate.
      */
     public static boolean doesItemExist(String path, @Nullable Predicate<Identifier> filter) {
-        return getIdentifier(BuiltInRegistries.ITEM, path, filter, null) != null;
+        return doesItemExist(path, filter, null);
     }
 
     /**
@@ -138,7 +153,7 @@ public final class RegistryUtils {
             }
             if (id.getPath().equals(path)) {
                 if (collisionRules != null && collisionRules.test(id.getNamespace(), path)) {
-                    LOGGER.debug("Ignoring identifier '{}' due to collision rule.", id);
+                    LOGGER.warn("Ignoring identifier '{}' due to collision rule.", id);
                     continue;
                 }
                 matches.add(id);
@@ -159,7 +174,7 @@ public final class RegistryUtils {
             if (matchId == null) {
                 matchId = matches.getFirst();
             }
-            LOGGER.warn("Multiple matches found with path: {}. Namespace collision detected among: '{}'. Falling back to: {}", path, matches, matchId);
+            LOGGER.error("Multiple matches found with path: {}. Namespace collision detected among: '{}'. Falling back to: {}", path, matches, matchId);
             return matchId;
         }
         return matches.getFirst();

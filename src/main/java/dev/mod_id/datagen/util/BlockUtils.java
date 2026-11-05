@@ -16,7 +16,7 @@ public final class BlockUtils {
     /**
      * Returns the identifier of the given block.
      */
-    public static Identifier getKey(Block block) {
+    public static Identifier getIdentifier(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
 
@@ -32,8 +32,8 @@ public final class BlockUtils {
      * Returns the resource key of the given block identifier.
      */
     @Nullable
-    public static ResourceKey<Block> getResourceKey(Identifier key) {
-        final Block block = getBlock(key);
+    public static ResourceKey<Block> getResourceKey(Identifier id) {
+        final Block block = getBlock(id);
         if (block == null) {
             return null;
         }
@@ -74,28 +74,7 @@ public final class BlockUtils {
      * Returns the block using the specified identifier.
      */
     @Nullable
-    public static Block getBlock(Identifier key) {
-        return BuiltInRegistries.BLOCK.get(key).map(Holder::value).orElse(null);
-    }
-
-    /**
-     * Checks whether a block exists in the registry using the default mod ID and the specified path.
-     */
-    public static boolean doesExist(String path) {
-        return doesExist(MOD_ID, path);
-    }
-
-    /**
-     * Checks whether a block exists in the registry using the specified namespace and path.
-     */
-    public static boolean doesExist(String namespace, String path) {
-        return doesExist(resourceLocation(namespace, path));
-    }
-
-    /**
-     * Checks whether a block exists in the registry using the specified identifier.
-     */
-    public static boolean doesExist(Identifier key) {
-        return BuiltInRegistries.BLOCK.containsKey(key);
+    public static Block getBlock(Identifier id) {
+        return BuiltInRegistries.BLOCK.get(id).map(Holder::value).orElse(null);
     }
 }

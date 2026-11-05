@@ -3,8 +3,10 @@ package dev.mod_id.datagen.util;
 import static dev.mod_id.Constants.MOD_ID;
 import static dev.mod_id.api.ResourceLocation.resourceLocation;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -15,8 +17,15 @@ public final class TagUtils {
     /**
      * Returns the identifier of the given tag.
      */
-    public static Identifier getKey(TagKey<?> tag) {
+    public static Identifier getIdentifier(TagKey<?> tag) {
         return tag.location();
+    }
+
+    /**
+     * Returns the registry of the given tag.
+     */
+    public static ResourceKey<? extends Registry<?>> getResourceKey(TagKey<?> tag) {
+        return tag.registry();
     }
 
     /**
@@ -31,27 +40,6 @@ public final class TagUtils {
      */
     public static String getPath(TagKey<?> tag) {
         return tag.location().getPath();
-    }
-
-    /**
-     * Returns the item tag using the default mod ID and the specified path.
-     */
-    public static TagKey<Item> getItemTag(String path) {
-        return getItemTag(MOD_ID, path);
-    }
-
-    /**
-     * Returns the item tag using the specified namespace and path.
-     */
-    public static TagKey<Item> getItemTag(String namespace, String path) {
-        return getItemTag(resourceLocation(namespace, path));
-    }
-
-    /**
-     * Returns the item tag using the specified identifier.
-     */
-    public static TagKey<Item> getItemTag(Identifier key) {
-        return TagKey.create(Registries.ITEM, key);
     }
 
     /**
@@ -71,7 +59,28 @@ public final class TagUtils {
     /**
      * Returns the block tag using the specified identifier.
      */
-    public static TagKey<Block> getBlockTag(Identifier key) {
-        return TagKey.create(Registries.BLOCK, key);
+    public static TagKey<Block> getBlockTag(Identifier id) {
+        return TagKey.create(Registries.BLOCK, id);
+    }
+
+    /**
+     * Returns the item tag using the default mod ID and the specified path.
+     */
+    public static TagKey<Item> getItemTag(String path) {
+        return getItemTag(MOD_ID, path);
+    }
+
+    /**
+     * Returns the item tag using the specified namespace and path.
+     */
+    public static TagKey<Item> getItemTag(String namespace, String path) {
+        return getItemTag(resourceLocation(namespace, path));
+    }
+
+    /**
+     * Returns the item tag using the specified identifier.
+     */
+    public static TagKey<Item> getItemTag(Identifier id) {
+        return TagKey.create(Registries.ITEM, id);
     }
 }

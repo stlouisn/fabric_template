@@ -17,14 +17,14 @@ public final class ItemUtils {
     /**
      * Returns the identifier of the given item.
      */
-    public static Identifier getKey(ItemLike item) {
-        return getKey(item.asItem());
+    public static Identifier getIdentifier(ItemLike itemLike) {
+        return getIdentifier(itemLike.asItem());
     }
 
     /**
      * Returns the identifier of the given item.
      */
-    public static Identifier getKey(Item item) {
+    public static Identifier getIdentifier(Item item) {
         return BuiltInRegistries.ITEM.getKey(item);
     }
 
@@ -32,8 +32,8 @@ public final class ItemUtils {
      * Returns the resource key of the given item.
      */
     @Nullable
-    public static ResourceKey<Item> getResourceKey(ItemLike item) {
-        return getResourceKey(item.asItem());
+    public static ResourceKey<Item> getResourceKey(ItemLike itemLike) {
+        return getResourceKey(itemLike.asItem());
     }
 
     /**
@@ -45,10 +45,22 @@ public final class ItemUtils {
     }
 
     /**
+     * Returns the resource key of the given item identifier.
+     */
+    @Nullable
+    public static ResourceKey<Item> getResourceKey(Identifier id) {
+        final Item item = getItem(id);
+        if (item == null) {
+            return null;
+        }
+        return BuiltInRegistries.ITEM.getResourceKey(item).orElse(null);
+    }
+
+    /**
      * Returns the namespace of the given item.
      */
-    public static String getNamespace(ItemLike item) {
-        return getNamespace(item.asItem());
+    public static String getNamespace(ItemLike itemLike) {
+        return getNamespace(itemLike.asItem());
     }
 
     /**
@@ -61,8 +73,8 @@ public final class ItemUtils {
     /**
      * Returns the path of the given item.
      */
-    public static String getPath(ItemLike item) {
-        return getPath(item.asItem());
+    public static String getPath(ItemLike itemLike) {
+        return getPath(itemLike.asItem());
     }
 
     /**
@@ -92,28 +104,7 @@ public final class ItemUtils {
      * Returns the item using the specified identifier.
      */
     @Nullable
-    public static Item getItem(Identifier key) {
-        return BuiltInRegistries.ITEM.get(key).map(Holder::value).orElse(null);
-    }
-
-    /**
-     * Checks whether an item exists in the registry using the default mod ID and the specified path.
-     */
-    public static boolean doesExist(String path) {
-        return doesExist(resourceLocation(MOD_ID, path));
-    }
-
-    /**
-     * Checks whether an item exists in the registry using the specified namespace and path.
-     */
-    public static boolean doesExist(String namespace, String path) {
-        return doesExist(resourceLocation(namespace, path));
-    }
-
-    /**
-     * Checks whether an item exists in the registry using the specified identifier.
-     */
-    public static boolean doesExist(Identifier key) {
-        return BuiltInRegistries.ITEM.containsKey(key);
+    public static Item getItem(Identifier id) {
+        return BuiltInRegistries.ITEM.get(id).map(Holder::value).orElse(null);
     }
 }

@@ -9,10 +9,16 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public final class JsonUtils {
 
+    /**
+     * Returns an identifier pattern matching any namespace with the specified path pattern.
+     */
     public static IdentifierPattern resourcePattern(Pattern path) {
         return resourcePattern(null, path);
     }
 
+    /**
+     * Returns an identifier pattern matching the specified namespace and path patterns.
+     */
     public static IdentifierPattern resourcePattern(@Nullable Pattern namespace, @Nullable Pattern path) {
         JsonObject json = new JsonObject();
         if (namespace != null) {
