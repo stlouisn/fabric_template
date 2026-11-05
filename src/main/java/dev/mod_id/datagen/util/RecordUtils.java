@@ -9,7 +9,9 @@ import dev.mod_id.datagen.data.BlockType;
 import dev.mod_id.datagen.data.BlockVariant;
 import java.util.List;
 import java.util.function.Predicate;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Block;
 import org.jspecify.annotations.Nullable;
 
@@ -40,6 +42,14 @@ public final class RecordUtils {
             throw new IllegalStateException("Could not find identifier for '" + path + "' in registry.");
         }
         return id;
+    }
+
+    /**
+     * Returns the block resource key using the specified prefix, block type, and suffix.
+     */
+    public static ResourceKey<Block> getResourceKey(@Nullable String prefix, BlockType blockType, @Nullable String suffix) {
+        final Block block = getBlock(prefix, blockType, suffix);
+        return BuiltInRegistries.BLOCK.getResourceKey(block).orElseThrow(() -> new IllegalStateException("Could not find resource key for block '" + block + "' in registry."));
     }
 
     /**
