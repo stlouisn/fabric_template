@@ -88,20 +88,22 @@ public final class GenerateRegisterBlockItems {
         sourceCode.append(AUTO_GENERATED_WARNING + "\n");
         sourceCode.append("\n");
         sourceCode.append("package " + PACKAGE_NAME + ";" + "\n");
-        sourceCode.append("\n");
         if (IMPORTS != null && !IMPORTS.isEmpty()) {
-            sourceCode.append(IMPORTS + "\n");
+            sourceCode.append("\n");
+            sourceCode.append(IMPORTS);
         }
+
+        // Class
+        sourceCode.append("\n");
         if (CLASS_ANNOTATION != null && !CLASS_ANNOTATION.isEmpty()) {
             sourceCode.append(CLASS_ANNOTATION + "\n");
         }
         sourceCode.append(CLASS_DECLARATION + " " + CLASS_NAME + " {" + "\n");
-        sourceCode.append("\n");
 
         // Constants
         if (CONSTANTS != null && !CONSTANTS.isEmpty()) {
-            sourceCode.append(CONSTANTS);
             sourceCode.append("\n");
+            sourceCode.append(CONSTANTS);
         }
 
         // Registration
@@ -109,12 +111,13 @@ public final class GenerateRegisterBlockItems {
 
         // Init
         if (INIT != null && !INIT.isEmpty()) {
-            sourceCode.append(INIT);
             sourceCode.append("\n");
+            sourceCode.append(INIT);
         }
 
         // Footer
         if (PRIVATE_METHODS != null && !PRIVATE_METHODS.isEmpty()) {
+            sourceCode.append("\n");
             sourceCode.append(PRIVATE_METHODS);
         }
         sourceCode.append("}" + "\n");
@@ -126,6 +129,8 @@ public final class GenerateRegisterBlockItems {
     private static void processBlocks(StringBuilder sourceCode) {
 
         for (BlockType blockType : BlockType.BLOCK_TYPES) {
+
+            sourceCode.append("\n");
 
             for (BlockVariant blockVariant : blockType.blockVariants()) {
 
@@ -157,8 +162,6 @@ public final class GenerateRegisterBlockItems {
                     .append(");")
                     .append("\n");
             }
-
-            sourceCode.append("\n");
         }
     }
 
