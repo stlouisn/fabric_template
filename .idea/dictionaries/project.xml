@@ -14,7 +14,10 @@
       <w>jvmargs</w>
       <w>kleeslabs</w>
       <w>mixinextras</w>
+      <w>modmenu</w>
       <w>modrinth</w>
+      <w>waystones</w>
+      <w>yacl</w>
     </words>
   </dictionary>
 </component>
