@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -19,6 +19,7 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
@@ -26,6 +27,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.BlastingRecipe;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.ItemLike;
 import org.jspecify.annotations.Nullable;
@@ -33,12 +35,10 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenRecipeBuilder extends RecipeProvider {
 
-    private final RecipeOutput output;
     private final Function<Set<String>, RecipeOutput> conditionedOutput;
 
-    protected DatagenRecipeBuilder(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {
-        super(registries, output);
-        this.output = output;
+    protected DatagenRecipeBuilder(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput, Function<Set<String>, RecipeOutput> conditionedOutput) {
+        super(recipeOutput, advancementOutput);
         this.conditionedOutput = conditionedOutput;
     }
 
@@ -241,7 +241,7 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, String recipeSuffix, @Nullable Set<String> requiredMods) {
         final RecipeOutput recipeOutput = getModLoadConditions(requiredMods, result);
         final String recipeGroup = getItemName(result);
-        final Ingredient ingredient = Ingredient.of(registries.lookupOrThrow(Registries.ITEM).getOrThrow(input));
+        final Ingredient ingredient = Ingredient.of(recipeOutput.lookup(Registries.ITEM).getOrThrow(input));
         SimpleCookingRecipeBuilder.generic(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, 200, SmeltingRecipe::new)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))

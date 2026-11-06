@@ -20,13 +20,16 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider {
 
+    private final CompletableFuture<HolderLookup.Provider> registriesFuture;
+
     protected DatagenBlockLootBuilder(FabricPackOutput packOutput, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(packOutput, registriesFuture);
+        this.registriesFuture = registriesFuture;
     }
 
     protected void createSimpleDrop(Block block) {
@@ -57,7 +60,7 @@ public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider
         final String namespace = BuiltInRegistries.BLOCK.getKey(original).getNamespace();
         final String path = BuiltInRegistries.BLOCK.getKey(original).getPath();
         final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
-        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F))).apply(ApplyBonusCount.addOreBonusCount(this.registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))).when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(this.registries.lookupOrThrow(Registries.ITEM), ItemTags.CLUSTER_MAX_HARVESTABLES))).otherwise(this.applyExplosionDecay(original, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F)))))).setRandomSequence(identifier);
+        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ContextIntProviders.exactly(4))).apply(ApplyBonusCount.addOreBonusCount(this.registriesFuture.join().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))).when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(this.registriesFuture.join().lookupOrThrow(Registries.ITEM), ItemTags.CLUSTER_MAX_HARVESTABLES))).otherwise(this.applyExplosionDecay(original, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ContextIntProviders.exactly(2)))))).setRandomSequence(identifier);
         this.add(original, builder);
     }
 
@@ -65,7 +68,7 @@ public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider
         final String namespace = BuiltInRegistries.BLOCK.getKey(original).getNamespace();
         final String path = BuiltInRegistries.BLOCK.getKey(original).getPath();
         final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
-        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, LootItem.lootTableItem(drop).apply(ApplyBonusCount.addOreBonusCount(this.registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE)))).setRandomSequence(identifier);
+        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, LootItem.lootTableItem(drop).apply(ApplyBonusCount.addOreBonusCount(this.registriesFuture.join().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE)))).setRandomSequence(identifier);
         this.add(original, builder);
     }
 }

@@ -12,8 +12,8 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 
 @SuppressWarnings({"SameParameterValue", "unused"})
@@ -29,16 +29,16 @@ public abstract class DatagenAdvancementBuilder extends FabricAdvancementProvide
 
     protected record AdvancementHelper(Consumer<AdvancementHolder> consumer) {
 
-        public void add(String name, String namespace, String category, String parent, ItemLike icon, ItemLike... requiredItems) {
-            final Identifier id = resourceLocation(namespace, category + "/" + parent);
-            final MutableComponent title = Component.translatable("advancements." + category + ".obtain_" + name + ".title");
-            final MutableComponent description = Component.translatable("advancements." + category + ".obtain_" + name + ".description");
-            final String path = category + "/obtain_" + name;
+        public void add(String name, String namespace, String category, String parent, Item icon, ItemLike... requiredItems) {
+            final Identifier parentId = resourceLocation(namespace, category + "/" + parent);
+            final Component title = Component.translatable("advancements." + category + ".obtain_" + name + ".title");
+            final Component description = Component.translatable("advancements." + category + ".obtain_" + name + ".description");
+            final Identifier saveId = resourceLocation(namespace, category + "/obtain_" + name);
             Advancement.Builder.advancement()
-                .parent(createPlaceholder(id))
-                .display(icon, title, description, null, AdvancementType.TASK, true, true, false)
+                .parent(createPlaceholder(parentId))
+                .display(icon, title, description, AdvancementType.TASK, true, true, false)
                 .addCriterion(name, hasItems(requiredItems))
-                .save(consumer, path);
+                .save(consumer, saveId);
         }
     }
 }
