@@ -39,15 +39,21 @@ loom {
     }
 }
 
-fabricApi {
-    configureDataGeneration {
-        outputDirectory = file("src/generated/resources")
-        createRunConfiguration = true
-        modId = mod_id
-        strictValidation = true
-        addToResources = true
-        client = true
+if (download_datagen.toString().toBoolean()) {
+    fabricApi {
+        configureDataGeneration {
+            outputDirectory = file("src/generated/resources")
+            createRunConfiguration = true
+            modId = mod_id
+            strictValidation = true
+            addToResources = true
+            client = true
+        }
     }
+}
+else {
+    def datagenRunConfig = file(".idea/runConfigurations/Data_Generation.xml")
+    delete(datagenRunConfig)
 }
 
 dependencies {
