@@ -7,7 +7,7 @@ $Self = Join-Path $PSScriptRoot $ScriptFilename
 # Define repository details
 $Owner  = "stlouisn"
 $Repo   = "fabric_template"
-$Branch = "fabric-26.2"
+$Branch = "fabric-26.3"
 
 # Define gradle properties filenames
 $GradleTemplate     = "gradle-template.properties"
