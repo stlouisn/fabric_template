@@ -54,6 +54,11 @@ public final class DatagenLanguageProvider extends DatagenLanguageBuilder {
         builder.add(TagItems.SMELTS_TO_IRON_NUGGETS, "Smelts to Iron Nuggets");
         builder.add(TagItems.SMELTS_TO_NETHERITE_NUGGETS, "Smelts to Netherite Nuggets");
 
+        // Tooltips
+        builder.add("tooltip." + MOD_ID + ".bound_pet", "Bound to a pet");
+        builder.add("tooltip." + MOD_ID + ".bound_to", "Bound to: %s");
+        builder.add("tooltip." + MOD_ID + ".invalid", "Invalid Contract");
+
         // Messages
         builder.add("notification.friendlyfire.protected", "The %s is protected. Crouch to bypass.");
 
