@@ -11,7 +11,7 @@ public final class DatagenPackMetadataProvider extends DatagenPackMetadataBuilde
     }
 
     @Override
-    public void generateFilterBlocks(List<FilterEntry> filters) {
+    protected void generateFilterBlocks(List<FilterEntry> filters) {
         addMinecraftFilterBlock(filters, "advancement/recipes/misc/", FILTERED_VANILLA_ADVANCEMENTS);
         addMinecraftFilterBlock(filters, "recipe/", FILTERED_VANILLA_RECIPES);
     }
