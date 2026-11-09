@@ -1,40 +1,40 @@
 package dev.mod_id.datagen.provider;
 
-import dev.mod_id.content.registry.RegisterBlocks;
 import dev.mod_id.content.registry.RegisterItems;
-import dev.mod_id.content.tag.TagItems;
 import dev.mod_id.datagen.builder.DatagenRecipeBuilder;
 import java.util.Set;
-import java.util.function.Function;
-import net.minecraft.core.HolderLookup;
+import java.util.function.BiFunction;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.item.crafting.Recipe;
 
 public final class VanillaRecipeProvider extends DatagenRecipeBuilder {
 
-    public VanillaRecipeProvider(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {
-        super(registries, output, conditionedOutput);
+    public VanillaRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput, BiFunction<RecipeOutput, Set<String>, RecipeOutput> conditionWrapper) {
+        super(recipeOutput, advancementOutput, conditionWrapper);
     }
 
     @Override
     public void buildRecipes() {
 
-        createOreProcessingRecipe(Items.RAW_COPPER_BLOCK, Items.COPPER_BLOCK.weathering().unaffected(), 0.7F);
-        createOreProcessingRecipe(Items.RAW_GOLD_BLOCK, Items.GOLD_BLOCK, 1.0F);
-        createOreProcessingRecipe(Items.RAW_IRON_BLOCK, Items.IRON_BLOCK, 0.7F);
-        createOreProcessingRecipe(RegisterBlockItems.RAW_NETHERITE_BLOCK, Items.NETHERITE_BLOCK, 2.0F);
-        createOreProcessingRecipe(Blocks.ANCIENT_DEBRIS, Items.NETHERITE_INGOT, 2.0F);
-        createOreProcessingRecipe(RegisterItems.RAW_NETHERITE, Items.NETHERITE_INGOT, 2.0F);
+        createShapedRecipe(RegisterItems.TURTLE_LEGGINGS, RecipeCategory.COMBAT, builder -> builder
+            .pattern("###")
+            .pattern("# #")
+            .pattern("# #")
+            .define('#', Items.TURTLE_SCUTE));
 
-        createOreProcessingRecipe(ItemTags.COPPER_ORES, Items.COPPER_INGOT, 0.7F, "_copper_ore");
-        createOreProcessingRecipe(ItemTags.GOLD_ORES, Items.GOLD_INGOT, 1.0F, "_gold_ore");
-        createOreProcessingRecipe(ItemTags.IRON_ORES, Items.IRON_INGOT, 0.7F, "_iron_ore");
+        createShapedRecipe(RegisterItems.TURTLE_CHESTPLATE, RecipeCategory.COMBAT, builder -> builder
+            .pattern("# #")
+            .pattern("###")
+            .pattern("###")
+            .define('#', Items.TURTLE_SCUTE));
 
-        createOreProcessingRecipe(TagItems.SMELTS_TO_COPPER_NUGGETS, Items.COPPER_NUGGET, "copper_nugget", 0.1F, false);
-        createOreProcessingRecipe(TagItems.SMELTS_TO_GOLD_NUGGETS, Items.GOLD_NUGGET, "gold_nugget", 0.1F, false);
-        createOreProcessingRecipe(TagItems.SMELTS_TO_IRON_NUGGETS, Items.IRON_NUGGET, "iron_nugget", 0.1F, false);
-        createOreProcessingRecipe(TagItems.SMELTS_TO_NETHERITE_NUGGETS, RegisterItems.NETHERITE_NUGGET, "netherite_nugget", 0.1F, false);
+        createShapedRecipe(RegisterItems.TURTLE_BOOTS, RecipeCategory.COMBAT, builder -> builder
+            .pattern("# #")
+            .pattern("# #")
+            .define('#', Items.TURTLE_SCUTE));
     }
 }

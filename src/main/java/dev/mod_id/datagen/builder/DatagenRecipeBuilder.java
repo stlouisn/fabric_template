@@ -8,8 +8,8 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Stream;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.core.registries.Registries;
@@ -35,11 +35,11 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenRecipeBuilder extends RecipeProvider {
 
-    private final Function<Set<String>, RecipeOutput> conditionedOutput;
+    private final BiFunction<RecipeOutput, Set<String>, RecipeOutput> conditionWrapper;
 
-    protected DatagenRecipeBuilder(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput, Function<Set<String>, RecipeOutput> conditionedOutput) {
+    protected DatagenRecipeBuilder(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput, BiFunction<RecipeOutput, Set<String>, RecipeOutput> conditionWrapper) {
         super(recipeOutput, advancementOutput);
-        this.conditionedOutput = conditionedOutput;
+        this.conditionWrapper = conditionWrapper;
     }
 
     protected void createShapelessRecipe(ItemLike input, ItemLike result) {
@@ -288,7 +288,7 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
         if (requiredMods.isEmpty()) {
             return output;
         }
-        return conditionedOutput.apply(requiredMods);
+        return conditionWrapper.apply(output, requiredMods);
     }
 
     private RecipeOutput getModLoadConditions(@Nullable Set<String> additionalRequiredMods, ItemLike... items) {
@@ -304,13 +304,12 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
         if (requiredMods.isEmpty()) {
             return output;
         }
-        return conditionedOutput.apply(requiredMods);
+        return conditionWrapper.apply(output, requiredMods);
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     protected static final class ShapedRecipeContext {
 
-        private static final Set<ItemLike> DEFINED_ITEMS = new LinkedHashSet<>();
+        private final Set<ItemLike> DEFINED_ITEMS = new LinkedHashSet<>();
 
         private final ShapedRecipeBuilder delegate;
 
@@ -323,10 +322,9 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             return this;
         }
 
-        public ShapedRecipeContext define(char symbol, ItemLike item) {
+        public void define(char symbol, ItemLike item) {
             delegate.define(symbol, item);
             DEFINED_ITEMS.add(item);
-            return this;
         }
 
         public ShapedRecipeContext define(char symbol, TagKey<Item> tag) {

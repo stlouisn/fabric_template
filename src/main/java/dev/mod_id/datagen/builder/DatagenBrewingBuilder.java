@@ -44,6 +44,10 @@ public abstract class DatagenBrewingBuilder extends RecipeProvider {
         }
 
         @Override
+        protected void addContainerTransformations() {
+        }
+
+        @Override
         protected void buildMixes() {
             if (mixCallback != null) {
                 mixCallback.accept(this);

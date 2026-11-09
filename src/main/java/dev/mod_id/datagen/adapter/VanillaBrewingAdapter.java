@@ -31,6 +31,6 @@ public final class VanillaBrewingAdapter extends FabricRecipeProvider {
 
     @Override
     public String getName() {
-        return "Vanilla Recipe Provider";
+        return "Vanilla Brewing Provider";
     }
 }
