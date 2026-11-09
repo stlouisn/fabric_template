@@ -24,6 +24,11 @@ dependencies {
     implementation(files(rootProject.file("../minecraft_create/build/libs/_custom_create-26.2-fabric-6.0.9.jar")))
 }
 
+// Create
+dependencies {
+    implementation("maven.modrinth:dKvj0eNn:${create_version}")
+}
+
 // ------------------------------------------------------------------------------------------
 
 // Beautify
