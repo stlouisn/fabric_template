@@ -1,6 +1,6 @@
-package dev.petcontracts.datagen.provider;
+package dev.mod_id.datagen.provider;
 
-import dev.petcontracts.content.key.KeyVillagerTrades;
+import dev.mod_id.content.key.KeyVillagerTrades;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;

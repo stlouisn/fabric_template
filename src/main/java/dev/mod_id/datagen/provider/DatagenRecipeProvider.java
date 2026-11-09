@@ -1,20 +1,24 @@
 package dev.mod_id.datagen.provider;
 
-import com.zurrtum.create.AllBlocks;
-import dev.mod_id.content.registry.RegisterBlocks;
 import dev.mod_id.content.registry.RegisterItems;
 import dev.mod_id.datagen.builder.DatagenRecipeBuilder;
+
+import java.util.List;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
 
 public final class DatagenRecipeProvider extends DatagenRecipeBuilder {
 
-    public DatagenRecipeProvider(HolderLookup.Provider registries, RecipeOutput output, Function<Set<String>, RecipeOutput> conditionedOutput) {
-        super(registries, output, conditionedOutput);
+    public DatagenRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput, BiFunction<RecipeOutput, Set<String>, RecipeOutput> conditionWrapper) {
+        super(recipeOutput, advancementOutput, conditionWrapper);
     }
 
     @Override

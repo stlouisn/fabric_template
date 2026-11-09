@@ -1,4 +1,4 @@
-package dev.petcontracts.datagen.provider;
+package dev.mod_id.datagen.provider;
 
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
