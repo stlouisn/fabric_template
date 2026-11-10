@@ -1,6 +1,6 @@
-package dev.better_withered_mobs.content.registry;
+package dev.mod_id.content.registry;
 
-import dev.better_withered_mobs.content.key.KeyBlockItems;
+import dev.mod_id.content.key.KeyBlockItems;
 import java.util.function.Function;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

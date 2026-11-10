@@ -40,20 +40,20 @@ public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider
         this.add(block, builder);
     }
 
-    protected void createPottedContentsDrop(Block potted) {
-        final String namespace = BuiltInRegistries.BLOCK.getKey(potted).getNamespace();
-        final String path = BuiltInRegistries.BLOCK.getKey(potted).getPath();
-        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
-        final LootTable.Builder builder = this.createPotFlowerItemTable(((FlowerPotBlock) potted).getPotted()).setRandomSequence(identifier);
-        this.add(potted, builder);
-    }
-
     protected void createSilkTouchDrop(Block block) {
         final String namespace = BuiltInRegistries.BLOCK.getKey(block).getNamespace();
         final String path = BuiltInRegistries.BLOCK.getKey(block).getPath();
         final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
         final LootTable.Builder builder = this.createSilkTouchOnlyTable(block).setRandomSequence(identifier);
         this.add(block, builder);
+    }
+
+    protected void createPottedContentsDrop(FlowerPotBlock potted) {
+        final String namespace = BuiltInRegistries.BLOCK.getKey(potted).getNamespace();
+        final String path = BuiltInRegistries.BLOCK.getKey(potted).getPath();
+        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
+        final LootTable.Builder builder = this.createPotFlowerItemTable(potted.getPotted()).setRandomSequence(identifier);
+        this.add(potted, builder);
     }
 
     protected void createGeodeClusterDrop(Block original, Item drop) {

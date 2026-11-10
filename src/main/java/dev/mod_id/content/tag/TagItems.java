@@ -1,6 +1,6 @@
-package dev.better_withered_mobs.content.tag;
+package dev.mod_id.content.tag;
 
-import static dev.better_withered_mobs.api.ResourceLocation.resourceLocation;
+import static dev.mod_id.api.ResourceLocation.resourceLocation;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
