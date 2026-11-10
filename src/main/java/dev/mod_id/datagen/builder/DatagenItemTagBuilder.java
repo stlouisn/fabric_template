@@ -181,7 +181,6 @@ public abstract class DatagenItemTagBuilder extends FabricTagsProvider.ItemTagsP
         BlockTags.PREVENT_MOB_SPAWNING_INSIDE,
         BlockTags.PREVENTS_NEARBY_LEAF_DECAY,
         BlockTags.RABBITS_SPAWNABLE_ON,
-        BlockTags.RAILS,
         BlockTags.REPLACEABLE,
         BlockTags.REPLACEABLE_BY_MUSHROOMS,
         BlockTags.REPLACEABLE_BY_TREES,
