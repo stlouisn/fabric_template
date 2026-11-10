@@ -66,9 +66,6 @@ public final class DatagenLanguageProvider extends DatagenLanguageBuilder {
         builder.add("category." + MOD_ID + ".general", MOD_NAME);
         builder.add("key." + MOD_ID + ".frontview", "Hold for Front View");
 
-        // Potion Effects
-        addPotionTranslations(builder, RegisterPotions.DECAY, "Decay");
-
         // Config
         midnightConfig(builder, "title", MOD_NAME);
         midnightConfig(builder, "minSpawnDelay", "Min Spawn Delay", "Minimum delay between spawn attempts, in seconds");
