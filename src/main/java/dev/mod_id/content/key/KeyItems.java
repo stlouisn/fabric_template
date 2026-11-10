@@ -22,7 +22,6 @@ public final class KeyItems {
     /**
      * Creates an Item ResourceKey for the given namespace and path.
      */
-    @SuppressWarnings("unused")
     private static ResourceKey<Item> create(String namespace, String path) {
         return ResourceKey.create(Registries.ITEM, resourceLocation(namespace, path));
     }

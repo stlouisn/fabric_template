@@ -9,9 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.item.crafting.Recipe;
-import org.jspecify.annotations.NullMarked;
 
-@NullMarked
 public final class DatagenBrewingAdapter extends FabricRecipeProvider {
 
     public DatagenBrewingAdapter(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {

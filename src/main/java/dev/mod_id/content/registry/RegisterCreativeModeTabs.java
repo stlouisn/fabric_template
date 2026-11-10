@@ -7,13 +7,13 @@ import net.minecraft.world.item.Items;
 
 public final class RegisterCreativeModeTabs {
 
+    public static void init() {
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(RegisterCreativeModeTabs::addCombat);
+    }
+
     private static void addCombat(FabricCreativeModeTabOutput output) {
         output.insertAfter(Items.TURTLE_HELMET, RegisterItems.TURTLE_CHESTPLATE);
         output.insertAfter(RegisterItems.TURTLE_CHESTPLATE, RegisterItems.TURTLE_LEGGINGS);
         output.insertAfter(RegisterItems.TURTLE_LEGGINGS, RegisterItems.TURTLE_BOOTS);
-    }
-
-    public static void init() {
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(RegisterCreativeModeTabs::addCombat);
     }
 }

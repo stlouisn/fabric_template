@@ -11,7 +11,6 @@ import net.minecraft.world.item.alchemy.Potion;
 
 public class RegisterPotions {
 
-    // one second = 20 ticks
     private static final int DECAY_TICK_DURATION = 24 * 20;
     private static final int LONG_DECAY_TICK_DURATION = 40 * 20;
     private static final int STRONG_DECAY_TICK_DURATION = 16 * 20;
@@ -23,7 +22,7 @@ public class RegisterPotions {
     public static void init() {
     }
 
-    private static Holder<Potion> register(final ResourceKey<Potion> key, final Potion potion) {
+    private static Holder<Potion> register(ResourceKey<Potion> key, Potion potion) {
         return Registry.registerForHolder(BuiltInRegistries.POTION, key, potion);
     }
 }

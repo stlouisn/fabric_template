@@ -13,7 +13,6 @@ public final class KeyVillagerTrades {
     /**
      * Creates a VillagerTrade ResourceKey using the mod's resource location for the given path.
      */
-    @SuppressWarnings("SameParameterValue")
     private static ResourceKey<VillagerTrade> create(String path) {
         return ResourceKey.create(Registries.VILLAGER_TRADE, resourceLocation(path));
     }
@@ -21,7 +20,6 @@ public final class KeyVillagerTrades {
     /**
      * Creates a VillagerTrade ResourceKey for the given namespace and path.
      */
-    @SuppressWarnings("unused")
     private static ResourceKey<VillagerTrade> create(String namespace, String path) {
         return ResourceKey.create(Registries.VILLAGER_TRADE, resourceLocation(namespace, path));
     }
