@@ -1,6 +1,5 @@
 package dev.mod_id.datagen.builder;
 
-import static dev.mod_id.Constants.MOD_ID;
 import static dev.mod_id.api.ResourceLocation.resourceLocation;
 
 import java.nio.file.Path;
@@ -29,10 +28,10 @@ public abstract class VanillaLanguageBuilder extends FabricLanguageProvider {
      */
     protected static void addPotionTranslations(TranslationBuilder builder, Holder<Potion> potionHolder, String displayName) {
         final String baseName = potionHolder.value().name();
-        builder.add("item." + MOD_ID + ".potion.effect." + baseName, "Potion of " + displayName);
-        builder.add("item." + MOD_ID + ".splash_potion.effect." + baseName, "Splash Potion of " + displayName);
-        builder.add("item." + MOD_ID + ".lingering_potion.effect." + baseName, "Lingering Potion of " + displayName);
-        builder.add("item." + MOD_ID + ".tipped_arrow.effect." + baseName, "Arrow of " + displayName);
+        builder.add("item.minecraft.potion.effect." + baseName, "Potion of " + displayName);
+        builder.add("item.minecraft.splash_potion.effect." + baseName, "Splash Potion of " + displayName);
+        builder.add("item.minecraft.lingering_potion.effect." + baseName, "Lingering Potion of " + displayName);
+        builder.add("item.minecraft.tipped_arrow.effect." + baseName, "Arrow of " + displayName);
     }
 
     @Override
