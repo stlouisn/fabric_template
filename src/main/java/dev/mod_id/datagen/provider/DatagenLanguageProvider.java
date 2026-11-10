@@ -33,9 +33,6 @@ public final class DatagenLanguageProvider extends DatagenLanguageBuilder {
         builder.add(RegisterItems.RAW_NETHERITE, "Raw Netherite");
         builder.add(RegisterItems.ROSE_QUARTZ_SHARD, "Rose Quartz Shard");
 
-        // Trims
-        builder.add(Util.makeDescriptionId("trim_material", KeyTrimMaterials.ROSE_QUARTZ.identifier()), "Rose Quartz Material");
-
         // Block Tags
         builder.add(TagBlocks.STORAGE_BLOCKS_CHARCOAL, "Charcoal Storage Blocks");
         builder.add(TagBlocks.STORAGE_BLOCKS_RAW_NETHERITE, "Raw Netherite Storage Blocks");
@@ -59,12 +56,18 @@ public final class DatagenLanguageProvider extends DatagenLanguageBuilder {
         builder.add("tooltip." + MOD_ID + ".bound_to", "Bound to: %s");
         builder.add("tooltip." + MOD_ID + ".invalid", "Invalid Contract");
 
+        // Trims
+        builder.add(Util.makeDescriptionId("trim_material", KeyTrimMaterials.ROSE_QUARTZ.identifier()), "Rose Quartz Material");
+
         // Messages
         builder.add("notification.friendlyfire.protected", "The %s is protected. Crouch to bypass.");
 
         // Keybinds
         builder.add("category." + MOD_ID + ".general", MOD_NAME);
         builder.add("key." + MOD_ID + ".frontview", "Hold for Front View");
+
+        // Potion Effects
+        addPotionTranslations(builder, RegisterPotions.DECAY, "Decay");
 
         // Config
         midnightConfig(builder, "title", MOD_NAME);

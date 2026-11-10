@@ -18,8 +18,5 @@ public final class VanillaLanguageProvider extends VanillaLanguageBuilder {
 
         // Advancements
         builder.add("advancements.nether.obtain_ancient_debris.description", "Obtain Raw Netherite");
-
-        // Potion Effects
-        addPotionTranslations(builder, RegisterPotions.DECAY, "Decay");
     }
 }
