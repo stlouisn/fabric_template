@@ -1,4 +1,4 @@
-package dev.mod_id.content.behavior;
+package dev.mod_id.content.block.behavior;
 
 import dev.mod_id.content.item.WitheredBoneMealItem;
 import dev.mod_id.particle.WitheredParticles;

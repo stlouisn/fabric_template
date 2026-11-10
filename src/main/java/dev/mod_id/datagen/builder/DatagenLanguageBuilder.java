@@ -1,6 +1,6 @@
-package dev.better_withered_mobs.datagen.builder;
+package dev.mod_id.datagen.builder;
 
-import static dev.better_withered_mobs.Constants.MOD_ID;
+import static dev.mod_id.Constants.MOD_ID;
 
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;

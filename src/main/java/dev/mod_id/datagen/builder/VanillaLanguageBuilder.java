@@ -1,6 +1,6 @@
-package dev.better_withered_mobs.datagen.builder;
+package dev.mod_id.datagen.builder;
 
-import static dev.better_withered_mobs.api.ResourceLocation.resourceLocation;
+import static dev.mod_id.api.ResourceLocation.resourceLocation;
 
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
