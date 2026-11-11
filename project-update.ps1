@@ -24,7 +24,7 @@ function DownloadUpdateScript {
 
     # Download update script
     Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Gray
-    Invoke-WebRequest -Uri "$BaseRawUrl\$ScriptFilename" -OutFile $ScriptFilename -ErrorAction Stop
+    Invoke-WebRequest -Uri "$BaseRawUrl/$ScriptFilename" -OutFile $ScriptFilename -ErrorAction Stop
     if (-not (Test-Path -Path $ScriptFilename)) {
         Write-Host
         Write-Host "Failed to download file: $ScriptFilename" -ForegroundColor Red
@@ -86,7 +86,7 @@ function DownloadProjectFiles {
     # Download files from repository
     foreach ($File in $FilesToDownload) {
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl\$File" -OutFile $File -ErrorAction Stop
+        Invoke-WebRequest -Uri "$BaseRawUrl/$File" -OutFile $File -ErrorAction Stop
         if (-not (Test-Path -Path $File)) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
@@ -125,7 +125,7 @@ function DownloadAPIFiles {
         $SourcePath = "$SourceDirectory\$File"
         $DestinationPath = "$DestinationDirectory\$File"
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl\$SourcePath" -OutFile $DestinationPath -ErrorAction Stop
+        Invoke-WebRequest -Uri "$BaseRawUrl/$SourcePath" -OutFile $DestinationPath -ErrorAction Stop
         if (-not (Test-Path -Path $DestinationPath)) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
@@ -196,7 +196,7 @@ function DownloadDatagenFiles {
             New-Item -ItemType Directory -Path $DestinationDirectory -Force | Out-Null
             $EncodedPath = ($SourcePath -split "\" | ForEach-Object { [Uri]::EscapeDataString($_) }) -join "\"
             Write-Host "Downloading: $DestinationPath" -ForegroundColor Gray
-            Invoke-WebRequest -Uri "$BaseRawUrl\$EncodedPath" -OutFile $DestinationPath -ErrorAction Stop
+            Invoke-WebRequest -Uri "$BaseRawUrl/$EncodedPath" -OutFile $DestinationPath -ErrorAction Stop
             $Content = [System.IO.File]::ReadAllText($DestinationPath)
             $Content = $Content.Replace("dev.mod_id", $MavenGroup)
             $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
@@ -233,7 +233,7 @@ function DownloadDatagenFiles {
         $SourcePath = "$SourceDirectory\$File"
         $DestinationPath = "$DestinationDirectory\$File"
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl\$SourcePath" -OutFile $DestinationPath -ErrorAction Stop
+        Invoke-WebRequest -Uri "$BaseRawUrl/$SourcePath" -OutFile $DestinationPath -ErrorAction Stop
         if (-not (Test-Path -Path $DestinationPath)) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
