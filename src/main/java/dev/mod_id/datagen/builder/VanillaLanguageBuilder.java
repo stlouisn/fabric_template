@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.builder;
 
-import static dev.mod_id.api.ResourceLocation.resourceLocation;
+import static dev.mod_id.Constants.resourceLocation;
 
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;

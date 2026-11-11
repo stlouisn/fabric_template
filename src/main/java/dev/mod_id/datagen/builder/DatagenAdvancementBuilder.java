@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.builder;
 
-import static dev.mod_id.api.ResourceLocation.resourceLocation;
+import static dev.mod_id.Constants.resourceLocation;
 import static net.minecraft.advancements.triggers.InventoryChangeTrigger.TriggerInstance.hasItems;
 
 import java.util.concurrent.CompletableFuture;

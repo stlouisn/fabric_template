@@ -1,6 +1,6 @@
 package dev.mod_id.datagen.builder;
 
-import static dev.mod_id.api.ResourceLocation.resourceLocation;
+import static dev.mod_id.Constants.resourceLocation;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;

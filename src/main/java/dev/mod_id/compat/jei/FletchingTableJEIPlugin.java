@@ -1,6 +1,6 @@
 package dev.mod_id.compat.jei;
 
-import static dev.mod_id.api.ResourceLocation.resourceLocation;
+import static dev.mod_id.Constants.resourceLocation;
 
 import dev.mod_id.content.fletching.screen.FletchingTableBlockMenu;
 import dev.mod_id.content.fletching.screen.FletchingTableBlockScreen;

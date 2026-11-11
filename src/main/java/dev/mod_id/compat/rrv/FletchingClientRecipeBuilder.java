@@ -1,6 +1,6 @@
 package dev.mod_id.compat.rrv;
 
-import static dev.mod_id.api.ResourceLocation.resourceLocation;
+import static dev.mod_id.Constants.resourceLocation;
 
 import java.util.ArrayList;
 import java.util.Collections;

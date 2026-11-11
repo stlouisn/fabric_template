@@ -24,7 +24,7 @@ function DownloadUpdateScript {
 
     # Download update script
     Write-Host "Downloading: $ScriptFilename ..." -ForegroundColor Gray
-    Invoke-WebRequest -Uri "$BaseRawUrl/$ScriptFilename" -OutFile $ScriptFilename -ErrorAction Stop
+    Invoke-WebRequest -Uri "$BaseRawUrl\$ScriptFilename" -OutFile $ScriptFilename -ErrorAction Stop
     if (-not (Test-Path -Path $ScriptFilename)) {
         Write-Host
         Write-Host "Failed to download file: $ScriptFilename" -ForegroundColor Red
@@ -51,11 +51,11 @@ function DownloadProjectFiles {
     New-Item -ItemType Directory -Path $CopilotDirectory -Force | Out-Null
 
     # Ensure inspectionProfiles path exists
-    $InspectionProfilesDirectory = ".idea/inspectionProfiles"
+    $InspectionProfilesDirectory = ".idea\inspectionProfiles"
     New-Item -ItemType Directory -Path $InspectionProfilesDirectory -Force | Out-Null
 
     # Ensure dictionaries path exists
-    $DictionariesDirectory = ".idea/dictionaries"
+    $DictionariesDirectory = ".idea\dictionaries"
     New-Item -ItemType Directory -Path $DictionariesDirectory -Force | Out-Null
 
     # List of files to download
@@ -86,7 +86,7 @@ function DownloadProjectFiles {
     # Download files from repository
     foreach ($File in $FilesToDownload) {
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl/$File" -OutFile $File -ErrorAction Stop
+        Invoke-WebRequest -Uri "$BaseRawUrl\$File" -OutFile $File -ErrorAction Stop
         if (-not (Test-Path -Path $File)) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
@@ -113,25 +113,23 @@ function DownloadAPIFiles {
     }
 
     # Ensure api path exist
-    $APIDirectory = "src/main/java/$MavenDomain/$MavenArtifact/api"
+    $APIDirectory = "src\main\java\$MavenDomain\$MavenArtifact\api"
     New-Item -ItemType Directory -Path $ApiDirectory -Force | Out-Null
 
-    $SourceDirectory = "src/main/java/dev/mod_id"
-    $DestinationDirectory = "src/main/java/$MavenDomain/$MavenArtifact"
+    $SourceDirectory = "src\main\java\dev\mod_id"
+    $DestinationDirectory = "src\main\java\$MavenDomain\$MavenArtifact"
 
     # List of files to download
     $FilesToDownload = @(
-        "api\package-info.java"
-        "api\ResourceLocation.java"
         "Constants.java"
     )
 
     # Download files from repository
     foreach ($File in $FilesToDownload) {
-        $SourcePath = "$SourceDirectory/$File"
-        $DestinationPath = "$DestinationDirectory/$File"
+        $SourcePath = "$SourceDirectory\$File"
+        $DestinationPath = "$DestinationDirectory\$File"
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl/$SourcePath" -OutFile $DestinationPath -ErrorAction Stop
+        Invoke-WebRequest -Uri "$BaseRawUrl\$SourcePath" -OutFile $DestinationPath -ErrorAction Stop
         if (-not (Test-Path -Path $DestinationPath)) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
@@ -162,30 +160,30 @@ function DownloadDatagenFiles {
         return
     }
 
-    $DatagenDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen"
+    $DatagenDirectory = "src\main\java\$MavenDomain\$MavenArtifact\datagen"
 
     # Ensure datagen paths exist
-    New-Item -ItemType Directory -Path $DatagenDirectory/adapter -Force | Out-Null
-    New-Item -ItemType Directory -Path $DatagenDirectory/compat -Force | Out-Null
-    New-Item -ItemType Directory -Path $DatagenDirectory/provider -Force | Out-Null
+    New-Item -ItemType Directory -Path $DatagenDirectory\adapter -Force | Out-Null
+    New-Item -ItemType Directory -Path $DatagenDirectory\compat -Force | Out-Null
+    New-Item -ItemType Directory -Path $DatagenDirectory\provider -Force | Out-Null
 
     # List of mapped folders to download
     $FolderMappings = @(
         @{
-            Source      = "src/main/java/dev/mod_id/datagen/builder"
-            Destination = "$DatagenDirectory/builder"
+            Source      = "src\main\java\dev\mod_id\datagen\builder"
+            Destination = "$DatagenDirectory\builder"
         },
         @{
-            Source      = "src/main/java/dev/mod_id/datagen/data"
-            Destination = "$DatagenDirectory/data"
+            Source      = "src\main\java\dev\mod_id\datagen\data"
+            Destination = "$DatagenDirectory\data"
         },
         @{
-            Source      = "src/main/java/dev/mod_id/datagen/model"
-            Destination = "$DatagenDirectory/model"
+            Source      = "src\main\java\dev\mod_id\datagen\model"
+            Destination = "$DatagenDirectory\model"
         },
         @{
-            Source      = "src/main/java/dev/mod_id/datagen/util"
-            Destination = "$DatagenDirectory/util"
+            Source      = "src\main\java\dev\mod_id\datagen\util"
+            Destination = "$DatagenDirectory\util"
         }
     )
 
@@ -193,16 +191,16 @@ function DownloadDatagenFiles {
     $TreeUrl = "https://api.github.com/repos/$Owner/$Repo/git/trees/${TreeSha}?recursive=1"
     $Tree = Invoke-RestMethod -Uri $TreeUrl -Headers @{ "User-Agent" = "PowerShell" }
     foreach ($Mapping in $FolderMappings) {
-        $SourcePrefix = "$($Mapping.Source)/"
+        $SourcePrefix = "$($Mapping.Source)\"
         $Paths = $Tree.tree | Where-Object { $_.type -eq "blob" -and $_.path.StartsWith($SourcePrefix) } | ForEach-Object { $_.path }
         foreach ($SourcePath in $Paths) {
             $RelativePath = $SourcePath.Substring($SourcePrefix.Length)
             $DestinationPath = Join-Path $Mapping.Destination $RelativePath
             $DestinationDirectory = Split-Path -Parent $DestinationPath
             New-Item -ItemType Directory -Path $DestinationDirectory -Force | Out-Null
-            $EncodedPath = ($SourcePath -split "/" | ForEach-Object { [Uri]::EscapeDataString($_) }) -join "/"
+            $EncodedPath = ($SourcePath -split "\" | ForEach-Object { [Uri]::EscapeDataString($_) }) -join "\"
             Write-Host "Downloading: $DestinationPath" -ForegroundColor Gray
-            Invoke-WebRequest -Uri "$BaseRawUrl/$EncodedPath" -OutFile $DestinationPath -ErrorAction Stop
+            Invoke-WebRequest -Uri "$BaseRawUrl\$EncodedPath" -OutFile $DestinationPath -ErrorAction Stop
             $Content = [System.IO.File]::ReadAllText($DestinationPath)
             $Content = $Content.Replace("dev.mod_id", $MavenGroup)
             $Content = $Content.Replace('"mod_id"', '"' + $ModId + '"')
@@ -212,20 +210,20 @@ function DownloadDatagenFiles {
         Write-Host
     }
 
-    # Ensure datagen/adapter path exist
-    $AdapterDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/adapter"
+    # Ensure datagen\adapter path exist
+    $AdapterDirectory = "src\main\java\$MavenDomain\$MavenArtifact\datagen\adapter"
     New-Item -ItemType Directory -Path $AdapterDirectory -Force | Out-Null
 
-    # Ensure datagen/compat/create path exist
-    $CompatCreateDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/compat/create"
+    # Ensure datagen\compat\create path exist
+    $CompatCreateDirectory = "src\main\java\$MavenDomain\$MavenArtifact\datagen\compat\create"
     New-Item -ItemType Directory -Path $CompatCreateDirectory -Force | Out-Null
 
-    # Ensure datagen/provider path exist
-    $ProviderDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen/provider"
+    # Ensure datagen\provider path exist
+    $ProviderDirectory = "src\main\java\$MavenDomain\$MavenArtifact\datagen\provider"
     New-Item -ItemType Directory -Path $ProviderDirectory -Force | Out-Null
 
-    $SourceDirectory = "src/main/java/dev/mod_id/datagen"
-    $DestinationDirectory = "src/main/java/$MavenDomain/$MavenArtifact/datagen"
+    $SourceDirectory = "src\main\java\dev\mod_id\datagen"
+    $DestinationDirectory = "src\main\java\$MavenDomain\$MavenArtifact\datagen"
 
     # List of files to download
     $FilesToDownload = @(
@@ -236,10 +234,10 @@ function DownloadDatagenFiles {
 
     # Download files from repository
     foreach ($File in $FilesToDownload) {
-        $SourcePath = "$SourceDirectory/$File"
-        $DestinationPath = "$DestinationDirectory/$File"
+        $SourcePath = "$SourceDirectory\$File"
+        $DestinationPath = "$DestinationDirectory\$File"
         Write-Host "Downloading: $File ..." -ForegroundColor Gray
-        Invoke-WebRequest -Uri "$BaseRawUrl/$SourcePath" -OutFile $DestinationPath -ErrorAction Stop
+        Invoke-WebRequest -Uri "$BaseRawUrl\$SourcePath" -OutFile $DestinationPath -ErrorAction Stop
         if (-not (Test-Path -Path $DestinationPath)) {
             Write-Host
             Write-Host "Failed to download file: $File" -ForegroundColor Red
@@ -347,7 +345,7 @@ function UpdateGradleWrapper {
     $gradleLatest = ($gradleVersions | Where-Object { $_.current -eq $true }).version
 
     # Update the Gradle Wrapper to the latest version
-    ./gradlew --console=colored wrapper --quiet --gradle-version $gradleLatest --distribution-type bin
+    .\gradlew --console=colored wrapper --quiet --gradle-version $gradleLatest --distribution-type bin
     Write-Host
     Write-Host "Gradle Wrapper: $gradleLatest" -ForegroundColor Green
 }

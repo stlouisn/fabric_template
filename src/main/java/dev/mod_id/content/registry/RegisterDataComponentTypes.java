@@ -1,6 +1,6 @@
 package dev.mod_id.content.registry;
 
-import static dev.mod_id.api.ResourceLocation.resourceLocation;
+import static dev.mod_id.Constants.resourceLocation;
 
 import dev.mod_id.content.item.PetContractData;
 import net.minecraft.core.Registry;

@@ -1,6 +1,6 @@
 package dev.mod_id.compat.rrv;
 
-import static dev.mod_id.api.ResourceLocation.resourceLocation;
+import static dev.mod_id.Constants.resourceLocation;
 import static dev.mod_id.content.fletching.recipe.FletchingTableRecipe.FLETCHING_TABLE_ID;
 import static dev.mod_id.content.fletching.textures.FletchingTableGUI.FLETCHING_TABLE_GUI_BORDERED_TEXTURE;
 

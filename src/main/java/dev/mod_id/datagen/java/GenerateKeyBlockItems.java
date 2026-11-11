@@ -26,7 +26,7 @@ public final class GenerateKeyBlockItems {
     private static final String CLASS_NAME = "KeyBlockItems";
 
     private static final String IMPORTS = """
-            import static dev.mod_id.api.ResourceLocation.resourceLocation;
+            import static dev.mod_id.Constants.resourceLocation;
 
             import net.minecraft.references.BlockItemId;
             """;
