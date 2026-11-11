@@ -229,6 +229,5 @@ jar {
         )
     }
     exclude("${maven_group.replace('.', '/')}/datagen/**")
-    exclude("${maven_group.replace('.', '/')}/Constants.class")
     exclude("data/**/advancement/recipes/**")
 }
