@@ -112,10 +112,6 @@ function DownloadAPIFiles {
         return
     }
 
-    # Ensure api path exist
-    $APIDirectory = "src\main\java\$MavenDomain\$MavenArtifact\api"
-    New-Item -ItemType Directory -Path $ApiDirectory -Force | Out-Null
-
     $SourceDirectory = "src\main\java\dev\mod_id"
     $DestinationDirectory = "src\main\java\$MavenDomain\$MavenArtifact"
 
