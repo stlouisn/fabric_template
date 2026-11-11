@@ -2,6 +2,7 @@ package dev.mod_id.datagen.builder;
 
 import static dev.mod_id.api.ResourceLocation.resourceLocation;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.nio.file.Path;
@@ -42,9 +43,7 @@ public abstract class DatagenTrimItemsAtlasBuilder implements DataProvider {
     }
 
     protected final void addTrimMaterial(ResourceKey<TrimMaterial> material) {
-        if (!trimMaterials.add(material)) {
-            throw new IllegalStateException("Tried to register trim material twice for id: " + material);
-        }
+        Preconditions.checkState(trimMaterials.add(material), "Tried to register trim material twice for id: %s", material);
     }
 
     @Override

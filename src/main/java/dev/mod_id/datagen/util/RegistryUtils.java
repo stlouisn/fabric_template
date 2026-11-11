@@ -51,7 +51,8 @@ public final class RegistryUtils {
      * rules.
      */
     public static boolean doesBlockExist(String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
-        return getIdentifier(BuiltInRegistries.BLOCK, path, filter, collisionRules) != null;
+        final Identifier id = getIdentifier(BuiltInRegistries.BLOCK, path, filter, collisionRules);
+        return id != null;
     }
 
     /**
@@ -87,7 +88,8 @@ public final class RegistryUtils {
      * rules.
      */
     public static boolean doesItemExist(String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
-        return getIdentifier(BuiltInRegistries.ITEM, path, filter, collisionRules) != null;
+        final Identifier id = getIdentifier(BuiltInRegistries.ITEM, path, filter, collisionRules);
+        return id != null;
     }
 
     /**
@@ -141,8 +143,13 @@ public final class RegistryUtils {
     }
 
     /**
-     * Searches a given registry for an identifier matching the specified path, subject to optional filtering and collision
-     * rules.
+     * Searches a registry for identifiers with the specified path, applying optional filtering and collision rules.
+     *
+     * @param registry the registry to search
+     * @param path the path to match
+     * @param filter optional predicate; matching identifiers that fail it are skipped
+     * @param collisionRules optional predicate; matching identifiers it rejects are skipped and logged
+     * @return the preferred matching identifier, or {@code null} if none match
      */
     @Nullable
     public static <T> Identifier getIdentifier(Registry<T> registry, String path, @Nullable Predicate<Identifier> filter, @Nullable BiPredicate<String, String> collisionRules) {
@@ -151,32 +158,25 @@ public final class RegistryUtils {
             if (filter != null && !filter.test(id)) {
                 continue;
             }
-            if (id.getPath().equals(path)) {
-                if (collisionRules != null && collisionRules.test(id.getNamespace(), path)) {
-                    LOGGER.warn("Ignoring identifier '{}' due to collision rule.", id);
-                    continue;
-                }
-                matches.add(id);
+            if (!id.getPath().equals(path)) {
+                continue;
             }
+            if (collisionRules != null && collisionRules.test(id.getNamespace(), path)) {
+                LOGGER.warn("Ignoring identifier '{}' due to collision rule.", id);
+                continue;
+            }
+            matches.add(id);
         }
         if (matches.isEmpty()) {
             return null;
         }
-        if (matches.size() > 1) {
-            Identifier matchId = null;
-            for (Identifier id : matches) {
-                if (id.getNamespace().equals(MOD_ID)) {
-                    matchId = id;
-                } else if (id.getNamespace().equals("minecraft") && matchId == null) {
-                    matchId = id;
-                }
-            }
-            if (matchId == null) {
-                matchId = matches.getFirst();
-            }
-            LOGGER.error("Multiple matches found with path: {}. Namespace collision detected among: '{}'. Falling back to: {}", path, matches, matchId);
-            return matchId;
+        if (matches.size() == 1) {
+            return matches.getFirst();
         }
-        return matches.getFirst();
+        final Predicate<Identifier> mod_id = id -> id.getNamespace().equals(MOD_ID);
+        final Predicate<Identifier> minecraft = id -> id.getNamespace().equals("minecraft");
+        final Identifier match = matches.stream().filter(mod_id).findFirst().orElseGet(() -> matches.stream().filter(minecraft).findFirst().orElse(matches.getFirst()));
+        LOGGER.error("Multiple matches found with path: {}. Namespace collision detected among: '{}'. Falling back to: {}", path, matches, match);
+        return match;
     }
 }

@@ -14,6 +14,20 @@ import org.jspecify.annotations.Nullable;
 public final class BlockUtils {
 
     /**
+     * Returns the namespace of the given block.
+     */
+    public static String getNamespace(Block block) {
+        return getIdentifier(block).getNamespace();
+    }
+
+    /**
+     * Returns the path of the given block.
+     */
+    public static String getPath(Block block) {
+        return getIdentifier(block).getPath();
+    }
+
+    /**
      * Returns the identifier of the given block.
      */
     public static Identifier getIdentifier(Block block) {
@@ -33,25 +47,7 @@ public final class BlockUtils {
      */
     @Nullable
     public static ResourceKey<Block> getResourceKey(Identifier id) {
-        final Block block = getBlock(id);
-        if (block == null) {
-            return null;
-        }
-        return BuiltInRegistries.BLOCK.getResourceKey(block).orElse(null);
-    }
-
-    /**
-     * Returns the namespace of the given block.
-     */
-    public static String getNamespace(Block block) {
-        return BuiltInRegistries.BLOCK.getKey(block).getNamespace();
-    }
-
-    /**
-     * Returns the path of the given block.
-     */
-    public static String getPath(Block block) {
-        return BuiltInRegistries.BLOCK.getKey(block).getPath();
+        return BuiltInRegistries.BLOCK.get(id).map(Holder.Reference::key).orElse(null);
     }
 
     /**

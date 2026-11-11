@@ -15,6 +15,34 @@ import org.jspecify.annotations.Nullable;
 public final class ItemUtils {
 
     /**
+     * Returns the namespace of the given item.
+     */
+    public static String getNamespace(ItemLike itemLike) {
+        return getIdentifier(itemLike).getNamespace();
+    }
+
+    /**
+     * Returns the namespace of the given item.
+     */
+    public static String getNamespace(Item item) {
+        return getIdentifier(item).getNamespace();
+    }
+
+    /**
+     * Returns the path of the given item.
+     */
+    public static String getPath(ItemLike itemLike) {
+        return getIdentifier(itemLike).getPath();
+    }
+
+    /**
+     * Returns the path of the given item.
+     */
+    public static String getPath(Item item) {
+        return getIdentifier(item).getPath();
+    }
+
+    /**
      * Returns the identifier of the given item.
      */
     public static Identifier getIdentifier(ItemLike itemLike) {
@@ -49,39 +77,7 @@ public final class ItemUtils {
      */
     @Nullable
     public static ResourceKey<Item> getResourceKey(Identifier id) {
-        final Item item = getItem(id);
-        if (item == null) {
-            return null;
-        }
-        return BuiltInRegistries.ITEM.getResourceKey(item).orElse(null);
-    }
-
-    /**
-     * Returns the namespace of the given item.
-     */
-    public static String getNamespace(ItemLike itemLike) {
-        return getNamespace(itemLike.asItem());
-    }
-
-    /**
-     * Returns the namespace of the given item.
-     */
-    public static String getNamespace(Item item) {
-        return BuiltInRegistries.ITEM.getKey(item).getNamespace();
-    }
-
-    /**
-     * Returns the path of the given item.
-     */
-    public static String getPath(ItemLike itemLike) {
-        return getPath(itemLike.asItem());
-    }
-
-    /**
-     * Returns the path of the given item.
-     */
-    public static String getPath(Item item) {
-        return BuiltInRegistries.ITEM.getKey(item).getPath();
+        return BuiltInRegistries.ITEM.get(id).map(Holder.Reference::key).orElse(null);
     }
 
     /**

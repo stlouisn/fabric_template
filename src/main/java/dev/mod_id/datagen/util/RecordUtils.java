@@ -4,6 +4,8 @@ import static dev.mod_id.Constants.MOD_ID;
 import static dev.mod_id.datagen.data.BlockOverrides.checkForPathOverrides;
 import static dev.mod_id.datagen.util.RegistryUtils.getBlockIdentifier;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import dev.mod_id.datagen.data.BlockExclusions;
 import dev.mod_id.datagen.data.BlockType;
 import dev.mod_id.datagen.data.BlockVariant;
@@ -23,10 +25,10 @@ public final class RecordUtils {
      */
     public static String buildPath(@Nullable String prefix, BlockType blockType, @Nullable String suffix) {
         String path = blockType.material();
-        if (prefix != null && !prefix.isEmpty()) {
+        if (!Strings.isNullOrEmpty(prefix)) {
             path = prefix + "_" + path;
         }
-        if (suffix != null && !suffix.isEmpty()) {
+        if (!Strings.isNullOrEmpty(suffix)) {
             path = path + "_" + suffix;
         }
         return path;
@@ -38,10 +40,7 @@ public final class RecordUtils {
     public static Identifier getIdentifier(@Nullable String prefix, BlockType blockType, @Nullable String suffix) {
         final String path = checkForPathOverrides(buildPath(prefix, blockType, suffix));
         final Identifier id = getBlockIdentifier(path);
-        if (id == null) {
-            throw new IllegalStateException("Could not find identifier for '" + path + "' in registry.");
-        }
-        return id;
+        return Preconditions.checkNotNull(id, "Could not find identifier for '%s' in registry.", path);
     }
 
     /**
@@ -49,7 +48,8 @@ public final class RecordUtils {
      */
     public static ResourceKey<Block> getResourceKey(@Nullable String prefix, BlockType blockType, @Nullable String suffix) {
         final Block block = getBlock(prefix, blockType, suffix);
-        return BuiltInRegistries.BLOCK.getResourceKey(block).orElseThrow(() -> new IllegalStateException("Could not find resource key for block '" + block + "' in registry."));
+        final ResourceKey<Block> key = BuiltInRegistries.BLOCK.getResourceKey(block).orElse(null);
+        return Preconditions.checkNotNull(key, "Could not find resource key for block '%s' in registry.", block);
     }
 
     /**
@@ -58,10 +58,7 @@ public final class RecordUtils {
     public static Block getBlock(@Nullable String prefix, BlockType blockType, @Nullable String suffix) {
         final Identifier id = getIdentifier(prefix, blockType, suffix);
         final Block block = BlockUtils.getBlock(id);
-        if (block == null) {
-            throw new IllegalStateException("Could not find block for '" + id + "' in registry.");
-        }
-        return block;
+        return Preconditions.checkNotNull(block, "Could not find block for '%s' in registry.", id);
     }
 
     /**

@@ -88,20 +88,20 @@ public final class GenerateRegisterBlockItems {
         sourceCode.append(AUTO_GENERATED_WARNING + "\n");
         sourceCode.append("\n");
         sourceCode.append("package " + PACKAGE_NAME + ";" + "\n");
-        if (IMPORTS != null && !IMPORTS.isEmpty()) {
+        if (!Strings.isNullOrEmpty(IMPORTS)) {
             sourceCode.append("\n");
             sourceCode.append(IMPORTS);
         }
 
         // Class
         sourceCode.append("\n");
-        if (CLASS_ANNOTATION != null && !CLASS_ANNOTATION.isEmpty()) {
+        if (!Strings.isNullOrEmpty(CLASS_ANNOTATION)) {
             sourceCode.append(CLASS_ANNOTATION + "\n");
         }
         sourceCode.append(CLASS_DECLARATION + " " + CLASS_NAME + " {" + "\n");
 
         // Constants
-        if (CONSTANTS != null && !CONSTANTS.isEmpty()) {
+        if (!Strings.isNullOrEmpty(CONSTANTS)) {
             sourceCode.append("\n");
             sourceCode.append(CONSTANTS);
         }
@@ -110,13 +110,13 @@ public final class GenerateRegisterBlockItems {
         processBlocks(sourceCode);
 
         // Init
-        if (INIT != null && !INIT.isEmpty()) {
+        if (!Strings.isNullOrEmpty(INIT)) {
             sourceCode.append("\n");
             sourceCode.append(INIT);
         }
 
         // Footer
-        if (PRIVATE_METHODS != null && !PRIVATE_METHODS.isEmpty()) {
+        if (!Strings.isNullOrEmpty(PRIVATE_METHODS)) {
             sourceCode.append("\n");
             sourceCode.append(PRIVATE_METHODS);
         }
@@ -167,9 +167,7 @@ public final class GenerateRegisterBlockItems {
 
     private static String getFactory(BlockType blockType, BlockVariant blockVariant) {
         String factory = blockVariant.factory();
-        if (factory == null || factory.isEmpty()) {
-            throw new IllegalStateException("Factory missing for: " + blockVariant);
-        }
+        Preconditions.checkState(!Strings.isNullOrEmpty(factory), "Factory missing for: %s", blockVariant);
         if (blockVariant.useFactoryPlaceholder()) {
             factory = factory.replace(BlockVariant.placeholder, blockType.material().toUpperCase());
         }
@@ -181,18 +179,10 @@ public final class GenerateRegisterBlockItems {
         final String noteBlockInstrument = blockType.noteBlockInstrument();
         final String strength = blockType.strength();
         final String soundType = blockType.soundType();
-        if (mapColor == null || mapColor.isEmpty()) {
-            throw new IllegalStateException("Properties mapColor missing for: " + blockType);
-        }
-        if (noteBlockInstrument == null || noteBlockInstrument.isEmpty()) {
-            throw new IllegalStateException("Properties noteBlockInstrument missing for: " + blockType);
-        }
-        if (strength == null || strength.isEmpty()) {
-            throw new IllegalStateException("Properties strength missing for: " + blockType);
-        }
-        if (soundType == null || soundType.isEmpty()) {
-            throw new IllegalStateException("Properties soundType missing for: " + blockType);
-        }
+        Preconditions.checkState(!Strings.isNullOrEmpty(mapColor), "Properties mapColor missing for: %s", blockType);
+        Preconditions.checkState(!Strings.isNullOrEmpty(noteBlockInstrument), "Properties noteBlockInstrument missing for: %s", blockType);
+        Preconditions.checkState(!Strings.isNullOrEmpty(strength), "Properties strength missing for: %s", blockType);
+        Preconditions.checkState(!Strings.isNullOrEmpty(soundType), "Properties soundType missing for: %s", blockType);
         StringBuilder properties = new StringBuilder();
         properties
             .append("BlockBehaviour.Properties.of()")

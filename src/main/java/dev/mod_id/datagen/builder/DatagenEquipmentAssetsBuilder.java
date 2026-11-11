@@ -1,5 +1,6 @@
 package dev.mod_id.datagen.builder;
 
+import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -35,10 +36,8 @@ public class DatagenEquipmentAssetsBuilder implements DataProvider {
      * @param asset the equipment asset to register; throws an exception if it has already been registered
      */
     protected final void addHumanoidLayers(ResourceKey<EquipmentAsset> asset) {
-        final EquipmentClientInfo info = EquipmentClientInfo.builder().addHumanoidLayers(asset.identifier()).build();
-        if (equipmentAssets.putIfAbsent(asset, info) != null) {
-            throw new IllegalStateException("Tried to register equipment asset twice for id: " + asset);
-        }
+        final EquipmentClientInfo info = EquipmentClientInfo.builder().addHumanoidLayers(asset.identifier(), false).build();
+        Preconditions.checkState(equipmentAssets.putIfAbsent(asset, info) == null, "Tried to register equipment asset twice for id: %s", asset);
     }
 
     @Override

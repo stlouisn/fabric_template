@@ -50,20 +50,20 @@ public final class GenerateRegisterCreativeModeTabs {
         sourceCode.append(AUTO_GENERATED_WARNING + "\n");
         sourceCode.append("\n");
         sourceCode.append("package " + PACKAGE_NAME + ";" + "\n");
-        if (IMPORTS != null && !IMPORTS.isEmpty()) {
+        if (!Strings.isNullOrEmpty(IMPORTS)) {
             sourceCode.append("\n");
             sourceCode.append(IMPORTS);
         }
 
         // Class
         sourceCode.append("\n");
-        if (CLASS_ANNOTATION != null && !CLASS_ANNOTATION.isEmpty()) {
+        if (!Strings.isNullOrEmpty(CLASS_ANNOTATION)) {
             sourceCode.append(CLASS_ANNOTATION + "\n");
         }
         sourceCode.append(CLASS_DECLARATION + " " + CLASS_NAME + " {" + "\n");
 
         // Constants
-        if (CONSTANTS != null && !CONSTANTS.isEmpty()) {
+        if (!Strings.isNullOrEmpty(CONSTANTS)) {
             sourceCode.append("\n");
             sourceCode.append(CONSTANTS);
         }
@@ -73,13 +73,13 @@ public final class GenerateRegisterCreativeModeTabs {
         addBuildingBlocks(sourceCode);
 
         // Init
-        if (INIT != null && !INIT.isEmpty()) {
+        if (!Strings.isNullOrEmpty(INIT)) {
             sourceCode.append("\n");
             sourceCode.append(INIT);
         }
 
         // Footer
-        if (PRIVATE_METHODS != null && !PRIVATE_METHODS.isEmpty()) {
+        if (!Strings.isNullOrEmpty(PRIVATE_METHODS)) {
             sourceCode.append("\n");
             sourceCode.append(PRIVATE_METHODS);
         }
@@ -113,17 +113,15 @@ public final class GenerateRegisterCreativeModeTabs {
                 }
 
                 final Identifier previousIdentifier;
-                final boolean hasPreviousPrefix = blockVariant.previousPrefix() != null && !blockVariant.previousPrefix().isEmpty();
-                final boolean hasPreviousSuffix = blockVariant.previousSuffix() != null && !blockVariant.previousSuffix().isEmpty();
+                final boolean hasPreviousPrefix = !Strings.isNullOrEmpty(blockVariant.previousPrefix())
+                final boolean hasPreviousSuffix = !Strings.isNullOrEmpty(blockVariant.previousSuffix())
                 if (hasPreviousPrefix || hasPreviousSuffix) {
                     final String previousPath = checkForPathOverrides(RecordUtils.buildPath(blockVariant.previousPrefix(), blockType, blockVariant.previousSuffix()));
                     previousIdentifier = getBlockIdentifier(previousPath);
                 } else {
                     previousIdentifier = RecordUtils.getPreviousBlockIdentifier(blockType, blockVariant);
                 }
-                if (previousIdentifier == null) {
-                    throw new IllegalStateException("Previous block '" + previousIdentifier + "' does not exist.");
-                }
+                Preconditions.checkState(previousIdentifier != null, "Previous block '%s' does not exist.", previousBlockId);
 
                 final String previous = getPrevious(previousIdentifier);
 

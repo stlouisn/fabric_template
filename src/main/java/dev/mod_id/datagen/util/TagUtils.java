@@ -15,6 +15,20 @@ import net.minecraft.world.level.block.Block;
 public final class TagUtils {
 
     /**
+     * Returns the namespace of the given tag.
+     */
+    public static String getNamespace(TagKey<?> tag) {
+        return getIdentifier(tag).getNamespace();
+    }
+
+    /**
+     * Returns the path of the given tag.
+     */
+    public static String getPath(TagKey<?> tag) {
+        return getIdentifier(tag).getPath();
+    }
+
+    /**
      * Returns the identifier of the given tag.
      */
     public static Identifier getIdentifier(TagKey<?> tag) {
@@ -26,20 +40,6 @@ public final class TagUtils {
      */
     public static ResourceKey<? extends Registry<?>> getResourceKey(TagKey<?> tag) {
         return tag.registry();
-    }
-
-    /**
-     * Returns the namespace of the given tag.
-     */
-    public static String getNamespace(TagKey<?> tag) {
-        return tag.location().getNamespace();
-    }
-
-    /**
-     * Returns the path of the given tag.
-     */
-    public static String getPath(TagKey<?> tag) {
-        return tag.location().getPath();
     }
 
     /**

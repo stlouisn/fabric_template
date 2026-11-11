@@ -6,6 +6,7 @@ plugins {
 }
 
 version = mod_version
+
 group = maven_group
 
 base {
@@ -52,8 +53,7 @@ if (download_datagen.toString().toBoolean()) {
     }
 }
 else {
-    def datagenRunConfig = file(".idea/runConfigurations/Data_Generation.xml")
-    delete(datagenRunConfig)
+    delete(file(".idea/runConfigurations/Data_Generation.xml"))
 }
 
 dependencies {
@@ -61,6 +61,7 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
     implementation "org.jetbrains:annotations:latest.release"
+    implementation("com.google.guava:guava:latest.release")
     compileOnly "com.github.spotbugs:spotbugs-annotations:latest.release"
 }
 
