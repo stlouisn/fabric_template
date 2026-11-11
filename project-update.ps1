@@ -117,8 +117,6 @@ function DownloadAPIFiles {
 
     # List of files to download
     $FilesToDownload = @(
-        "api\package-info.java"
-        "api\ResourceLocation.java"
         "Constants.java"
     )
 
