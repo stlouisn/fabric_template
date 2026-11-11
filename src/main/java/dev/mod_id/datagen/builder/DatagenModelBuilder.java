@@ -27,7 +27,7 @@ public final class DatagenModelBuilder {
      * @param block the rail block to generate models for
      */
     public static void createSimpleFlatRail(BlockModelGenerators modelGenerator, Block block) {
-        final TextureMapping blockTextureMap = new TextureMapping().put(TextureSlot.RAIL, TextureMapping.getBlockTexture(block));
+        final TextureMapping blockTextureMap = TextureMapping.rail(block);
         final Identifier blockModel = ModelTemplates.RAIL_FLAT.create(block, blockTextureMap, modelGenerator.modelOutput);
         final MultiVariant single = BlockModelGenerators.plainVariant(blockModel);
         modelGenerator.blockStateOutput.accept(MultiVariantGenerator.dispatch(block, single));
