@@ -48,6 +48,10 @@ public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider
         this.add(block, builder);
     }
 
+    protected void createPottedContentsDrop(Block block) {
+        createPottedContentsDrop((FlowerPotBlock) block);
+    }
+
     protected void createPottedContentsDrop(FlowerPotBlock potted) {
         final String namespace = BuiltInRegistries.BLOCK.getKey(potted).getNamespace();
         final String path = BuiltInRegistries.BLOCK.getKey(potted).getPath();
