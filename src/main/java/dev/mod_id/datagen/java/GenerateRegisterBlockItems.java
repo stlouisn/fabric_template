@@ -159,7 +159,8 @@ public final class GenerateRegisterBlockItems {
                     .append(buildPath.toUpperCase())
                     .append(", ")
                     .append(blockFactory)
-                    .append(", ")
+                    .append(",")
+                    .append("\n")
                     .append(blockProperties)
                     .append(");")
                     .append("\n");
@@ -178,16 +179,15 @@ public final class GenerateRegisterBlockItems {
 
     private static String getProperties(BlockType blockType) {
         final String mapColor = "MapColor." + blockType.mapColor();
-        final String noteBlockInstrument = "NoteBlockInstrument." + blockType.noteBlockInstrument();
-        final String strength = blockType.strength();
-        final String soundType = "SoundType." + blockType.soundType();
         Preconditions.checkState(!Strings.isNullOrEmpty(mapColor), "Properties mapColor missing for: %s", blockType);
+        final String noteBlockInstrument = "NoteBlockInstrument." + blockType.noteBlockInstrument();
         Preconditions.checkState(!Strings.isNullOrEmpty(noteBlockInstrument), "Properties noteBlockInstrument missing for: %s", blockType);
+        final String strength = blockType.strength();
         Preconditions.checkState(!Strings.isNullOrEmpty(strength), "Properties strength missing for: %s", blockType);
+        final String soundType = "SoundType." + blockType.soundType();
         Preconditions.checkState(!Strings.isNullOrEmpty(soundType), "Properties soundType missing for: %s", blockType);
         StringBuilder properties = new StringBuilder();
         properties
-            .append("\n")
             .append("        BlockBehaviour.Properties.of()")
             .append("\n")
             .append("            .mapColor(")
