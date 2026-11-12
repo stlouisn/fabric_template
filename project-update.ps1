@@ -170,10 +170,6 @@ function DownloadDatagenFiles {
             Destination = "$DatagenDirectory/builder"
         },
         @{
-            Source      = "src/main/java/dev/mod_id/datagen/data"
-            Destination = "$DatagenDirectory/data"
-        },
-        @{
             Source      = "src/main/java/dev/mod_id/datagen/model"
             Destination = "$DatagenDirectory/model"
         },
@@ -182,6 +178,16 @@ function DownloadDatagenFiles {
             Destination = "$DatagenDirectory/util"
         }
     )
+
+    # Conditionally append the data folder mapping if it does not exist
+    $DatagenDataDirectory = "$DatagenDirectory/data"
+    if (-not (Test-Path -Path $DatagenDataDirectory)) {
+        $FolderMappings +=
+        @{
+            Source      = "src/main/java/dev/mod_id/datagen/data"
+            Destination = $DatagenDataDirectory
+        }
+    }
 
     # Download folder contents from repository
     $TreeUrl = "https://api.github.com/repos/$Owner/$Repo/git/trees/${TreeSha}?recursive=1"
