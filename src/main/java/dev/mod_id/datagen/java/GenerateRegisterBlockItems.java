@@ -132,9 +132,9 @@ public final class GenerateRegisterBlockItems {
 
         for (BlockType blockType : BlockType.BLOCK_TYPES) {
 
-            sourceCode.append("\n");
-
             for (BlockVariant blockVariant : blockType.blockVariants()) {
+
+                sourceCode.append("\n");
 
                 final String buildPath = checkForPathOverrides(RecordUtils.buildPath(blockVariant.prefix(), blockType, blockVariant.suffix()));
                 final Identifier buildIdentifier = getBlockIdentifier(buildPath);
@@ -177,28 +177,38 @@ public final class GenerateRegisterBlockItems {
     }
 
     private static String getProperties(BlockType blockType) {
-        final String mapColor = blockType.mapColor();
-        final String noteBlockInstrument = blockType.noteBlockInstrument();
+        final String mapColor = "MapColor." + blockType.mapColor();
+        final String noteBlockInstrument = "NoteBlockInstrument." + blockType.noteBlockInstrument();
         final String strength = blockType.strength();
-        final String soundType = blockType.soundType();
+        final String soundType = "SoundType." + blockType.soundType();
         Preconditions.checkState(!Strings.isNullOrEmpty(mapColor), "Properties mapColor missing for: %s", blockType);
         Preconditions.checkState(!Strings.isNullOrEmpty(noteBlockInstrument), "Properties noteBlockInstrument missing for: %s", blockType);
         Preconditions.checkState(!Strings.isNullOrEmpty(strength), "Properties strength missing for: %s", blockType);
         Preconditions.checkState(!Strings.isNullOrEmpty(soundType), "Properties soundType missing for: %s", blockType);
         StringBuilder properties = new StringBuilder();
         properties
-            .append("BlockBehaviour.Properties.of()")
-            .append(".mapColor(")
+            .append("\n")
+            .append("        BlockBehaviour.Properties.of()")
+            .append("\n")
+            .append("            .mapColor(")
             .append(mapColor)
-            .append(").instrument(")
+            .append(")")
+            .append("\n")
+            .append("            .instrument(")
             .append(noteBlockInstrument)
-            .append(").strength(")
+            .append(")")
+            .append("\n")
+            .append("            .strength(")
             .append(strength)
-            .append(").sound(")
+            .append(")")
+            .append("\n")
+            .append("            .sound(")
             .append(soundType)
             .append(")");
         if (blockType.flammable()) {
-            properties.append(".ignitedByLava()");
+            properties
+                .append("\n")
+                .append("            .ignitedByLava()");
         }
         return properties.toString();
     }
