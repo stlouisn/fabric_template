@@ -8,6 +8,7 @@ public record BlockVariant(
     boolean useFactoryPlaceholder,
     String factory,
     @Nullable String previousPrefix,
-    @Nullable String previousSuffix
+    @Nullable String previousSuffix,
+    boolean strippable
 ) {
 }

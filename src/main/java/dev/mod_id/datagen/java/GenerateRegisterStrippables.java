@@ -94,7 +94,7 @@ public final class GenerateRegisterStrippables {
             for (BlockVariant blockVariant : blockType.blockVariants()) {
 
                 // Skip non-strippable block variants
-                if (blockVariant.equals(BlockVariant.STRIPPED__PALISADE) || blockVariant.equals(BlockVariant.STRIPED_SPIKED__PALISADE)) {
+                if (!blockVariant.strippable()) {
                     continue;
                 }
 
