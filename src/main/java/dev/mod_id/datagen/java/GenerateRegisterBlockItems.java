@@ -6,6 +6,8 @@ import static dev.mod_id.datagen.util.CreateJavaFile.createJavaFile;
 import static dev.mod_id.datagen.util.RegistryUtils.doesBlockExist;
 import static dev.mod_id.datagen.util.RegistryUtils.getBlockIdentifier;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import dev.mod_id.datagen.data.BlockExclusions;
 import dev.mod_id.datagen.data.BlockType;
 import dev.mod_id.datagen.data.BlockVariant;

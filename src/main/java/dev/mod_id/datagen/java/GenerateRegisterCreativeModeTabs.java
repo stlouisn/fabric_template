@@ -6,6 +6,8 @@ import static dev.mod_id.datagen.util.CreateJavaFile.createJavaFile;
 import static dev.mod_id.datagen.util.RegistryUtils.doesBlockExist;
 import static dev.mod_id.datagen.util.RegistryUtils.getBlockIdentifier;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import dev.mod_id.datagen.data.BlockExclusions;
 import dev.mod_id.datagen.data.BlockType;
 import dev.mod_id.datagen.data.BlockVariant;
@@ -113,15 +115,15 @@ public final class GenerateRegisterCreativeModeTabs {
                 }
 
                 final Identifier previousIdentifier;
-                final boolean hasPreviousPrefix = !Strings.isNullOrEmpty(blockVariant.previousPrefix())
-                final boolean hasPreviousSuffix = !Strings.isNullOrEmpty(blockVariant.previousSuffix())
+                final boolean hasPreviousPrefix = !Strings.isNullOrEmpty(blockVariant.previousPrefix());
+                final boolean hasPreviousSuffix = !Strings.isNullOrEmpty(blockVariant.previousSuffix());
                 if (hasPreviousPrefix || hasPreviousSuffix) {
                     final String previousPath = checkForPathOverrides(RecordUtils.buildPath(blockVariant.previousPrefix(), blockType, blockVariant.previousSuffix()));
                     previousIdentifier = getBlockIdentifier(previousPath);
                 } else {
                     previousIdentifier = RecordUtils.getPreviousBlockIdentifier(blockType, blockVariant);
                 }
-                Preconditions.checkState(previousIdentifier != null, "Previous block '%s' does not exist.", previousBlockId);
+                Preconditions.checkState(previousIdentifier != null, "Previous block '%s' does not exist.", previousIdentifier);
 
                 final String previous = getPrevious(previousIdentifier);
 

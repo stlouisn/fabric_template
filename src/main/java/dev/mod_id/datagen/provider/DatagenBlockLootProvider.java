@@ -16,6 +16,17 @@ public final class DatagenBlockLootProvider extends DatagenBlockLootBuilder {
 
     @Override
     public void generate() {
+
+        for (BlockType blockType : BlockType.BLOCK_TYPES) {
+            for (BlockVariant blockVariant : blockType.blockVariants()) {
+                if (RecordUtils.doesBlockAlreadyExist(blockVariant.prefix(), blockType, blockVariant.suffix())) {
+                    continue;
+                }
+                final Block block = RecordUtils.getBlock(blockVariant.prefix(), blockType, blockVariant.suffix());
+                createSimpleDrop(block);
+            }
+        }
+
         createSimpleDrop(RegisterBlockItems.CHARCOAL_BLOCK);
         createSimpleDrop(RegisterBlockItems.RAW_NETHERITE_BLOCK);
         createSimpleDrop(RegisterBlockItems.ROSE_QUARTZ_BLOCK);

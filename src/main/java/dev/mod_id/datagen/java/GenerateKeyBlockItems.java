@@ -6,13 +6,13 @@ import static dev.mod_id.datagen.util.CreateJavaFile.createJavaFile;
 import static dev.mod_id.datagen.util.RegistryUtils.doesBlockExist;
 import static dev.mod_id.datagen.util.RegistryUtils.getBlockIdentifier;
 
+import com.google.common.base.Strings;
 import dev.mod_id.datagen.data.BlockExclusions;
 import dev.mod_id.datagen.data.BlockType;
 import dev.mod_id.datagen.data.BlockVariant;
 import dev.mod_id.datagen.util.RecordUtils;
 import net.minecraft.resources.Identifier;
 
-@SuppressWarnings("ConstantValue")
 public final class GenerateKeyBlockItems {
 
     private static final String AUTO_GENERATED_WARNING = "// DATA-GENERATED FILE — DO NOT EDIT";
