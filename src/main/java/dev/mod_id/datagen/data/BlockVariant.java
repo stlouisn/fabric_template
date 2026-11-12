@@ -11,4 +11,7 @@ public record BlockVariant(
     @Nullable String previousSuffix,
     boolean strippable
 ) {
+
+    public static final String placeholder = "STONE";
+//    public static final String placeholder = "OAK";
 }
