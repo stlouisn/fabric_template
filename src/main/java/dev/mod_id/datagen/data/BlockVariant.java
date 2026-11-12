@@ -12,6 +12,5 @@ public record BlockVariant(
     boolean strippable
 ) {
 
-    public static final String placeholder = "STONE";
-//    public static final String placeholder = "OAK";
+    public static final String placeholder = "PLACEHOLDER";
 }
