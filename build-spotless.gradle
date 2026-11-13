@@ -256,6 +256,18 @@ def conditionalDatagenRecipeBuilderRule = { spec ->
                 def formatted = statement.replaceAll(/\s*\.(group|unlockedBy|save)\(/, '\n' + indent + indent1 + '.$1(')
                 return indent + formatted + ";"
             }
+            .replaceAll(/(?s)([ \t]*)(SimpleCookingRecipeBuilder\.smelting\(.*?);/) { Object[] args ->
+                def indent = args[1]
+                def statement = args[2]
+                def formatted = statement.replaceAll(/\s*\.(group|unlockedBy|save)\(/, '\n' + indent + indent1 + '.$1(')
+                return indent + formatted + ";"
+            }
+            .replaceAll(/(?s)([ \t]*)(SimpleCookingRecipeBuilder\.blasting\(.*?);/) { Object[] args ->
+                def indent = args[1]
+                def statement = args[2]
+                def formatted = statement.replaceAll(/\s*\.(group|unlockedBy|save)\(/, '\n' + indent + indent1 + '.$1(')
+                return indent + formatted + ";"
+            }
             .replaceAll(/(?s)([ \t]*)(SandpaperRecipeBuilder\.polishing\(.*?);/) { Object[] args ->
                 def indent = args[1]
                 def statement = args[2]
