@@ -18,7 +18,24 @@ import net.minecraft.world.level.material.MapColor;
 
 public final class RegisterBlockItems {
 
-    public static final Block WITHERED_BONE_BLOCK = register(KeyBlockItems.WITHERED_BONE_BLOCK, RotatedPillarBlock::new, BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.XYLOPHONE).mapColor(MapColor.COLOR_BLACK).requiresCorrectToolForDrops().sound(SoundType.BONE_BLOCK).strength(2.0F));
+    public static final Block WITHERED_BONE_BLOCK = register(
+        KeyBlockItems.WITHERED_BONE_BLOCK, RotatedPillarBlock::new,
+        BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.XYLOPHONE)
+            .mapColor(MapColor.COLOR_BLACK)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.BONE_BLOCK)
+            .strength(2.0F));
+
+    public static final Block CATTAIL = register(
+        KeyBlockItems.CATTAIL, CattailBlock::new,
+        BlockBehaviour.Properties.of()
+            .mapColor(MapColor.PLANT).replaceable()
+            .noCollision()
+            .instabreak()
+            .sound(SoundType.CROP).offsetType(BlockBehaviour.OffsetType.XZ)
+            .pushReaction(PushReaction.POPPED),
+        new Item.Properties()
+            .compostable(ContextIntProviders.COMPOSTABLE_MEDIUM));
 
     public static void init() {
     }
@@ -32,11 +49,11 @@ public final class RegisterBlockItems {
     }
 
     /**
-     * Registers a block and its corresponding BlockItem using its BlockItemId, factory, block properties, and item properties.
+     * Registers a block and its corresponding BlockItem using its BlockItemId, factory, and block and item properties.
      */
     private static Block register(BlockItemId id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties blockProperties, Item.Properties itemProperties) {
         final Block block = registerBlock(id.block(), factory, blockProperties);
-        registerItem(id.item(), properties -> new BlockItem(block, properties), itemProperties);
+        registerItem(id.item(), properties -> new BlockItem(block, properties), itemProperties.useBlockDescriptionPrefix());
         return block;
     }
 
