@@ -57,9 +57,17 @@ public final class GenerateRegisterBlockItems {
                 /**
                  * Registers a block and its corresponding BlockItem using its BlockItemId, factory, and properties.
                  */
-                private static Block register(BlockItemId id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
-                    Block block = registerBlock(id.block(), factory, properties);
-                    registerItem(id.item(), itemProperties -> new BlockItem(block, itemProperties), new Item.Properties().useBlockDescriptionPrefix());
+                private static Block register(BlockItemId id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties blockProperties) {
+                    final Item.Properties itemProperties = new Item.Properties().useBlockDescriptionPrefix();
+                    return register(id, factory, blockProperties, itemProperties);
+                }
+
+                /**
+                 * Registers a block and its corresponding BlockItem using its BlockItemId, factory, and block and item properties.
+                 */
+                private static Block register(BlockItemId id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties blockProperties, Item.Properties itemProperties) {
+                    final Block block = registerBlock(id.block(), factory, blockProperties);
+                    registerItem(id.item(), properties -> new BlockItem(block, properties), itemProperties.useBlockDescriptionPrefix());
                     return block;
                 }
 
