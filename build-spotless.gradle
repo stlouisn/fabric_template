@@ -371,7 +371,7 @@ def conditionalRegisterBlockItemsRule = { spec ->
                     /,\s*(?=(?:new Item\.Properties\(\)|logProperties\b|leavesProperties\b|buttonProperties\b))/,
                     ',\n' + indent + indent1
                 )
-                def splitItemProperties = linebreakItemProperties.replaceAll(/\s*\.(useBlockDescriptionPrefix|compostable)\(/, '\n' + indent + indent2 + '.$1(')
+                def splitItemProperties = linebreakItemProperties.replaceAll(/\s*\.(useBlockDescriptionPrefix|compostable|cookingFuel)\(/, '\n' + indent + indent2 + '.$1(')
                 return indent + splitItemProperties + ";"
             }
     }
