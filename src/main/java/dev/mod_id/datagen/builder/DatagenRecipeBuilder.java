@@ -24,11 +24,9 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.BlastingRecipe;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.ItemLike;
 import org.jspecify.annotations.Nullable;
 
@@ -213,68 +211,72 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     }
 
     protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience) {
-        createOreProcessingRecipe(input, result, experience, false, null);
+        createOreProcessingRecipe(input, result, experience, 200);
     }
 
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, boolean useRecipeSuffix) {
-        createOreProcessingRecipe(input, result, experience, useRecipeSuffix, null);
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, int cookingTime) {
+        createOreProcessingRecipe(input, result, experience, cookingTime, false);
     }
 
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, @Nullable Set<String> requiredMods) {
-        createOreProcessingRecipe(input, result, experience, false, requiredMods);
-    }
-
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, String recipeSuffix) {
-        createOreProcessingRecipe(input, result, experience, recipeSuffix, null);
-    }
-
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, boolean useRecipeSuffix, @Nullable Set<String> requiredMods) {
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, int cookingTime, boolean useRecipeSuffix) {
         final String recipeSuffix;
         if (useRecipeSuffix) {
             recipeSuffix = "_" + input.location().getPath();
         } else {
             recipeSuffix = "";
         }
-        createOreProcessingRecipe(input, result, experience, recipeSuffix, requiredMods);
+        createOreProcessingRecipe(input, result, experience, cookingTime, recipeSuffix, null);
     }
 
-    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, String recipeSuffix, @Nullable Set<String> requiredMods) {
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, String recipeSuffix) {
+        createOreProcessingRecipe(input, result, experience, 200, recipeSuffix);
+    }
+
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, int cookingTime, String recipeSuffix) {
+        createOreProcessingRecipe(input, result, experience, cookingTime, recipeSuffix, null);
+    }
+
+    protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience, int cookingTime, String recipeSuffix, @Nullable Set<String> requiredMods) {
         final RecipeOutput recipeOutput = getModLoadConditions(requiredMods, result);
         final String recipeGroup = getItemName(result);
         final Ingredient ingredient = Ingredient.of(recipeOutput.lookup(Registries.ITEM).getOrThrow(input));
-        SimpleCookingRecipeBuilder.generic(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, 200, SmeltingRecipe::new)
+        SimpleCookingRecipeBuilder.smelting(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, cookingTime)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
             .save(recipeOutput, getItemName(result) + "_from_smelting" + recipeSuffix);
-        SimpleCookingRecipeBuilder.generic(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, 100, BlastingRecipe::new)
+        SimpleCookingRecipeBuilder.blasting(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, cookingTime / 2)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
             .save(recipeOutput, getItemName(result) + "_from_blasting" + recipeSuffix);
     }
 
     protected void createOreProcessingRecipe(ItemLike input, ItemLike result, float experience) {
-        createOreProcessingRecipe(input, result, experience, true);
+        createOreProcessingRecipe(input, result, experience, 200, true);
     }
 
-    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, float experience, boolean useRecipeSuffix) {
+    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, float experience, int cookingTime) {
+        createOreProcessingRecipe(input, result, experience, cookingTime, true);
+    }
+
+    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, float experience, int cookingTime, boolean useRecipeSuffix) {
         final String recipeSuffix;
         if (useRecipeSuffix) {
             recipeSuffix = "_" + getItemName(input);
         } else {
             recipeSuffix = "";
         }
-        createOreProcessingRecipe(input, result, experience, recipeSuffix);
+        createOreProcessingRecipe(input, result, experience, cookingTime, recipeSuffix);
     }
 
-    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, float experience, String recipeSuffix) {
+    protected void createOreProcessingRecipe(ItemLike input, ItemLike result, float experience, int cookingTime, String recipeSuffix) {
         final RecipeOutput recipeOutput = getModLoadConditions(input, result);
         final String recipeGroup = getItemName(result);
         final Ingredient ingredient = Ingredient.of(input);
-        SimpleCookingRecipeBuilder.generic(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, 200, SmeltingRecipe::new)
+        SimpleCookingRecipeBuilder.smelting(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, cookingTime)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
             .save(recipeOutput, recipeGroup + "_from_smelting" + recipeSuffix);
-        SimpleCookingRecipeBuilder.generic(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, 100, BlastingRecipe::new)
+        SimpleCookingRecipeBuilder.blasting(ingredient, RecipeCategory.MISC, CookingBookCategory.MISC, result, experience, cookingTime / 2)
             .group(recipeGroup)
             .unlockedBy(getHasName(result), has(result))
             .save(recipeOutput, recipeGroup + "_from_blasting" + recipeSuffix);

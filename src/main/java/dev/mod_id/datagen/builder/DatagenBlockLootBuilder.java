@@ -19,6 +19,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
@@ -30,6 +31,14 @@ public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider
     protected DatagenBlockLootBuilder(FabricPackOutput packOutput, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(packOutput, registriesFuture);
         this.registriesFuture = registriesFuture;
+    }
+
+    protected void createNoDrop(Block block) {
+        final String namespace = BuiltInRegistries.BLOCK.getKey(block).getNamespace();
+        final String path = BuiltInRegistries.BLOCK.getKey(block).getPath();
+        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
+        final LootTable.Builder builder = LootTable.lootTable().setParamSet(LootContextParamSets.BLOCK).setRandomSequence(identifier);
+        this.add(block, builder);
     }
 
     protected void createSimpleDrop(Block block) {
@@ -72,7 +81,7 @@ public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider
         final String namespace = BuiltInRegistries.BLOCK.getKey(original).getNamespace();
         final String path = BuiltInRegistries.BLOCK.getKey(original).getPath();
         final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
-        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, LootItem.lootTableItem(drop).apply(ApplyBonusCount.addOreBonusCount(this.registriesFuture.join().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE)))).setRandomSequence(identifier);
+        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, this.applyExplosionDecay(original, LootItem.lootTableItem(drop).apply(ApplyBonusCount.addOreBonusCount(this.registriesFuture.join().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))))).setRandomSequence(identifier);
         this.add(original, builder);
     }
 }
