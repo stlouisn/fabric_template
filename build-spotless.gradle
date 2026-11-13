@@ -367,7 +367,10 @@ def conditionalRegisterBlockItemsRule = { spec ->
                 def cleanSingleLine = rawBody.replaceAll(/[\r\n]+[ \t]*/, " ")
                 def linebreakBlockProperties = cleanSingleLine.replaceAll(/(?=\bKeyBlockItems\b|BlockBehaviour\.Properties)/, '\n' + indent + indent1)
                 def splitBlockProperties = linebreakBlockProperties.replaceAll(/\s*\.(emissiveRendering|forceSolidOff|friction|ignitedByLava|instabreak|instrument|isRedstoneConductor|isValidSpawn|lightLevel|mapColor|noCollision|noLootTable|noOcclusion|overrideDescription|overrideLootTable|pushReaction|randomTicks|requiresCorrectToolForDrops|sound|strength)\(/, '\n' + indent + indent2 + '.$1(')
-                def linebreakItemProperties = splitBlockProperties.replaceAll(/,\s*(?=new Item\.Properties\()/, ',\n' + indent + indent1)
+                def linebreakItemProperties = splitBlockProperties.replaceAll(
+                    /,\s*(?=(?:new Item\.Properties\(\)|logProperties\b|leavesProperties\b|buttonProperties\b))/,
+                    ',\n' + indent + indent1
+                )
                 def splitItemProperties = linebreakItemProperties.replaceAll(/\s*\.(useBlockDescriptionPrefix|compostable)\(/, '\n' + indent + indent2 + '.$1(')
                 return indent + splitItemProperties + ";"
             }
