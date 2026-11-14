@@ -130,11 +130,13 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
         final RecipeOutput recipeOutput = getModLoadConditions(unpackedForm, packedForm);
         final String unpackedRecipeGroup = getItemName(unpackedForm);
         final String packedRecipeGroup = getItemName(packedForm);
+        final ResourceKey<Recipe<?>> unpackedRecipeKey = ResourceKey.create(Registries.RECIPE, Identifier.parse(getConversionRecipeName(unpackedForm, packedForm)));
+        final ResourceKey<Recipe<?>> packedRecipeKey = ResourceKey.create(Registries.RECIPE, Identifier.parse(getConversionRecipeName(packedForm, unpackedForm)));
         shapeless(recipeCategory, unpackedForm, 9)
             .requires(packedForm)
             .group(unpackedRecipeGroup)
             .unlockedBy(getHasName(packedForm), has(packedForm))
-            .save(recipeOutput, ResourceKey.create(Registries.RECIPE, Identifier.parse(getConversionRecipeName(unpackedForm, packedForm))));
+            .save(recipeOutput, unpackedRecipeKey);
         shaped(recipeCategory, packedForm)
             .define('#', unpackedForm)
             .pattern("###")
@@ -142,7 +144,7 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             .pattern("###")
             .group(packedRecipeGroup)
             .unlockedBy(getHasName(unpackedForm), has(unpackedForm))
-            .save(recipeOutput, ResourceKey.create(Registries.RECIPE, Identifier.parse(getConversionRecipeName(packedForm, unpackedForm))));
+            .save(recipeOutput, packedRecipeKey);
     }
 
     protected void createTwoByTwoPacker(ItemLike unpackedForm, ItemLike packedForm) {
