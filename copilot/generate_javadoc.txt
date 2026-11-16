@@ -14,7 +14,6 @@ For every method in the mixin class, produce a Javadoc block containing
 EXACTLY these tags, in this order:
 
      /**
-      * @author <author name>
       * @reason <short explanation of why this mixin exists>
       *
       * @desc <1–3 sentence description of what the injected or overwritten
@@ -37,7 +36,7 @@ STRICT RULES:
   new logic accomplishes.
 - If the mixin contains multiple methods, generate a SEPARATE Javadoc
   block for each method.
-- No tags other than @author, @reason, and @desc.
+- No tags other than @reason, and @desc.
 - No commentary outside the Javadoc block.
 - Do not rewrite the method, class, or annotations.
 

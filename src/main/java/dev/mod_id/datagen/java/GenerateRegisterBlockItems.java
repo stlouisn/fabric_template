@@ -163,7 +163,9 @@ public final class GenerateRegisterBlockItems {
                 sourceCode
                     .append("    public static final Block ")
                     .append(buildPath.toUpperCase())
-                    .append(" = register(KeyBlockItems.")
+                    .append(" = register(")
+                    .append("\n")
+                    .append("        KeyBlockItems.")
                     .append(buildPath.toUpperCase())
                     .append(", ")
                     .append(blockFactory)
