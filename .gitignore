@@ -19,8 +19,7 @@ out
 !.idea/betterCommentsSettings.xml
 
 # gradle
-build/*
-!build/libs
+build/
 .gradle
 
 # architectury
