@@ -1,3 +1,5 @@
+// AUTO-GENERATED FILE — DO NOT EDIT
+
 package dev.mod_id;
 
 import net.minecraft.resources.Identifier;
