@@ -25,7 +25,7 @@ public final class SandpaperRecipeBuilder implements RecipeBuilder {
         this.result = new ItemStackTemplate(result.asItem());
     }
 
-    protected static SandpaperRecipeBuilder polishing(ItemLike input, ItemLike result) {
+    public static SandpaperRecipeBuilder polishing(ItemLike input, ItemLike result) {
         return new SandpaperRecipeBuilder(input, result);
     }
 
