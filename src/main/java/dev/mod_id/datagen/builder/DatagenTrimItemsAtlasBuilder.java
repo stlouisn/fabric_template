@@ -52,13 +52,13 @@ public abstract class DatagenTrimItemsAtlasBuilder implements DataProvider {
         final JsonArray sources = new JsonArray();
         final JsonObject permutationsSource = new JsonObject();
         permutationsSource.addProperty("type", "minecraft:paletted_permutations");
-        permutationsSource.addProperty("palette_key", "minecraft:trims/color_palettes/trim_palette");
+        permutationsSource.addProperty("palette_key", "minecraft:trim_base");
         final JsonObject permutations = new JsonObject();
         for (ResourceKey<TrimMaterial> material : trimMaterials) {
             final Identifier id = material.identifier();
             final String namespace = id.getNamespace().toLowerCase();
             final String path = id.getPath().toLowerCase();
-            permutations.addProperty(path, namespace + ":trims/color_palettes/" + path);
+            permutations.addProperty(path, namespace + ":trim/" + path);
         }
         permutationsSource.add("permutations", permutations);
         final JsonArray textures = new JsonArray();
