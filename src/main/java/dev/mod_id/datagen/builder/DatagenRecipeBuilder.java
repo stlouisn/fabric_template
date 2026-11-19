@@ -95,14 +95,18 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     protected void createShapedRecipe(ItemLike result, int count, RecipeCategory recipeCategory, Consumer<ShapedRecipeContext> consumer) {
         final ShapedRecipeBuilder builder = shaped(recipeCategory, result, count);
         final ShapedRecipeContext recipeContext = new ShapedRecipeContext(builder);
+        final Set<ItemLike> items = recipeContext.getDefinedItems();
+        final Set<TagKey<Item>> tags = recipeContext.getDefinedTags();
+        final RecipeOutput recipeOutput = getModLoadConditions(Stream.concat(Stream.of(result), items.stream()).toArray(ItemLike[]::new));
         consumer.accept(recipeContext);
-        final Set<ItemLike> inputs = recipeContext.getDefinedItems();
-        final RecipeOutput recipeOutput = getModLoadConditions(Stream.concat(Stream.of(result), inputs.stream()).toArray(ItemLike[]::new));
-        final String recipeGroup = getItemName(result);
-        for (ItemLike item : inputs) {
+        for (ItemLike item : items) {
             builder.unlockedBy(getHasName(item), has(item));
         }
-        builder.group(recipeGroup);
+        for (TagKey<Item> tag : tags) {
+            final String criterionName = "has_tag_" + tag.location().toString().replace(':', '_').replace('/', '_');
+            builder.unlockedBy(criterionName, has(tag));
+        }
+        builder.group(getItemName(result));
         builder.save(recipeOutput);
     }
 
@@ -129,8 +133,8 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
     protected void createNineBlockStorage(ItemLike unpackedForm, ItemLike packedForm, RecipeCategory recipeCategory) {
         final RecipeOutput recipeOutput = getModLoadConditions(unpackedForm, packedForm);
         final String unpackedRecipeGroup = getItemName(unpackedForm);
-        final String packedRecipeGroup = getItemName(packedForm);
         final ResourceKey<Recipe<?>> unpackedRecipeKey = ResourceKey.create(Registries.RECIPE, Identifier.parse(getConversionRecipeName(unpackedForm, packedForm)));
+        final String packedRecipeGroup = getItemName(packedForm);
         final ResourceKey<Recipe<?>> packedRecipeKey = ResourceKey.create(Registries.RECIPE, Identifier.parse(getConversionRecipeName(packedForm, unpackedForm)));
         shapeless(recipeCategory, unpackedForm, 9)
             .requires(packedForm)
@@ -311,9 +315,11 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
         return conditionWrapper.apply(output, requiredMods);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     protected static final class ShapedRecipeContext {
 
         private final Set<ItemLike> DEFINED_ITEMS = new LinkedHashSet<>();
+        private final Set<TagKey<Item>> DEFINED_TAGS = new LinkedHashSet<>();
 
         private final ShapedRecipeBuilder delegate;
 
@@ -326,13 +332,15 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             return this;
         }
 
-        public void define(char symbol, ItemLike item) {
+        public ShapedRecipeContext define(char symbol, ItemLike item) {
             delegate.define(symbol, item);
             DEFINED_ITEMS.add(item);
+            return this;
         }
 
         public ShapedRecipeContext define(char symbol, TagKey<Item> tag) {
             delegate.define(symbol, tag);
+            DEFINED_TAGS.add(tag);
             return this;
         }
 
@@ -343,6 +351,10 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
 
         public Set<ItemLike> getDefinedItems() {
             return DEFINED_ITEMS;
+        }
+
+        public Set<TagKey<Item>> getDefinedTags() {
+            return DEFINED_TAGS;
         }
     }
 }
