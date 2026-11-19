@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.Block;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenCustomModelBuilder implements DataProvider {
 
-    private static final List<ModelEntry> entries = new ArrayList<>();
+    private final List<ModelEntry> entries = new ArrayList<>();
 
     private record ModelEntry(Block block, ModelWriter writer) {
     }
@@ -22,7 +22,7 @@ public abstract class DatagenCustomModelBuilder implements DataProvider {
 
     @Override
     public final CompletableFuture<?> run(CachedOutput cache) {
-        CompletableFuture<?>[] writes = entries.stream().map(entry -> entry.writer().write(cache, entry.block())).toArray(CompletableFuture[]::new);
+        CompletableFuture<?>[] writes = entries.stream().map(entry -> entry.writer().write(cache, entry.block())).toArray(CompletableFuture<?>[]::new);
         return CompletableFuture.allOf(writes);
     }
 

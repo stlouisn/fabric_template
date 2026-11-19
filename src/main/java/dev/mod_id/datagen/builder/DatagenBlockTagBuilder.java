@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Block;
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class DatagenBlockTagBuilder extends FabricTagsProvider.BlockTagsProvider {
 
-    private static final Set<TagKey<Block>> declaredTags = new LinkedHashSet<>();
+    private final Set<TagKey<Block>> declaredTags = new LinkedHashSet<>();
 
     protected DatagenBlockTagBuilder(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, completableFuture);
