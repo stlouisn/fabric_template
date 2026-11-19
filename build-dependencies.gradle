@@ -31,11 +31,6 @@ dependencies {
 
 // ------------------------------------------------------------------------------------------
 
-// Apollo
-dependencies {
-    include(implementation("maven.modrinth:VDI2Ytax:${apollo_version}"))
-}
-
 // Beautify
 dependencies {
     implementation("maven.modrinth:DhSSvaxs:${beautify_version}")
@@ -55,6 +50,12 @@ dependencies {
 // Farmer's Delight
 dependencies {
     implementation("maven.modrinth:7vxePowz:${farmersdelight_version}")
+}
+
+// Lithostitched
+dependencies {
+    implementation("maven.modrinth:VDI2Ytax:${apollo_version}")
+    implementation("maven.modrinth:XaDC71GB:${lithostitched_version}")
 }
 
 // Midnight Library
