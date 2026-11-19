@@ -2,6 +2,7 @@ package dev.mod_id.datagen.builder;
 
 import static dev.mod_id.Constants.resourceLocation;
 
+import dev.mod_id.datagen.util.BlockUtils;
 import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
@@ -34,54 +35,43 @@ public abstract class DatagenBlockLootBuilder extends FabricBlockLootSubProvider
     }
 
     protected void createNoDrop(Block block) {
-        final String namespace = BuiltInRegistries.BLOCK.getKey(block).getNamespace();
-        final String path = BuiltInRegistries.BLOCK.getKey(block).getPath();
-        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
-        final LootTable.Builder builder = LootTable.lootTable().setParamSet(LootContextParamSets.BLOCK).setRandomSequence(identifier);
+        final LootTable.Builder builder = LootTable.lootTable().setParamSet(LootContextParamSets.BLOCK).setRandomSequence(getLootTableIdentifier(block));
         this.add(block, builder);
     }
 
     protected void createSimpleDrop(Block block) {
-        final String namespace = BuiltInRegistries.BLOCK.getKey(block).getNamespace();
-        final String path = BuiltInRegistries.BLOCK.getKey(block).getPath();
-        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
-        final LootTable.Builder builder = this.createSingleItemTable(block).setRandomSequence(identifier);
+        final LootTable.Builder builder = this.createSingleItemTable(block).setRandomSequence(getLootTableIdentifier(block));
         this.add(block, builder);
     }
 
     protected void createSilkTouchDrop(Block block) {
-        final String namespace = BuiltInRegistries.BLOCK.getKey(block).getNamespace();
-        final String path = BuiltInRegistries.BLOCK.getKey(block).getPath();
-        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
-        final LootTable.Builder builder = this.createSilkTouchOnlyTable(block).setRandomSequence(identifier);
+        final LootTable.Builder builder = this.createSilkTouchOnlyTable(block).setRandomSequence(getLootTableIdentifier(block));
         this.add(block, builder);
     }
 
     protected void createPottedContentsDrop(Block block) {
-        createPottedContentsDrop((FlowerPotBlock) block);
+        if (!(block instanceof FlowerPotBlock potted)) {
+            throw new IllegalArgumentException("Not a flower pot block: " + BuiltInRegistries.BLOCK.getKey(block));
+        }
+        createPottedContentsDrop(potted);
     }
 
     protected void createPottedContentsDrop(FlowerPotBlock potted) {
-        final String namespace = BuiltInRegistries.BLOCK.getKey(potted).getNamespace();
-        final String path = BuiltInRegistries.BLOCK.getKey(potted).getPath();
-        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
-        final LootTable.Builder builder = this.createPotFlowerItemTable(potted.getPotted()).setRandomSequence(identifier);
+        final LootTable.Builder builder = this.createPotFlowerItemTable(potted.getPotted()).setRandomSequence(getLootTableIdentifier(potted));
         this.add(potted, builder);
     }
 
     protected void createGeodeClusterDrop(Block original, Item drop) {
-        final String namespace = BuiltInRegistries.BLOCK.getKey(original).getNamespace();
-        final String path = BuiltInRegistries.BLOCK.getKey(original).getPath();
-        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
-        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ContextIntProviders.exactly(4))).apply(ApplyBonusCount.addOreBonusCount(this.registriesFuture.join().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))).when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(this.registriesFuture.join().lookupOrThrow(Registries.ITEM), ItemTags.CLUSTER_MAX_HARVESTABLES))).otherwise(this.applyExplosionDecay(original, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ContextIntProviders.exactly(2)))))).setRandomSequence(identifier);
+        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ContextIntProviders.exactly(4))).apply(ApplyBonusCount.addOreBonusCount(this.registriesFuture.join().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))).when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(this.registriesFuture.join().lookupOrThrow(Registries.ITEM), ItemTags.CLUSTER_MAX_HARVESTABLES))).otherwise(this.applyExplosionDecay(original, LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(ContextIntProviders.exactly(2)))))).setRandomSequence(getLootTableIdentifier(original));
         this.add(original, builder);
     }
 
     protected void createRawOreDrop(Block original, Item drop) {
-        final String namespace = BuiltInRegistries.BLOCK.getKey(original).getNamespace();
-        final String path = BuiltInRegistries.BLOCK.getKey(original).getPath();
-        final Identifier identifier = resourceLocation(namespace, "blocks/" + path);
-        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, this.applyExplosionDecay(original, LootItem.lootTableItem(drop).apply(ApplyBonusCount.addOreBonusCount(this.registriesFuture.join().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))))).setRandomSequence(identifier);
+        final LootTable.Builder builder = this.createSilkTouchDispatchTable(original, this.applyExplosionDecay(original, LootItem.lootTableItem(drop).apply(ApplyBonusCount.addOreBonusCount(this.registriesFuture.join().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))))).setRandomSequence(getLootTableIdentifier(original));
         this.add(original, builder);
+    }
+
+    private static Identifier getLootTableIdentifier(Block block) {
+        return resourceLocation(BlockUtils.getNamespace(block), "blocks/" + BlockUtils.getPath(block));
     }
 }
