@@ -47,6 +47,11 @@ dependencies {
     runtimeOnly("maven.modrinth:7uh75ruZ:${kleeslabs_version}")
 }
 
+// Lithosphere
+dependencies {
+    runtimeOnly("maven.modrinth:iv9jp2k9:${lithosphere_version}")
+}
+
 // No Telemetry
 dependencies {
     runtimeOnly("maven.modrinth:hg77g4Pw:${no_telemetry_version}")
