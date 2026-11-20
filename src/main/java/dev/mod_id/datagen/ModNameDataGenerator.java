@@ -1,18 +1,27 @@
 package com.mod_id.datagen;
 
-import com.mod_id.datagen.provider.DatagenBlockLootSubProvider;
-import com.mod_id.datagen.provider.DatagenBlockTagProvider;
-import com.mod_id.datagen.provider.DatagenDynamicRegistryProvider;
-import com.mod_id.datagen.provider.DatagenItemTagProvider;
-import com.mod_id.datagen.provider.DatagenLanguageProvider;
-import com.mod_id.datagen.provider.DatagenModelProvider;
-import com.mod_id.datagen.provider.DatagenPackMetadataGenerator;
-import com.mod_id.datagen.provider.DatagenRecipeProvider;
+import dev.mod_id.content.registry.RegisterDamageTypes;
+import dev.mod_id.datagen.adapter.DatagenRecipeAdapter;
+import dev.mod_id.datagen.java.GenerateKeyBlockItems;
+import dev.mod_id.datagen.java.GenerateRegisterBlockItems;
+import dev.mod_id.datagen.java.GenerateRegisterCreativeModeTabs;
+import dev.mod_id.datagen.java.GenerateRegisterFlammables;
+import dev.mod_id.datagen.java.GenerateRegisterStrippables;
+import dev.mod_id.datagen.provider.DatagenBlockLootSubProvider;
+import dev.mod_id.datagen.provider.DatagenBlockTagProvider;
+import dev.mod_id.datagen.provider.DatagenDamageTypeProvider;
+import dev.mod_id.datagen.provider.DatagenDamageTypeTagProvider;
+import dev.mod_id.datagen.provider.DatagenItemTagProvider;
+import dev.mod_id.datagen.provider.DatagenLanguageProvider;
+import dev.mod_id.datagen.provider.DatagenModelProvider;
+import dev.mod_id.datagen.provider.DatagenPackMetadataProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public final class ModNameDataGenerator implements DataGeneratorEntrypoint {
 
     @Override
@@ -36,6 +45,12 @@ public final class ModNameDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(DatagenRecipeAdapter::new);
         pack.addProvider(CreateRecipeAdapter::new);
 
-        pack.addProvider(DatagenDynamicRegistryProvider::new);
+        pack.addProvider(DatagenDamageTypeProvider::new);
+        pack.addProvider(DatagenDamageTypeTagProvider::new);
+
+        @Override
+        public void buildRegistry(RegistrySetBuilder registryBuilder) {
+            registryBuilder.add(Registries.DAMAGE_TYPE, RegisterDamageTypes::bootstrap);
+        }
     }
 }

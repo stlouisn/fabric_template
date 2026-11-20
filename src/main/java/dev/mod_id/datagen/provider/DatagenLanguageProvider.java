@@ -60,7 +60,9 @@ public final class DatagenLanguageProvider extends DatagenLanguageBuilder {
         builder.add(Util.makeDescriptionId("trim_material", KeyTrimMaterials.ROSE_QUARTZ.identifier()), "Rose Quartz Material");
 
         // Messages
-        builder.add("notification.friendlyfire.protected", "The %s is protected. Crouch to bypass.");
+        builder.add("notification." + MOD_ID + ".protected", "The %s is protected. Crouch to bypass.");
+        builder.add("death.attack." + KeyDamageTypes.SPIKED_PALISADE.identifier().toLanguageKey(), "%1$s was skewered by a spiked palisade");
+
 
         // Keybinds
         builder.add("category." + MOD_ID + ".general", MOD_NAME);

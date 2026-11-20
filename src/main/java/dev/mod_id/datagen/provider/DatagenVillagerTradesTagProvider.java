@@ -12,12 +12,12 @@ import net.minecraft.world.item.trading.VillagerTrade;
 
 public final class DatagenVillagerTradesTagProvider extends FabricTagsProvider<VillagerTrade> {
 
-    public DatagenVillagerTradesTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
-        super(output, Registries.VILLAGER_TRADE, completableFuture);
+    public DatagenVillagerTradesTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        super(output, Registries.VILLAGER_TRADE, registriesFuture);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider provider) {
+    protected void addTags(HolderLookup.Provider registries) {
         getOrCreateRawBuilder(VillagerTradeTags.SHEPHERD_LEVEL_5).add(TagEntry.element(KeyVillagerTrades.SHEPHERD_5_EMERALD_PET_CONTRACT.identifier()));
     }
 
