@@ -55,7 +55,7 @@ public final class GenerateRegisterBlockItems {
 
     private static final String PRIVATE_METHODS = """
                 /**
-                 * Registers a block and its corresponding BlockItem using its BlockItemId, factory, and properties.
+                 * Registers a block and its corresponding BlockItem using its BlockItemId, factory, and block properties.
                  */
                 private static Block register(BlockItemId id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties blockProperties) {
                     final Item.Properties itemProperties = new Item.Properties().useBlockDescriptionPrefix();
@@ -72,17 +72,17 @@ public final class GenerateRegisterBlockItems {
                 }
 
                 /**
-                 * Registers a block using the given key, factory, and properties.
+                 * Registers a block using the given key, factory, and block properties.
                  */
                 private static Block registerBlock(ResourceKey<Block> key, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
                     return Blocks.register(key, factory, properties);
                 }
 
                 /**
-                 * Registers an item using the given key, factory, and properties.
+                 * Registers an item using the given key, factory, and item properties.
                  */
                 private static void registerItem(ResourceKey<Item> key, Function<Item.Properties, Item> factory, Item.Properties properties) {
-                    Item item = factory.apply(properties.setId(key));
+                    final Item item = factory.apply(properties.setId(key));
                     if (item instanceof BlockItem blockItem) {
                         blockItem.registerBlocks(Item.BY_BLOCK, item);
                     }
