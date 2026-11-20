@@ -198,24 +198,6 @@ public abstract class DatagenRecipeBuilder extends RecipeProvider {
             .save(recipeOutput, getItemName(result) + "_from_" + getItemName(input));
     }
 
-    protected void createCrossPatternRecipe(ItemLike outer, ItemLike center, ItemLike result, RecipeCategory recipeCategory) {
-        createCrossPatternRecipe(outer, center, result, 1, recipeCategory);
-    }
-
-    protected void createCrossPatternRecipe(ItemLike outer, ItemLike center, ItemLike result, int count, RecipeCategory recipeCategory) {
-        final RecipeOutput recipeOutput = getModLoadConditions(outer, center, result);
-        final String recipeGroup = getItemName(result);
-        shaped(recipeCategory, result, count)
-            .define('#', outer)
-            .define('X', center)
-            .pattern(" # ")
-            .pattern("#X#")
-            .pattern(" # ")
-            .group(recipeGroup)
-            .unlockedBy(getHasName(outer), has(outer))
-            .save(recipeOutput);
-    }
-
     protected void createOreProcessingRecipe(TagKey<Item> input, ItemLike result, float experience) {
         createOreProcessingRecipe(input, result, experience, 200);
     }

@@ -32,6 +32,11 @@ public final class DatagenRecipeProvider extends DatagenRecipeBuilder {
 
         createTwoByTwoPacker(RegisterItems.ROSE_QUARTZ_SHARD, RegisterBlockItems.ROSE_QUARTZ_BLOCK, RecipeCategory.BUILDING_BLOCKS);
 
-        createCrossPatternRecipe(Items.REDSTONE, RegisterBlockItems.POLISHED_ROSE_QUARTZ, AllBlocks.ROSE_QUARTZ_LAMP, RecipeCategory.REDSTONE);
+        createShapedRecipe(AllBlocks.ROSE_QUARTZ_LAMP, RecipeCategory.REDSTONE, builder -> builder
+            .pattern(" # ")
+            .pattern("#X#")
+            .pattern(" # ")
+            .define('#', Items.REDSTONE)
+            .define('X', RegisterBlockItems.POLISHED_ROSE_QUARTZ));
     }
 }
