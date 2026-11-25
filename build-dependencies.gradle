@@ -41,6 +41,11 @@ dependencies {
     implementation("maven.modrinth:NCKpPR0Z:${ecologics_version}")
 }
 
+// Fabrishot
+dependencies {
+    compileOnly "maven.modrinth:3qsfQtE9:${fabrishot_version}"
+}
+
 // Iris
 dependencies {
     implementation("maven.modrinth:AANobbMI:${sodium_version}")
