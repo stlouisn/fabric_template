@@ -279,6 +279,22 @@ def conditionalDatagenRecipeBuilderRule = { spec ->
     }
 }
 
+def conditionalDatagenRecipeProviderRule = { spec ->
+    spec.custom 'DatagenRecipeProviderRule', { String text ->
+        if (!text.contains("class DatagenRecipeProvider")) {
+            return text
+        }
+        return text
+            .replaceAll(/(?s)([ \t]*)(createShapedRecipe\(AllBlocks\.ROSE_QUARTZ_LAMP,\s*RecipeCategory\.REDSTONE,\s*builder\s*->\s*builder)(.*?)\);/) { Object[] args ->
+                def indent = args[1]
+                def prefix = args[2].replaceAll(/[\r\n]+[ \t]*/, " ")
+                def chain = args[3].replaceAll(/[\r\n]+[ \t]*/, " ")
+                def formatted = chain.replaceAll(/\s*\.(pattern|define)\(/, '\n' + indent + indent1 + '.$1(')
+                return indent + prefix + formatted + ");"
+            }
+    }
+}
+
 def conditionalDatagenTrimItemsAtlasBuilderRule = { spec ->
     spec.custom 'DatagenTrimItemsAtlasBuilderRule', { String text ->
         if (!text.contains("class DatagenTrimItemsAtlasBuilder")) {
@@ -467,6 +483,7 @@ spotless {
         conditionalDatagenItemTagProviderRule(delegate)
         conditionalDatagenPackMetadataProviderRule(delegate)
         conditionalDatagenRecipeBuilderRule(delegate)
+        conditionalDatagenRecipeProviderRule(delegate)
         conditionalDatagenTrimItemsAtlasBuilderRule(delegate)
         conditionalBlockDataRule(delegate)
         conditionalGenerateSourceCode(delegate)
