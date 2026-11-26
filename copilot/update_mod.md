@@ -22,7 +22,8 @@ After I confirm Stage 1:
 1. Remove publishing to Modrinth and CurseForge, including related plugins, credentials/configuration references, and publishing tasks.
 2. Remove the `.github` folder.
 3. Remove the project’s license file and any license-specific configuration or references.
-4. Remove macOS-specific support, including platform-specific code, scripts, build settings, or documentation. Preserve cross-platform functionality and avoid removing general functionality just because it also works on macOS.
+4. Remove macOS-specific and linux-specific support, including platform-specific code, scripts, build settings, or documentation. Preserve cross-platform functionality and avoid removing general functionality just because it also works on macOS.
+5. Remove all non-english (en_us) language files.
 5. Before removing or changing any dependency, ask me what to do and offer a few choices for that dependency.
 6. Run the available checks and report the results. Stop and confirm this stage is complete before proceeding.
 
