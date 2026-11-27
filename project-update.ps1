@@ -62,9 +62,10 @@ function DownloadProjectFiles {
     $FilesToDownload = @(
         ".idea\inspectionProfiles\Project_Default.xml"
         ".idea\betterCommentsSettings.xml"
-        "copilot\coding.txt"
-        "copilot\efficiency_audit.txt"
-        "copilot\generate_javadoc.txt"
+        "copilot\coding.md"
+        "copilot\efficiency_audit.md"
+        "copilot\generate_javadoc.md"
+        "copilot\update_mod.md"
         ".editorconfig"
         ".gitattributes"
         ".gitignore"
