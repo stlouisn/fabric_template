@@ -1,6 +1,6 @@
-package dev.allthemixins.datagen.builder;
+package dev.mod_id.datagen.builder;
 
-import dev.allthemixins.datagen.model.ModelWriter;
+import dev.mod_id.datagen.model.ModelWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
