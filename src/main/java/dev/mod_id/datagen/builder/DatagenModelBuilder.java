@@ -59,6 +59,18 @@ public final class DatagenModelBuilder {
     }
 
     /**
+     * Registers the item's model to use its existing model location. Assumes that a suitable model for the item is already available or
+     * generated elsewhere.
+     *
+     * @param modelGenerator the generator used to register the item model
+     * @param item the item to register the model for
+     */
+    public static void createSimpleFlatItem(ItemModelGenerators modelGenerator, Item item) {
+        final Identifier itemModel = ModelLocationUtils.getModelLocation(item);
+        modelGenerator.itemModelOutput.accept(item.asItem(), ItemModelUtils.plainModel(itemModel));
+    }
+
+    /**
      * Generates default and alternate flat item models, then registers a component-based conditional model that uses the
      * alternate model when the item has the specified component.
      *
