@@ -65,7 +65,7 @@ public final class DatagenLanguageProvider extends DatagenLanguageBuilder {
 
 
         // Keybinds
-        builder.add("category." + MOD_ID + ".general", MOD_NAME);
+        builder.add("key.category." + MOD_ID + ".general", MOD_NAME);
         builder.add("key." + MOD_ID + ".frontview", "Hold for Front View");
 
         // Config
