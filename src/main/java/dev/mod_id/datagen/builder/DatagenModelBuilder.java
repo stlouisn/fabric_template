@@ -71,6 +71,16 @@ public final class DatagenModelBuilder {
     }
 
     /**
+     * Registers the item's model using the handheld item template.
+     *
+     * @param modelGenerator the generator used to register the item model
+     * @param item the item whose model uses the handheld template
+     */
+    public static void createHandheldItem(ItemModelGenerators modelGenerator, Item item) {
+        modelGenerator.generateFlatItem(item, ModelTemplates.FLAT_HANDHELD_ITEM);
+    }
+
+    /**
      * Generates default and alternate flat item models, then registers a component-based conditional model that uses the
      * alternate model when the item has the specified component.
      *
