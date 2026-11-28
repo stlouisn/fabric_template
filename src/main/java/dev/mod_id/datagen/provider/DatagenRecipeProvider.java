@@ -2,12 +2,10 @@ package dev.mod_id.datagen.provider;
 
 import dev.mod_id.content.registry.RegisterItems;
 import dev.mod_id.datagen.builder.DatagenRecipeBuilder;
-
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
 import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeOutput;
