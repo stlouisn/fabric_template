@@ -46,8 +46,8 @@ public final class RegisterItems {
     /**
      * Registers an item using the given key, factory, and item properties.
      */
-    private static Item register(ResourceKey<Item> key, Function<Item.Properties, Item> factory, Item.Properties properties) {
-        final Item item = factory.apply(properties.setId(key));
+    private static <T extends Item> T register(ResourceKey<Item> key, Function<Item.Properties, T> factory, Item.Properties properties) {
+        final T item = factory.apply(properties.setId(key));
         if (item instanceof BlockItem blockItem) {
             blockItem.registerBlocks(Item.BY_BLOCK, item);
         }
